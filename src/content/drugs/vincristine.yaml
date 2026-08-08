@@ -1,0 +1,177 @@
+# ----------------------------------------------------------------------------
+# Identity
+# ----------------------------------------------------------------------------
+
+id: vincristine
+
+title: Vincristine
+
+aliases:
+  - Oncovin
+
+
+# ----------------------------------------------------------------------------
+# Classification
+# ----------------------------------------------------------------------------
+
+classification:
+
+  class: chemotherapy
+
+  subclass: vinca alkaloid
+
+  molecularTargets: []
+
+
+# ----------------------------------------------------------------------------
+# Indications
+# ----------------------------------------------------------------------------
+
+indications:
+
+  diseases:
+    - dlbcl
+
+  usedInRegimens:
+    - r-chop
+
+
+# ----------------------------------------------------------------------------
+# Dosage Forms
+# ----------------------------------------------------------------------------
+
+dosageForms:
+
+  - formulation: solution for intravenous administration
+
+    strengths: []
+
+
+# ----------------------------------------------------------------------------
+# Administration
+# ----------------------------------------------------------------------------
+
+administration:
+
+  routes:
+    - IV
+
+  preparation:
+    - Prepare and administer according to the applicable product monograph and institutional protocol.
+
+  infusion:
+    - Administer intravenously according to institutional protocol.
+
+  premedications: []
+
+  specialInstructions:
+    - For intravenous use only.
+    - Never administer intrathecally.
+    - Verify the route of administration before administration.
+
+
+# ----------------------------------------------------------------------------
+# Monitoring
+# ----------------------------------------------------------------------------
+
+monitoring:
+
+  baseline:
+    - Complete blood count
+    - Neurologic assessment
+    - Assessment of baseline peripheral neuropathy
+    - Hepatic function
+
+  duringTreatment:
+    - Peripheral neuropathy
+    - Motor weakness
+    - Constipation and ileus
+    - Complete blood count
+    - Hepatic function
+
+  longTerm:
+    - Persistent peripheral neuropathy
+    - Functional neurologic impairment
+
+
+# ----------------------------------------------------------------------------
+# Dose Modifications
+# ----------------------------------------------------------------------------
+
+doseModifications:
+
+  renalImpairment: []
+
+  hepaticImpairment:
+    - Dose modification may be required with hepatic impairment according to the applicable product monograph and treatment protocol.
+
+  hematologicToxicity:
+    - Delay or modify treatment according to the treatment protocol and severity of hematologic toxicity.
+
+  neurologicToxicity:
+    - Hold or modify treatment for clinically significant peripheral neuropathy according to the treatment protocol.
+    - Avoid further administration when severe neurotoxicity is present until appropriate clinical assessment is completed.
+
+  cardiacToxicity: []
+
+  infusionReaction: []
+
+  other:
+    - Maximum dose per administration should follow the applicable regimen and institutional protocol.
+
+
+# ----------------------------------------------------------------------------
+# Safety
+# ----------------------------------------------------------------------------
+
+safety:
+
+  contraindications: []
+
+  warnings:
+    - Severe neurotoxicity can occur.
+    - Fatal injury can result from intrathecal administration.
+    - Significant peripheral neuropathy may occur.
+    - Constipation and paralytic ileus may occur.
+
+  commonAdverseEffects:
+    - Peripheral neuropathy.
+    - Constipation.
+    - Nausea.
+    - Fatigue.
+    - Alopecia.
+
+  seriousAdverseEffects:
+    - Severe peripheral neuropathy.
+    - Paralytic ileus.
+    - Severe autonomic neuropathy.
+    - Fatal toxicity following intrathecal administration.
+
+
+# ----------------------------------------------------------------------------
+# Supportive Care
+# ----------------------------------------------------------------------------
+
+supportiveCare:
+
+  topics: []
+
+
+# ----------------------------------------------------------------------------
+# References
+# ----------------------------------------------------------------------------
+
+references:
+  - vincristine-product-monograph
+  - nccn-b-cell-lymphomas
+
+
+# ----------------------------------------------------------------------------
+# Review
+# ----------------------------------------------------------------------------
+
+review:
+
+  lastReviewed: 2026-08-08
+
+  reviewedBy: farshid-fardad

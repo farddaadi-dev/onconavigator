@@ -1,4 +1,5 @@
 import { defineCollection } from "astro:content";
+import { glob } from "astro/loaders";
 
 import { diseaseSchema } from "./schemas/disease.ts";
 import { drugSchema } from "./schemas/drug.ts";
@@ -6,22 +7,34 @@ import { regimenSchema } from "./schemas/regimen.ts";
 import { sourceSchema } from "./schemas/source.ts";
 
 const diseases = defineCollection({
-  type: "data",
+  loader: glob({
+    base: "./src/content/diseases",
+    pattern: "**/*.yaml",
+  }),
   schema: diseaseSchema,
 });
 
 const drugs = defineCollection({
-  type: "data",
+  loader: glob({
+    base: "./src/content/drugs",
+    pattern: "**/*.yaml",
+  }),
   schema: drugSchema,
 });
 
 const regimens = defineCollection({
-  type: "data",
+  loader: glob({
+    base: "./src/content/regimens",
+    pattern: "**/*.yaml",
+  }),
   schema: regimenSchema,
 });
 
 const sources = defineCollection({
-  type: "data",
+  loader: glob({
+    base: "./src/content/sources",
+    pattern: "**/*.yaml",
+  }),
   schema: sourceSchema,
 });
 

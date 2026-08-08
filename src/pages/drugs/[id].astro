@@ -1,0 +1,36 @@
+---
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const drugs = await getCollection("drugs");
+
+  return drugs.map((drug) => ({
+    params: { id: drug.data.id },
+    props: { drug },
+  }));
+}
+
+const { drug } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{drug.data.title} | OncoNavigator</title>
+  </head>
+
+  <body>
+    <main>
+      <a href="/">OncoNavigator</a>
+
+      <header>
+        <h1>{drug.data.title}</h1>
+
+        {drug.data.aliases.length > 0 && (
+          <p>{drug.data.aliases.join(", ")}</p>
+        )}
+      </header>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,428 @@
+---
+import { getCollection } from 'astro:content';
+import { getDrugById } from '@/utils/content';
+import { getSourceById } from '@/utils/content';
+
+export async function getStaticPaths() {
+  const regimens = await getCollection('regimens');
+
+  return regimens.map((regimen) => ({
+    params: { id: regimen.data.id },
+    props: { regimen },
+  }));
+}
+
+const { regimen } = Astro.props;
+const medications = (
+  await Promise.all(
+    regimen.data.medications.map((medication) => getDrugById(medication.drug)),
+  )
+).filter((drug) => drug !== undefined);
+const references = (
+  await Promise.all(regimen.data.references.map((id) => getSourceById(id)))
+).filter((source) => source !== undefined);
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{regimen.data.title} | OncoNavigator</title>
+  </head>
+
+  <body>
+    <main>
+      <a href="/">OncoNavigator</a>
+
+      <header>
+        <h1>{regimen.data.title}</h1>
+
+        {
+          regimen.data.aliases.length > 0 && (
+            <p>{regimen.data.aliases.join(', ')}</p>
+          )
+        }
+
+        <p>
+          <strong>Setting:</strong>
+          {regimen.data.setting}
+        </p>
+
+        <p>
+          <strong>Intent:</strong>
+          {regimen.data.intent}
+        </p>
+
+        <p>
+          <strong>Line of therapy:</strong>
+          {regimen.data.lineOfTherapy}
+        </p>
+      </header>
+
+      <section aria-labelledby="diseases-heading">
+        <h2 id="diseases-heading">Indications</h2>
+
+        <ul>
+          {regimen.data.diseases.map((disease) => <li>{disease}</li>)}
+        </ul>
+      </section>
+
+      <section aria-labelledby="schedule-heading">
+        <h2 id="schedule-heading">Schedule</h2>
+
+        {
+          regimen.data.schedule.cycle && (
+            <p>
+              <strong>Cycle length:</strong>
+              {regimen.data.schedule.cycle.length.value}{' '}
+              {regimen.data.schedule.cycle.length.unit}
+            </p>
+          )
+        }
+
+        {
+          regimen.data.schedule.stopCondition.plannedCycles && (
+            <p>
+              <strong>Planned cycles:</strong>
+              {regimen.data.schedule.stopCondition.plannedCycles}
+            </p>
+          )
+        }
+      </section>
+
+      <section aria-labelledby="medications-heading">
+        <h2 id="medications-heading">Medications</h2>
+
+        {
+          medications.length > 0 ? (
+            <ul>
+              {medications.map((drug) => (
+                <li>
+                  <a href={`/drugs/${drug.data.id}`}>{drug.data.title}</a>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No medications are currently listed.</p>
+          )
+        }
+      </section>
+
+      <section aria-labelledby="preparation-heading">
+        <h2 id="preparation-heading">Treatment Preparation</h2>
+
+        {
+          regimen.data.treatmentPreparation.premedications.length > 0 && (
+            <div>
+              <h3>Premedications</h3>
+
+              <ul>
+                {regimen.data.treatmentPreparation.premedications.map(
+                  (item) => (
+                    <li>{item}</li>
+                  ),
+                )}
+              </ul>
+            </div>
+          )
+        }
+
+        {
+          regimen.data.treatmentPreparation.antiemetics.length > 0 && (
+            <div>
+              <h3>Antiemetics</h3>
+
+              <ul>
+                {regimen.data.treatmentPreparation.antiemetics.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+
+        {
+          regimen.data.treatmentPreparation.hydration.length > 0 && (
+            <div>
+              <h3>Hydration</h3>
+
+              <ul>
+                {regimen.data.treatmentPreparation.hydration.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+
+        {
+          regimen.data.treatmentPreparation.prophylaxis.length > 0 && (
+            <div>
+              <h3>Prophylaxis</h3>
+
+              <ul>
+                {regimen.data.treatmentPreparation.prophylaxis.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      </section>
+
+      <section aria-labelledby="assessment-heading">
+        <h2 id="assessment-heading">Pre-treatment Assessment</h2>
+
+        {
+          regimen.data.preTreatmentAssessment.diagnosis.length > 0 && (
+            <div>
+              <h3>Diagnosis</h3>
+
+              <ul>
+                {regimen.data.preTreatmentAssessment.diagnosis.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+
+        {
+          regimen.data.preTreatmentAssessment.clinical.length > 0 && (
+            <div>
+              <h3>Clinical</h3>
+
+              <ul>
+                {regimen.data.preTreatmentAssessment.clinical.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+
+        {
+          regimen.data.preTreatmentAssessment.laboratory.length > 0 && (
+            <div>
+              <h3>Laboratory</h3>
+
+              <ul>
+                {regimen.data.preTreatmentAssessment.laboratory.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+
+        {
+          regimen.data.preTreatmentAssessment.infectionScreening.length > 0 && (
+            <div>
+              <h3>Infection Screening</h3>
+
+              <ul>
+                {regimen.data.preTreatmentAssessment.infectionScreening.map(
+                  (item) => (
+                    <li>{item}</li>
+                  ),
+                )}
+              </ul>
+            </div>
+          )
+        }
+
+        {
+          regimen.data.preTreatmentAssessment.imaging.length > 0 && (
+            <div>
+              <h3>Imaging</h3>
+
+              <ul>
+                {regimen.data.preTreatmentAssessment.imaging.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+
+        {
+          regimen.data.preTreatmentAssessment.calculations.length > 0 && (
+            <div>
+              <h3>Calculations</h3>
+
+              <ul>
+                {regimen.data.preTreatmentAssessment.calculations.map(
+                  (item) => (
+                    <li>{item}</li>
+                  ),
+                )}
+              </ul>
+            </div>
+          )
+        }
+
+        {
+          regimen.data.preTreatmentAssessment.counselling.length > 0 && (
+            <div>
+              <h3>Counselling</h3>
+
+              <ul>
+                {regimen.data.preTreatmentAssessment.counselling.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      </section>
+
+      <section aria-labelledby="monitoring-heading">
+        <h2 id="monitoring-heading">Monitoring</h2>
+
+        {
+          regimen.data.monitoring.beforeEachCycle.length > 0 && (
+            <div>
+              <h3>Before Each Cycle</h3>
+
+              <ul>
+                {regimen.data.monitoring.beforeEachCycle.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+
+        {
+          regimen.data.monitoring.duringTreatment.length > 0 && (
+            <div>
+              <h3>During Treatment</h3>
+
+              <ul>
+                {regimen.data.monitoring.duringTreatment.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      </section>
+      <section aria-labelledby="supportive-care-heading">
+        <h2 id="supportive-care-heading">Supportive Care</h2>
+
+        {
+          regimen.data.supportiveCare.length > 0 ? (
+            <ul>
+              {regimen.data.supportiveCare.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          ) : (
+            <p>No supportive care information is currently listed.</p>
+          )
+        }
+      </section>
+      <section aria-labelledby="dose-modifications-heading">
+        <h2 id="dose-modifications-heading">Dose Modifications</h2>
+
+        {
+          regimen.data.doseModifications.length > 0 ? (
+            <ul>
+              {regimen.data.doseModifications.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          ) : (
+            <p>No dose modification information is currently listed.</p>
+          )
+        }
+      </section>
+      <section aria-labelledby="follow-up-heading">
+        <h2 id="follow-up-heading">Follow-up</h2>
+
+        {
+          regimen.data.followUp.responseAssessment.length > 0 && (
+            <div>
+              <h3>Response Assessment</h3>
+
+              <ul>
+                {regimen.data.followUp.responseAssessment.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+
+        {
+          regimen.data.followUp.postTreatmentEvaluation.length > 0 && (
+            <div>
+              <h3>Post-treatment Evaluation</h3>
+
+              <ul>
+                {regimen.data.followUp.postTreatmentEvaluation.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+
+        {
+          regimen.data.followUp.surveillance.length > 0 && (
+            <div>
+              <h3>Surveillance</h3>
+
+              <ul>
+                {regimen.data.followUp.surveillance.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+
+        {
+          regimen.data.followUp.other.length > 0 && (
+            <div>
+              <h3>Other</h3>
+
+              <ul>
+                {regimen.data.followUp.other.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      </section>
+      <section aria-labelledby="references-heading">
+        <h2 id="references-heading">References</h2>
+
+        {
+          references.length > 0 ? (
+            <ul>
+              {references.map((source) => (
+                <li>
+  {source.data.access.url ? (
+    <a
+      href={source.data.access.url}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {source.data.title}
+    </a>
+  ) : (
+    source.data.title
+  )}
+</li>
+              ))}
+            </ul>
+          ) : (
+            <p>No references are currently listed.</p>
+          )
+        }
+      </section>
+    </main>
+  </body>
+</html>

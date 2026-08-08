@@ -1,0 +1,172 @@
+# ----------------------------------------------------------------------------
+# Identity
+# ----------------------------------------------------------------------------
+
+id: prednisone
+
+title: Prednisone
+
+aliases: []
+
+
+# ----------------------------------------------------------------------------
+# Classification
+# ----------------------------------------------------------------------------
+
+classification:
+
+  class: chemotherapy
+
+  subclass: corticosteroid
+
+  molecularTargets: []
+
+
+# ----------------------------------------------------------------------------
+# Indications
+# ----------------------------------------------------------------------------
+
+indications:
+
+  diseases:
+    - dlbcl
+
+  usedInRegimens:
+    - r-chop
+
+
+# ----------------------------------------------------------------------------
+# Dosage Forms
+# ----------------------------------------------------------------------------
+
+dosageForms:
+
+  - formulation: oral tablet
+
+    strengths: []
+
+
+# ----------------------------------------------------------------------------
+# Administration
+# ----------------------------------------------------------------------------
+
+administration:
+
+  routes:
+    - PO
+
+  preparation: []
+
+  infusion: []
+
+  premedications: []
+
+  specialInstructions:
+    - Administer orally according to the treatment protocol.
+    - Take with food when appropriate to improve gastrointestinal tolerance.
+
+
+# ----------------------------------------------------------------------------
+# Monitoring
+# ----------------------------------------------------------------------------
+
+monitoring:
+
+  baseline:
+    - Blood pressure
+    - Blood glucose when clinically indicated
+    - Assessment for active infection
+    - Review of relevant comorbidities
+
+  duringTreatment:
+    - Blood glucose when clinically indicated
+    - Blood pressure
+    - Signs and symptoms of infection
+    - Gastrointestinal symptoms
+    - Mood and sleep changes when clinically relevant
+
+  longTerm:
+    - Metabolic effects with prolonged or repeated corticosteroid exposure
+    - Bone health when clinically relevant
+    - Adrenal suppression with prolonged exposure
+
+
+# ----------------------------------------------------------------------------
+# Dose Modifications
+# ----------------------------------------------------------------------------
+
+doseModifications:
+
+  renalImpairment: []
+
+  hepaticImpairment: []
+
+  hematologicToxicity: []
+
+  neurologicToxicity: []
+
+  cardiacToxicity: []
+
+  infusionReaction: []
+
+  other:
+    - Dose and duration should follow the specific treatment protocol.
+    - Consider corticosteroid withdrawal precautions when clinically appropriate after prolonged exposure.
+
+
+# ----------------------------------------------------------------------------
+# Safety
+# ----------------------------------------------------------------------------
+
+safety:
+
+  contraindications: []
+
+  warnings:
+    - May increase susceptibility to infection.
+    - May cause hyperglycemia.
+    - May cause hypertension and fluid retention.
+    - May cause mood and sleep disturbances.
+    - Prolonged exposure may cause adrenal suppression and other corticosteroid-related complications.
+
+  commonAdverseEffects:
+    - Increased appetite.
+    - Insomnia.
+    - Mood changes.
+    - Dyspepsia.
+    - Hyperglycemia.
+
+  seriousAdverseEffects:
+    - Serious infection.
+    - Severe hyperglycemia.
+    - Psychiatric adverse effects.
+    - Adrenal suppression with prolonged exposure.
+
+
+# ----------------------------------------------------------------------------
+# Supportive Care
+# ----------------------------------------------------------------------------
+
+supportiveCare:
+
+  topics: []
+
+
+# ----------------------------------------------------------------------------
+# References
+# ----------------------------------------------------------------------------
+
+references:
+  - prednisone-product-monograph
+  - nccn-b-cell-lymphomas
+
+
+# ----------------------------------------------------------------------------
+# Review
+# ----------------------------------------------------------------------------
+
+review:
+
+  lastReviewed: 2026-08-08
+
+  reviewedBy: farshid-fardad

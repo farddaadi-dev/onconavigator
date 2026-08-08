@@ -1,0 +1,174 @@
+# ----------------------------------------------------------------------------
+# Identity
+# ----------------------------------------------------------------------------
+
+id: cyclophosphamide
+
+title: Cyclophosphamide
+
+aliases: []
+
+
+# ----------------------------------------------------------------------------
+# Classification
+# ----------------------------------------------------------------------------
+
+classification:
+
+  class: chemotherapy
+
+  subclass: alkylating agent
+
+  molecularTargets: []
+
+
+# ----------------------------------------------------------------------------
+# Indications
+# ----------------------------------------------------------------------------
+
+indications:
+
+  diseases:
+    - dlbcl
+
+  usedInRegimens:
+    - r-chop
+
+
+# ----------------------------------------------------------------------------
+# Dosage Forms
+# ----------------------------------------------------------------------------
+
+dosageForms:
+
+  - formulation: powder for solution for injection or infusion
+
+    strengths: []
+
+
+# ----------------------------------------------------------------------------
+# Administration
+# ----------------------------------------------------------------------------
+
+administration:
+
+  routes:
+    - IV
+    - PO
+
+  preparation:
+    - Prepare and administer according to the applicable product monograph and institutional protocol.
+
+  infusion:
+    - Administer intravenously according to institutional protocol.
+
+  premedications: []
+
+  specialInstructions:
+    - Ensure adequate hydration according to the treatment protocol.
+    - Consider appropriate bladder-protection measures according to dose and clinical context.
+
+
+# ----------------------------------------------------------------------------
+# Monitoring
+# ----------------------------------------------------------------------------
+
+monitoring:
+
+  baseline:
+    - Complete blood count
+    - Renal function
+    - Hepatic function
+
+  duringTreatment:
+    - Complete blood count
+    - Renal function
+    - Signs and symptoms of infection
+    - Hematuria or other evidence of urinary tract toxicity
+
+  longTerm:
+    - Treatment-related malignancy risk
+    - Fertility considerations where clinically relevant
+
+
+# ----------------------------------------------------------------------------
+# Dose Modifications
+# ----------------------------------------------------------------------------
+
+doseModifications:
+
+  renalImpairment:
+    - Dose adjustment may be required depending on the degree of renal impairment and treatment protocol.
+
+  hepaticImpairment:
+    - Dose adjustment may be required depending on the degree of hepatic impairment and treatment protocol.
+
+  hematologicToxicity:
+    - Delay or modify treatment according to the treatment protocol and severity of hematologic toxicity.
+
+  neurologicToxicity: []
+
+  cardiacToxicity: []
+
+  infusionReaction: []
+
+  other:
+    - Refer to the applicable product monograph and regimen-specific protocol for dose modification recommendations.
+
+
+# ----------------------------------------------------------------------------
+# Safety
+# ----------------------------------------------------------------------------
+
+safety:
+
+  contraindications: []
+
+  warnings:
+    - Myelosuppression.
+    - Hemorrhagic cystitis and other urothelial toxicity.
+    - Serious infections.
+    - Infertility and gonadal toxicity.
+    - Secondary malignancies.
+
+  commonAdverseEffects:
+    - Myelosuppression.
+    - Nausea and vomiting.
+    - Alopecia.
+    - Fatigue.
+
+  seriousAdverseEffects:
+    - Hemorrhagic cystitis.
+    - Severe myelosuppression.
+    - Serious infection.
+    - Secondary malignancy.
+
+
+# ----------------------------------------------------------------------------
+# Supportive Care
+# ----------------------------------------------------------------------------
+
+supportiveCare:
+
+  topics:
+    - antiemetic-prophylaxis
+
+
+# ----------------------------------------------------------------------------
+# References
+# ----------------------------------------------------------------------------
+
+references:
+  - cyclophosphamide-product-monograph
+  - nccn-b-cell-lymphomas
+
+
+# ----------------------------------------------------------------------------
+# Review
+# ----------------------------------------------------------------------------
+
+review:
+
+  lastReviewed: 2026-08-08
+
+  reviewedBy: farshid-fardad

@@ -1,0 +1,48 @@
+---
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const sources = await getCollection("sources");
+
+  return sources.map((source) => ({
+    params: { id: source.data.id },
+    props: { source },
+  }));
+}
+
+const { source } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{source.data.title} | OncoNavigator</title>
+  </head>
+
+  <body>
+    <main>
+      <a href="/">OncoNavigator</a>
+
+      <header>
+        <h1>{source.data.title}</h1>
+
+        <p>{source.data.publication.citation}</p>
+      </header>
+
+      <p>
+        Version: {source.data.publication.version}
+      </p>
+
+      {source.data.access.url && (
+        <p>
+          <a href={source.data.access.url}
+            target="_blank"
+            rel="noopener noreferrer">
+            View source
+          </a>
+        </p>
+      )}
+    </main>
+  </body>
+</html>
