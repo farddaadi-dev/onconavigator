@@ -1,9 +1,9 @@
 import { defineCollection } from "astro:content";
 
-import { diseaseSchema } from "../schemas/disease.ts";
-import { drugSchema } from "../schemas/drug.ts";
-import { regimenSchema } from "../schemas/regimen.ts";
-import { sourceSchema } from "../schemas/source.ts";
+import { diseaseSchema } from "./schemas/disease.ts";
+import { drugSchema } from "./schemas/drug.ts";
+import { regimenSchema } from "./schemas/regimen.ts";
+import { sourceSchema } from "./schemas/source.ts";
 
 const diseases = defineCollection({
   type: "data",
