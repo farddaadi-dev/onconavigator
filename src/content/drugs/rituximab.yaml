@@ -1,0 +1,179 @@
+# ----------------------------------------------------------------------------
+# Identity
+# ----------------------------------------------------------------------------
+
+id: rituximab
+
+title: Rituximab
+
+aliases:
+  - Rituxan
+  - MabThera
+
+# ----------------------------------------------------------------------------
+# Classification
+# ----------------------------------------------------------------------------
+
+classification:
+
+  class: targeted-therapy
+
+  subclass: anti-cd20 monoclonal antibody
+
+  molecularTargets:
+    - cd20
+
+# ----------------------------------------------------------------------------
+# Indications
+# ----------------------------------------------------------------------------
+
+indications:
+
+  diseases:
+    - dlbcl
+    - follicular-lymphoma
+    - mantle-cell-lymphoma
+    - cll
+
+  usedInRegimens:
+    - r-chop
+
+# ----------------------------------------------------------------------------
+# Dosage Forms
+# ----------------------------------------------------------------------------
+
+dosageForms:
+
+  - formulation: concentrate for intravenous infusion
+
+    strengths:
+      - 100 mg / 10 mL
+      - 500 mg / 50 mL
+
+  - formulation: subcutaneous injection
+
+    strengths:
+      - 1400 mg / 11.7 mL
+      - 1600 mg / 13.4 mL
+
+# ----------------------------------------------------------------------------
+# Administration
+# ----------------------------------------------------------------------------
+
+administration:
+
+  routes:
+    - IV
+    - SC
+
+  preparation:
+    - Dilute intravenous formulation according to manufacturer recommendations.
+    - Do not administer as an intravenous push or bolus.
+
+  infusion:
+    - Administer the first intravenous infusion slowly.
+    - Increase infusion rate according to institutional protocol if well tolerated.
+    - Subsequent infusions may be administered more rapidly in selected patients.
+
+  premedications:
+    - Acetaminophen
+    - Antihistamine
+
+  specialInstructions:
+    - Patients should be observed closely during the first infusion.
+
+# ----------------------------------------------------------------------------
+# Monitoring
+# ----------------------------------------------------------------------------
+
+monitoring:
+
+  baseline:
+    - Hepatitis B screening
+    - Complete blood count
+
+  duringTreatment:
+    - Infusion-related reactions
+    - Complete blood count
+    - Signs of infection
+
+  longTerm:
+    - Hepatitis B reactivation
+    - Late-onset neutropenia
+
+# ----------------------------------------------------------------------------
+# Dose Modifications
+# ----------------------------------------------------------------------------
+
+doseModifications:
+
+  renalImpairment: []
+
+  hepaticImpairment: []
+
+  hematologicToxicity:
+    - No routine dose reduction is recommended.
+    - Delay treatment when clinically indicated for severe cytopenias.
+
+  neurologicToxicity: []
+
+  cardiacToxicity: []
+
+  infusionReaction:
+    - Interrupt the infusion immediately for moderate or severe infusion-related reactions.
+    - Resume at a slower infusion rate after symptoms resolve if clinically appropriate.
+    - Permanently discontinue treatment for life-threatening infusion reactions.
+
+  other:
+    - Consider delaying treatment during active serious infection.
+
+# ----------------------------------------------------------------------------
+# Safety
+# ----------------------------------------------------------------------------
+
+safety:
+
+  contraindications:
+    - Known serious hypersensitivity to rituximab or its components.
+
+  warnings:
+    - Hepatitis B virus reactivation.
+    - Progressive multifocal leukoencephalopathy (PML).
+    - Severe infusion-related reactions.
+    - Serious infections.
+
+  commonAdverseEffects:
+    - Infusion-related reactions.
+    - Fever.
+    - Chills.
+    - Fatigue.
+
+  seriousAdverseEffects:
+    - Hepatitis B reactivation.
+    - Progressive multifocal leukoencephalopathy.
+    - Severe mucocutaneous reactions.
+    - Tumor lysis syndrome.
+
+supportiveCare:
+
+  topics:
+    - hepatitis-b-reactivation
+    - tumor-lysis-syndrome
+
+# ----------------------------------------------------------------------------
+# References
+# ----------------------------------------------------------------------------
+
+references:
+  - rituximab-product-monograph
+  - nccn-b-cell-lymphomas
+
+# ----------------------------------------------------------------------------
+# Review
+# ----------------------------------------------------------------------------
+
+review:
+
+  lastReviewed: 2026-08-07
+
+  reviewedBy: farshid-fardad

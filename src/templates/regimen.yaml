@@ -1,0 +1,228 @@
+# ============================================================================
+# Regimen Template
+#
+# Purpose:
+# Structured representation of an oncology treatment regimen.
+#
+# Notes:
+# - Use identifiers for linked entities.
+# - Keep clinical statements traceable to references.
+# - Empty lists are preferred over unsupported assumptions.
+#
+# ============================================================================
+
+
+# ----------------------------------------------------------------------------
+# Identity
+# ----------------------------------------------------------------------------
+
+id:
+
+title:
+
+aliases: []
+
+
+# ----------------------------------------------------------------------------
+# Clinical Context
+# ----------------------------------------------------------------------------
+
+# Related disease identifiers
+diseases: []
+
+# Examples:
+# curative
+# adjuvant
+# neoadjuvant
+# definitive
+# maintenance
+# palliative
+intent:
+
+# Clinical setting
+setting:
+
+# Examples:
+# first-line
+# second-line
+# third-line
+# later-line
+lineOfTherapy:
+
+
+# Biomarkers relevant to treatment selection
+biomarkers: []
+
+
+# ----------------------------------------------------------------------------
+# Eligibility
+# ----------------------------------------------------------------------------
+
+eligibility: []
+
+
+# ----------------------------------------------------------------------------
+# Schedule
+# ----------------------------------------------------------------------------
+
+schedule:
+
+  cycle:
+
+    length:
+      value:
+      unit:
+
+
+  stopCondition:
+
+    plannedCycles:
+
+
+    duration:
+      value:
+      unit:
+
+
+    untilProgression:
+
+
+    untilUnacceptableToxicity:
+
+
+  treatmentPhases: []
+
+
+  notes:
+
+
+# ----------------------------------------------------------------------------
+# Pre-treatment Assessment
+# ----------------------------------------------------------------------------
+
+preTreatmentAssessment:
+
+  # Confirm diagnosis and required disease characteristics.
+  diagnosis: []
+
+  # Clinical evaluation before starting treatment.
+  clinical: []
+
+  # Baseline laboratory investigations.
+  laboratory: []
+
+  # Infection screening required before treatment.
+  infectionScreening: []
+
+  # Baseline imaging or functional studies.
+  imaging: []
+
+  # Required calculations (e.g., BSA).
+  calculations: []
+
+  # Patient education and consent.
+  counselling: []
+
+  # Other pre-treatment assessments.
+  other: []
+
+
+# ----------------------------------------------------------------------------
+# Treatment Preparation
+# ----------------------------------------------------------------------------
+
+treatmentPreparation:
+
+  # Medications administered immediately before chemotherapy.
+  premedications: []
+
+  # Antiemetic regimen.
+  antiemetics: []
+
+  # Hydration before or during treatment.
+  hydration: []
+
+  # Prophylactic measures (e.g., antiviral, TLS prophylaxis).
+  prophylaxis: []
+
+  # Other preparation steps.
+  other: []
+
+# ----------------------------------------------------------------------------
+# Medications
+# ----------------------------------------------------------------------------
+
+# Medications should follow administration order.
+#
+# Example:
+# 1. Rituximab
+# 2. Cyclophosphamide
+# 3. Doxorubicin
+# 4. Vincristine
+# 5. Prednisone
+
+medications: []
+
+
+# ----------------------------------------------------------------------------
+# Monitoring
+# ----------------------------------------------------------------------------
+
+monitoring:
+
+  beforeEachCycle: []
+
+  duringTreatment: []
+
+
+# ----------------------------------------------------------------------------
+# Supportive Care
+# ----------------------------------------------------------------------------
+
+# Use clinical-support identifiers when available.
+
+supportiveCare: []
+
+
+# ----------------------------------------------------------------------------
+# Dose Modifications
+# ----------------------------------------------------------------------------
+
+doseModifications: []
+
+
+# ----------------------------------------------------------------------------
+# Follow-up
+# ----------------------------------------------------------------------------
+
+followUp:
+
+  # Assessment of treatment response.
+  responseAssessment: []
+
+  # Evaluation after completion of treatment.
+  postTreatmentEvaluation: []
+
+  # Long-term surveillance plan.
+  surveillance: []
+
+  # Other follow-up considerations.
+  other: []
+
+
+# ----------------------------------------------------------------------------
+# References
+# ----------------------------------------------------------------------------
+
+references: []
+
+
+# ----------------------------------------------------------------------------
+# Review
+# ----------------------------------------------------------------------------
+
+review:
+
+  lastReviewed:
+
+  reviewedBy:

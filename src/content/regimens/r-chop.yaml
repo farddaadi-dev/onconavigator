@@ -1,0 +1,307 @@
+# ============================================================================
+# R-CHOP
+#
+# Rituximab + Cyclophosphamide + Doxorubicin + Vincristine + Prednisone
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# Identity
+# ----------------------------------------------------------------------------
+
+id: r-chop
+
+title: R-CHOP
+
+aliases:
+  - CHOP-R
+
+
+# ----------------------------------------------------------------------------
+# Clinical Context
+# ----------------------------------------------------------------------------
+
+diseases:
+  - dlbcl
+
+intent: curative
+
+setting: Newly diagnosed
+
+lineOfTherapy: first-line
+
+biomarkers:
+  - cd20
+
+
+# ----------------------------------------------------------------------------
+# Eligibility
+# ----------------------------------------------------------------------------
+
+eligibility:
+  - Confirmed diagnosis of CD20-positive diffuse large B-cell lymphoma
+  - Adequate bone marrow, renal, and hepatic function according to protocol requirements
+  - No contraindication to anthracycline-based therapy
+
+
+# ----------------------------------------------------------------------------
+# Schedule
+# ----------------------------------------------------------------------------
+
+schedule:
+
+  cycle:
+
+    length:
+      value: 21
+      unit: days
+
+  stopCondition:
+
+    plannedCycles: 6
+
+  treatmentPhases: []
+
+
+
+# ----------------------------------------------------------------------------
+# Pre-treatment Assessment
+# ----------------------------------------------------------------------------
+
+preTreatmentAssessment:
+
+  diagnosis:
+    - Confirm diagnosis of diffuse large B-cell lymphoma
+    - Confirm CD20 positivity
+
+  clinical:
+    - Document ECOG performance status
+    - Record height and weight
+
+  laboratory:
+    - Complete blood count (CBC)
+    - Comprehensive metabolic panel (CMP)
+    - Lactate dehydrogenase (LDH)
+    - Uric acid
+
+  infectionScreening:
+    - Hepatitis B screening (HBsAg, anti-HBc, anti-HBs)
+
+  imaging:
+    - Baseline cardiac assessment (e.g., echocardiography) when clinically indicated
+
+  calculations:
+    - Calculate body surface area (BSA)
+
+  counselling:
+    - Discuss treatment goals and potential adverse effects
+    - Obtain informed consent
+
+  other: []
+
+
+# ----------------------------------------------------------------------------
+# Treatment Preparation
+# ----------------------------------------------------------------------------
+
+treatmentPreparation:
+
+  premedications:
+    - Premedicate according to individual drug recommendations.
+
+  antiemetics:
+    - Standard antiemetic prophylaxis according to institutional practice
+
+  hydration:
+    - Hydration according to tumor lysis syndrome risk and institutional practice
+
+  prophylaxis:
+    - Consider antiviral prophylaxis for patients at risk of hepatitis B reactivation
+    - Assess need for tumor lysis syndrome prophylaxis
+
+  other: []
+
+
+# ----------------------------------------------------------------------------
+# Medications
+# ----------------------------------------------------------------------------
+
+# Medications are listed in administration order.
+
+medications:
+
+  - drug: rituximab
+
+    rules:
+      - dose:
+          value: 375
+          unit: mg/m²
+          type: bsa
+
+        administration:
+          route: IV
+
+          administrationDays:
+            - 1
+
+    infusionNotes: >
+      Administer according to institutional infusion protocol.
+
+    monitoringNotes: >
+      Monitor for infusion-related reactions.
+
+    references: []
+
+
+  - drug: cyclophosphamide
+
+    rules:
+      - dose:
+          value: 750
+          unit: mg/m²
+          type: bsa
+
+        administration:
+          route: IV
+
+          administrationDays:
+            - 1
+
+    references: []
+
+
+  - drug: doxorubicin
+
+    rules:
+      - dose:
+          value: 50
+          unit: mg/m²
+          type: bsa
+
+        administration:
+          route: IV
+
+          administrationDays:
+            - 1
+
+    monitoringNotes: >
+      Monitor cumulative anthracycline exposure and cardiac function.
+
+    references: []
+
+
+  - drug: vincristine
+
+    rules:
+      - dose:
+          value: 1.4
+          unit: mg/m²
+          type: bsa
+
+        administration:
+          route: IV
+
+          administrationDays:
+            - 1
+
+    comments: >
+      Dose is commonly capped at 2 mg according to institutional policy.
+
+    references: []
+
+
+  - drug: prednisone
+
+    rules:
+      - dose:
+          value: 100
+          unit: mg
+          type: flat
+
+        administration:
+          route: PO
+
+          administrationDays:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+
+    references: []
+
+# ----------------------------------------------------------------------------
+# Monitoring
+# ----------------------------------------------------------------------------
+
+monitoring:
+
+  beforeEachCycle:
+    - CBC
+    - CMP
+    - ECOG performance status
+    - Assess treatment-related toxicities
+    - Review laboratory results
+
+  duringTreatment:
+    - Monitor for rituximab infusion reactions
+    - Monitor for febrile neutropenia
+    - Monitor for peripheral neuropathy
+    - Monitor cumulative anthracycline exposure
+
+
+# ----------------------------------------------------------------------------
+# Supportive Care
+# ----------------------------------------------------------------------------
+
+supportiveCare: 
+  - antiemetic-prophylaxis
+  - g-csf-support
+  - tumor-lysis-syndrome
+  - hepatitis-b-reactivation
+
+
+# ----------------------------------------------------------------------------
+# Dose Modifications
+# ----------------------------------------------------------------------------
+
+doseModifications:
+  - Delay treatment according to institutional protocol for significant hematologic toxicity.
+  - Adjust individual drug doses according to drug-specific toxicity guidelines.
+  - Refer to individual drug entries for renal, hepatic, neurologic, and cardiac dose modification guidance.
+
+# ----------------------------------------------------------------------------
+# Follow-up
+# ----------------------------------------------------------------------------
+
+followUp:
+
+  responseAssessment:
+    - Assess treatment response according to disease-specific guidelines
+
+  postTreatmentEvaluation:
+    - Perform end-of-treatment assessment as clinically indicated
+
+  surveillance:
+    - Follow disease-specific surveillance recommendations
+
+  other: []
+
+
+# ----------------------------------------------------------------------------
+# References
+# ----------------------------------------------------------------------------
+
+references:
+  - nccn-b-cell-lymphomas
+  - esmo-dlbcl-guideline
+  - r-chop-landmark-study
+
+# ----------------------------------------------------------------------------
+# Review
+# ----------------------------------------------------------------------------
+
+review:
+
+  lastReviewed: 2026-08-05
+
+  reviewedBy: farshid-fardad

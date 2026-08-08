@@ -1,0 +1,195 @@
+# ============================================================================
+# Diffuse Large B-Cell Lymphoma
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# Identity
+# ----------------------------------------------------------------------------
+
+id: dlbcl
+
+title: Diffuse Large B-Cell Lymphoma
+
+aliases:
+
+  - DLBCL
+
+
+# ----------------------------------------------------------------------------
+# Clinical Context
+# ----------------------------------------------------------------------------
+
+clinicalContext:
+
+  category:
+
+    - hematologic-malignancy
+
+    - lymphoma
+
+
+  behavior:
+
+    - aggressive
+
+
+# ----------------------------------------------------------------------------
+# Diagnosis
+# ----------------------------------------------------------------------------
+
+diagnosis:
+
+  pathology:
+
+    - Histologic confirmation of lymphoma required
+
+    - Large B-cell morphology
+
+
+  immunophenotype:
+
+    - cd20
+
+
+  molecularTesting:
+
+    - myc
+
+    - bcl2
+
+    - bcl6
+
+
+  imaging:
+
+    - PET-CT for staging and response assessment
+
+
+  other: []
+
+
+# ----------------------------------------------------------------------------
+# Biomarkers
+# ----------------------------------------------------------------------------
+
+biomarkers:
+
+  required:
+
+    - cd20
+
+
+  diagnostic:
+
+    - cd20
+
+
+  predictive:
+
+    - cd20
+
+
+  prognostic:
+
+    - myc
+
+    - bcl2
+
+
+  other: []
+
+
+# ----------------------------------------------------------------------------
+# Staging
+# ----------------------------------------------------------------------------
+
+staging:
+
+  system: Lugano Classification
+
+  assessments:
+
+    - PET-CT
+
+    - Clinical assessment
+
+    - Laboratory evaluation including LDH
+
+
+  notes:
+
+    - Staging approach follows lymphoma-specific criteria.
+
+
+# ----------------------------------------------------------------------------
+# Treatment
+# ----------------------------------------------------------------------------
+
+treatment:
+
+  firstLine:
+
+    - r-chop
+
+
+  secondLine: []
+
+
+  laterLine: []
+
+
+  maintenance: []
+
+
+  supportiveCare:
+
+    - tumor-lysis-syndrome
+
+    - febrile-neutropenia
+
+
+  other: []
+
+
+# ----------------------------------------------------------------------------
+# Follow-up
+# ----------------------------------------------------------------------------
+
+followUp:
+
+  responseAssessment:
+
+    - PET-CT response assessment according to lymphoma response criteria
+
+
+  surveillance:
+
+    - Clinical follow-up according to disease status and guideline recommendations
+
+
+  survivorship:
+
+    - Monitor treatment-related late effects
+
+
+  other: []
+
+
+# ----------------------------------------------------------------------------
+# References
+# ----------------------------------------------------------------------------
+
+references:
+
+  - nccn-b-cell-lymphomas
+
+
+# ----------------------------------------------------------------------------
+# Review
+# ----------------------------------------------------------------------------
+
+review:
+
+  lastReviewed: 2026-08-07
+
+  reviewedBy: farshid-fardad
