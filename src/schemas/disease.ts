@@ -24,6 +24,8 @@ const clinicalContextSchema = z.object({
 
 const diagnosisSchema = z.object({
 
+  criteria: z.array(z.string()).default([]),
+
   pathology: z.array(z.string()).default([]),
 
   immunophenotype: z.array(identifierSchema).default([]),
@@ -42,7 +44,7 @@ const diagnosisSchema = z.object({
 
 const biomarkerSchema = z.object({
 
-  required: z.array(identifierSchema).default([]),
+  key: z.array(identifierSchema).default([]),
 
   diagnostic: z.array(identifierSchema).default([]),
 
@@ -63,6 +65,13 @@ const stagingSchema = z.object({
   system: z.string().optional(),
 
   assessments: z.array(z.string()).default([]),
+
+  categories: z.array(
+    z.object({
+      name: z.string(),
+      description: z.string(),
+    }),
+  ).default([]),
 
   notes: z.array(z.string()).default([]),
 

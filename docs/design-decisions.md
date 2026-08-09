@@ -248,3 +248,5 @@ nccn-b-cell-lymphomas
 Version changes update the source metadata rather than creating duplicate source objects.
 
 Historical versions may be recorded in previousVersions when useful.
+
+Survivorship is a disease-centered longitudinal care pathway that should be modeled separately from treatment supportive care.

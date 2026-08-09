@@ -39,31 +39,28 @@ clinicalContext:
 
 diagnosis:
 
+  criteria:
+
+    - Histologic confirmation of diffuse large B-cell lymphoma
+    - Classification according to WHO/ICC lymphoma criteria
+
   pathology:
 
-    - Histologic confirmation of lymphoma required
-
     - Large B-cell morphology
-
 
   immunophenotype:
 
     - cd20
 
-
   molecularTesting:
 
     - myc
-
     - bcl2
-
     - bcl6
-
 
   imaging:
 
     - PET-CT for staging and response assessment
-
 
   other: []
 
@@ -74,27 +71,21 @@ diagnosis:
 
 biomarkers:
 
-  required:
+  key:
 
     - cd20
 
-
-  diagnostic:
-
-    - cd20
-
+  diagnostic: []
 
   predictive:
 
     - cd20
-
 
   prognostic:
 
     - myc
 
     - bcl2
-
 
   other: []
 
@@ -116,10 +107,24 @@ staging:
     - Laboratory evaluation including LDH
 
 
+  categories:
+
+    - name: Stage I
+      description: Limited nodal involvement
+
+    - name: Stage II
+      description: Multiple nodal sites on the same side of the diaphragm
+
+    - name: Stage III
+      description: Nodal involvement on both sides of the diaphragm
+
+    - name: Stage IV
+      description: Disseminated extranodal involvement
+
+
   notes:
 
     - Staging approach follows lymphoma-specific criteria.
-
 
 # ----------------------------------------------------------------------------
 # Treatment

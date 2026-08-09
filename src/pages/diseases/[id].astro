@@ -1,13 +1,10 @@
 ---
-import { getCollection } from "astro:content";
-
-import {
-  getRegimenById,
-  getSourceById,
-} from "../../utils/content";
+import { getCollection } from 'astro:content';
+import { getClinicalLabel } from '@/utils/clinicalTerms';
+import { getRegimenById, getSourceById } from '../../utils/content';
 
 export async function getStaticPaths() {
-  const diseases = await getCollection("diseases");
+  const diseases = await getCollection('diseases');
 
   return diseases.map((disease) => ({
     params: { id: disease.data.id },
@@ -40,65 +37,274 @@ const references = (
 
       <header>
         <h1>{disease.data.title}</h1>
-        {disease.data.aliases.length > 0 && (
-          <p>{disease.data.aliases.join(", ")}</p>
-        )}
+        {
+          disease.data.aliases.length > 0 && (
+            <p>{disease.data.aliases.join(', ')}</p>
+          )
+        }
       </header>
 
       <section aria-labelledby="clinical-context-heading">
         <h2 id="clinical-context-heading">Clinical context</h2>
-        {disease.data.clinicalContext.category.length > 0 && (
-          <p>
-            <strong>Category:</strong>
-            {" "}{disease.data.clinicalContext.category.join(", ")}
-          </p>
-        )}
-        {disease.data.clinicalContext.behavior.length > 0 && (
-          <p>
-            <strong>Behavior:</strong>
-            {" "}{disease.data.clinicalContext.behavior.join(", ")}
-          </p>
-        )}
+        {
+          disease.data.clinicalContext.category.length > 0 && (
+            <p>
+              <strong>Category:</strong>{' '}
+              {disease.data.clinicalContext.category
+                .map((item) => getClinicalLabel(item))
+                .join(', ')}
+            </p>
+          )
+        }
+        {
+          disease.data.clinicalContext.behavior.length > 0 && (
+            <p>
+              <strong>Behavior:</strong>{' '}
+              {disease.data.clinicalContext.behavior
+                .map((item) => getClinicalLabel(item))
+                .join(', ')}
+            </p>
+          )
+        }
       </section>
+      <section aria-labelledby="diagnosis-heading">
+        <h2 id="diagnosis-heading">Diagnosis</h2>
 
+        {
+          disease.data.diagnosis.criteria.length > 0 && (
+            <div>
+              <h3>Diagnostic criteria</h3>
+
+              <ul>
+                {disease.data.diagnosis.criteria.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+
+        {
+          disease.data.diagnosis.pathology.length > 0 && (
+            <div>
+              <h3>Pathology</h3>
+
+              <ul>
+                {disease.data.diagnosis.pathology.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+
+        {
+          disease.data.diagnosis.immunophenotype.length > 0 && (
+            <div>
+              <h3>Immunophenotype</h3>
+
+              <ul>
+                {disease.data.diagnosis.immunophenotype.map((item) => (
+                  <li>{getClinicalLabel(item)}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+
+        {
+          disease.data.diagnosis.molecularTesting.length > 0 && (
+            <div>
+              <h3>Molecular testing</h3>
+
+              <ul>
+                {disease.data.diagnosis.molecularTesting.map((item) => (
+                  <li>{getClinicalLabel(item)}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+
+        {
+          disease.data.diagnosis.imaging.length > 0 && (
+            <div>
+              <h3>Imaging</h3>
+
+              <ul>
+                {disease.data.diagnosis.imaging.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      </section>
+      <section aria-labelledby="biomarkers-heading">
+        <h2 id="biomarkers-heading">Biomarkers</h2>
+
+        {
+          disease.data.biomarkers.key.length > 0 && (
+            <div>
+              <h3>Key biomarkers</h3>
+              <ul>
+                {disease.data.biomarkers.key.map((item) => (
+                  <li>{getClinicalLabel(item)}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+
+        {
+          disease.data.biomarkers.diagnostic.length > 0 && (
+            <div>
+              <h3>Diagnostic biomarkers</h3>
+              <ul>
+                {disease.data.biomarkers.diagnostic.map((item) => (
+                  <li>{getClinicalLabel(item)}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+
+        {
+          disease.data.biomarkers.predictive.length > 0 && (
+            <div>
+              <h3>Predictive biomarkers</h3>
+              <ul>
+                {disease.data.biomarkers.predictive.map((item) => (
+                  <li>{getClinicalLabel(item)}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+
+        {
+          disease.data.biomarkers.prognostic.length > 0 && (
+            <div>
+              <h3>Prognostic biomarkers</h3>
+              <ul>
+                {disease.data.biomarkers.prognostic.map((item) => (
+                  <li>{getClinicalLabel(item)}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+
+        {
+          disease.data.biomarkers.other.length > 0 && (
+            <div>
+              <h3>Other biomarkers</h3>
+              <ul>
+                {disease.data.biomarkers.other.map((item) => (
+                  <li>{getClinicalLabel(item)}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      </section>
+      <section aria-labelledby="staging-heading">
+        <h2 id="staging-heading">Staging</h2>
+
+        {
+          disease.data.staging.system && (
+            <p>
+              <strong>System:</strong> {disease.data.staging.system}
+            </p>
+          )
+        }
+
+        {
+          disease.data.staging.assessments.length > 0 && (
+            <div>
+              <h3>Assessments</h3>
+
+              <ul>
+                {disease.data.staging.assessments.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+
+        {
+          disease.data.staging.categories &&
+            disease.data.staging.categories.length > 0 && (
+              <details>
+                <summary>View staging classification</summary>
+
+                <ul>
+                  {disease.data.staging.categories.map((category) => (
+                    <li>
+                      <strong>{category.name}:</strong> {category.description}
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            )
+        }
+
+        {
+          disease.data.staging.notes.length > 0 && (
+            <div>
+              <h3>Notes</h3>
+
+              <ul>
+                {disease.data.staging.notes.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      </section>
       <section aria-labelledby="treatment-heading">
         <h2 id="treatment-heading">First-line treatment</h2>
-        {firstLineRegimens.length > 0 ? (
-          <ul>
-            {firstLineRegimens.map((regimen) => (
-              <li>
-                <strong>
-                  <a href={`/regimens/${regimen.data.id}`}>
-                    {regimen.data.title}
-                  </a>
-                </strong>
-                <p>
-                  {regimen.data.setting} · {regimen.data.intent} intent
-                </p>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No first-line regimens are currently listed.</p>
-        )}
+        {
+          firstLineRegimens.length > 0 ? (
+            <ul>
+              {firstLineRegimens.map((regimen) => (
+                <li>
+                  <strong>
+                    <a href={`/regimens/${regimen.data.id}`}>
+                      {regimen.data.title}
+                    </a>
+                  </strong>
+                  <p>
+                    {regimen.data.setting} · {regimen.data.intent} intent
+                  </p>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No first-line regimens are currently listed.</p>
+          )
+        }
       </section>
 
       <section aria-labelledby="references-heading">
         <h2 id="references-heading">References</h2>
-        {references.length > 0 ? (
-          <ul>
-            {references.map((source) => (
-              <li>
-                <a href={`/sources/${source.data.id}`}>
-                  {source.data.publication.citation}
-                </a>
-                
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No references are currently listed.</p>
-        )}
+        {
+          references.length > 0 ? (
+            <ul>
+              {references.map((source) => (
+                <li>
+                  <a href={`/sources/${source.data.id}`}>
+                    {source.data.publication.citation}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No references are currently listed.</p>
+          )
+        }
       </section>
     </main>
   </body>
