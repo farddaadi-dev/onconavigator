@@ -1,6 +1,6 @@
 import { getCollection, type CollectionEntry } from "astro:content";
 
-type ContentCollection = "diseases" | "drugs" | "regimens" | "sources";
+type ContentCollection = "diseases" | "drugs" | "regimens" | "sources" | "supportiveCare";
 
 async function getEntryById<TCollection extends ContentCollection>(
   collection: TCollection,
@@ -24,6 +24,11 @@ export function getRegimenById(id: string) {
 /** Returns a drug entry by its stable clinical identifier. */
 export function getDrugById(id: string) {
   return getEntryById("drugs", id);
+}
+
+/** Returns a supportive care entry by its stable clinical identifier. */
+export function getSupportiveCareById(id: string) {
+  return getEntryById("supportiveCare", id);
 }
 
 /** Returns a source entry by its stable clinical identifier. */

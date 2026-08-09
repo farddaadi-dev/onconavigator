@@ -1,0 +1,75 @@
+# ----------------------------------------------------------------------------
+# Identity
+# ----------------------------------------------------------------------------
+
+id: g-csf-support
+
+title: G-CSF Support
+
+aliases:
+  - Granulocyte colony-stimulating factor support
+
+
+# ----------------------------------------------------------------------------
+# Classification
+# ----------------------------------------------------------------------------
+
+category: treatment-support
+
+
+# ----------------------------------------------------------------------------
+# Clinical Use
+# ----------------------------------------------------------------------------
+
+indications:
+
+  - Prevention of chemotherapy-induced febrile neutropenia
+  - Reduction of duration of chemotherapy-associated neutropenia
+
+
+clinicalUse:
+
+  - Consider primary prophylaxis when the expected risk of febrile neutropenia is clinically significant.
+  - Consider secondary prophylaxis after prior chemotherapy-related febrile neutropenia or significant neutropenic complications.
+  - Consider regimen-specific use according to treatment intent, patient factors, and institutional protocol.
+
+
+# ----------------------------------------------------------------------------
+# Monitoring
+# ----------------------------------------------------------------------------
+
+monitoring:
+
+  - Complete blood count according to treatment protocol.
+  - Monitor for signs and symptoms of infection.
+  - Assess for bone pain or other treatment-related adverse effects.
+
+
+# ----------------------------------------------------------------------------
+# Safety
+# ----------------------------------------------------------------------------
+
+safety:
+
+  - Use according to product-specific recommendations and treatment protocol.
+  - Consider patient-specific risk factors when deciding prophylactic use.
+
+
+# ----------------------------------------------------------------------------
+# References
+# ----------------------------------------------------------------------------
+
+references:
+
+  - nccn-b-cell-lymphomas
+
+
+# ----------------------------------------------------------------------------
+# Review
+# ----------------------------------------------------------------------------
+
+review:
+
+  lastReviewed: 2026-08-08
+
+  reviewedBy: farshid-fardad

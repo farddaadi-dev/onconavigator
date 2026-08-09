@@ -5,6 +5,7 @@ import { diseaseSchema } from "./schemas/disease.ts";
 import { drugSchema } from "./schemas/drug.ts";
 import { regimenSchema } from "./schemas/regimen.ts";
 import { sourceSchema } from "./schemas/source.ts";
+import { supportiveCareSchema } from "./schemas/supportiveCare.ts";
 
 const diseases = defineCollection({
   loader: glob({
@@ -38,9 +39,18 @@ const sources = defineCollection({
   schema: sourceSchema,
 });
 
+const supportiveCare = defineCollection({
+  loader: glob({
+    base: "./src/content/supportive-care",
+    pattern: "**/*.yaml",
+  }),
+  schema: supportiveCareSchema,
+});
+
 export const collections = {
   diseases,
   drugs,
   regimens,
   sources,
+  supportiveCare,
 };

@@ -90,9 +90,9 @@ const references = (
             {references.map((source) => (
               <li>
                 <a href={`/sources/${source.data.id}`}>
-                  {source.data.title}
+                  {source.data.publication.citation}
                 </a>
-                <p>{source.data.publication.citation}</p>
+                
               </li>
             ))}
           </ul>

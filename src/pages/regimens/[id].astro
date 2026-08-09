@@ -1,7 +1,11 @@
 ---
 import { getCollection } from 'astro:content';
-import { getDrugById } from '@/utils/content';
-import { getSourceById } from '@/utils/content';
+import {
+  getDrugById,
+  getSourceById,
+  getSupportiveCareById,
+  getDiseaseById,
+} from '@/utils/content';
 
 export async function getStaticPaths() {
   const regimens = await getCollection('regimens');
@@ -18,6 +22,14 @@ const medications = (
     regimen.data.medications.map((medication) => getDrugById(medication.drug)),
   )
 ).filter((drug) => drug !== undefined);
+const supportiveCareItems = (
+  await Promise.all(
+    regimen.data.supportiveCare.map((id) => getSupportiveCareById(id)),
+  )
+).filter((item) => item !== undefined);
+const diseases = (
+  await Promise.all(regimen.data.diseases.map((id) => getDiseaseById(id)))
+).filter((disease) => disease !== undefined);
 const references = (
   await Promise.all(regimen.data.references.map((id) => getSourceById(id)))
 ).filter((source) => source !== undefined);
@@ -63,7 +75,15 @@ const references = (
         <h2 id="diseases-heading">Indications</h2>
 
         <ul>
-          {regimen.data.diseases.map((disease) => <li>{disease}</li>)}
+          {
+            diseases.map((disease) => (
+              <li>
+                <a href={`/diseases/${disease.data.id}`}>
+                  {disease.data.title}
+                </a>
+              </li>
+            ))
+          }
         </ul>
       </section>
 
@@ -311,10 +331,14 @@ const references = (
         <h2 id="supportive-care-heading">Supportive Care</h2>
 
         {
-          regimen.data.supportiveCare.length > 0 ? (
+          supportiveCareItems.length > 0 ? (
             <ul>
-              {regimen.data.supportiveCare.map((item) => (
-                <li>{item}</li>
+              {supportiveCareItems.map((item) => (
+                <li>
+                  <a href={`/supportive-care/${item.data.id}`}>
+                    {item.data.title}
+                  </a>
+                </li>
               ))}
             </ul>
           ) : (
@@ -398,24 +422,15 @@ const references = (
       </section>
       <section aria-labelledby="references-heading">
         <h2 id="references-heading">References</h2>
-
         {
           references.length > 0 ? (
             <ul>
               {references.map((source) => (
                 <li>
-  {source.data.access.url ? (
-    <a
-      href={source.data.access.url}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      {source.data.title}
-    </a>
-  ) : (
-    source.data.title
-  )}
-</li>
+                  <a href={`/sources/${source.data.id}`}>
+                    {source.data.publication.citation}
+                  </a>
+                </li>
               ))}
             </ul>
           ) : (

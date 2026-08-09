@@ -1,0 +1,102 @@
+---
+import { getCollection } from 'astro:content';
+
+import { getSourceById } from '@/utils/content';
+
+export async function getStaticPaths() {
+  const supportiveCare = await getCollection('supportiveCare');
+
+  return supportiveCare.map((item) => ({
+    params: { id: item.data.id },
+    props: { supportiveCare: item },
+  }));
+}
+
+const { supportiveCare } = Astro.props;
+
+const references = (
+  await Promise.all(
+    supportiveCare.data.references.map((id) => getSourceById(id)),
+  )
+).filter((source) => source !== undefined);
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{supportiveCare.data.title} | OncoNavigator</title>
+  </head>
+
+  <body>
+    <main>
+      <a href="/">OncoNavigator</a>
+
+      <header>
+        <h1>{supportiveCare.data.title}</h1>
+
+        {
+          supportiveCare.data.aliases.length > 0 && (
+            <p>{supportiveCare.data.aliases.join(', ')}</p>
+          )
+        }
+      </header>
+
+      <section>
+        <h2>Category</h2>
+        <p>{supportiveCare.data.category}</p>
+      </section>
+
+      <section>
+        <h2>Clinical Use</h2>
+
+        {
+          supportiveCare.data.clinicalUse.length > 0 ? (
+            <ul>
+              {supportiveCare.data.clinicalUse.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          ) : (
+            <p>No clinical use information listed.</p>
+          )
+        }
+      </section>
+
+      <section>
+        <h2>Monitoring</h2>
+
+        <ul>
+          {supportiveCare.data.monitoring.map((item) => <li>{item}</li>)}
+        </ul>
+      </section>
+
+      <section>
+        <h2>Safety</h2>
+
+        <ul>
+          {supportiveCare.data.safety.map((item) => <li>{item}</li>)}
+        </ul>
+      </section>
+
+      <section aria-labelledby="references-heading">
+        <h2 id="references-heading">References</h2>
+        {
+          references.length > 0 ? (
+            <ul>
+              {references.map((source) => (
+                <li>
+                  <a href={`/sources/${source.data.id}`}>
+                    {source.data.publication.citation}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No references are currently listed.</p>
+          )
+        }
+      </section>
+    </main>
+  </body>
+</html>
