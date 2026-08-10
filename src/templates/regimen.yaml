@@ -71,27 +71,21 @@ schedule:
 
     length:
       value:
-      unit:
-
+      unit: days
 
   stopCondition:
 
     plannedCycles:
 
-
     duration:
       value:
-      unit:
-
+      unit: weeks
 
     untilProgression:
 
-
     untilUnacceptableToxicity:
 
-
   treatmentPhases: []
-
 
   notes:
 
@@ -154,15 +148,52 @@ treatmentPreparation:
 
 # Medications should follow administration order.
 #
-# Example:
-# 1. Rituximab
-# 2. Cyclophosphamide
-# 3. Doxorubicin
-# 4. Vincristine
-# 5. Prednisone
+# Each medication contains:
+# - drug: linked drug identifier
+# - rules: one or more dose/administration rules
+#
+# Administration fields:
+# - route: IV, PO, SC, IM, or IT
+# - administrationDays: treatment day(s)
+# - diluent: optional
+# - volume: optional
+# - infusionDuration: optional
+# - notes: optional
+#
+# Example structure:
 
-medications: []
+medications:
 
+  - drug: example-drug
+
+    rules:
+
+      - dose:
+          value:
+          unit:
+          type:
+
+        administration:
+          route: IV
+          administrationDays:
+            - 1
+          diluent:
+          volume:
+            value:
+            unit:
+          infusionDuration:
+          notes:
+
+        # Optional rule-specific notes
+        notes:
+
+    # Optional medication-level information
+    preparationNotes:
+    infusionNotes:
+    monitoringNotes:
+    comments:
+
+    references: []
 
 # ----------------------------------------------------------------------------
 # Monitoring

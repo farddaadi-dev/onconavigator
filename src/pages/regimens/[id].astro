@@ -19,22 +19,53 @@ export async function getStaticPaths() {
 }
 
 const { regimen } = Astro.props;
+
+type ResolvedMedication = {
+  drug: NonNullable<Awaited<ReturnType<typeof getDrugById>>>;
+  medication: (typeof regimen.data.medications)[number];
+};
+
 const medications = (
   await Promise.all(
-    regimen.data.medications.map((medication) => getDrugById(medication.drug)),
+    regimen.data.medications.map(async (medication) => {
+      const drug = await getDrugById(medication.drug);
+
+      if (!drug) {
+        return undefined;
+      }
+
+      return {
+        drug,
+        medication,
+      };
+    }),
   )
-).filter((drug) => drug !== undefined);
+).filter(
+  (item): item is ResolvedMedication => item !== undefined,
+);
+
 const supportiveCareItems = (
   await Promise.all(
     regimen.data.supportiveCare.map((id) => getSupportiveCareById(id)),
   )
-).filter((item) => item !== undefined);
+  ).filter(
+  (item): item is NonNullable<typeof item> =>
+    item !== undefined,
+);
+
 const diseases = (
   await Promise.all(regimen.data.diseases.map((id) => getDiseaseById(id)))
-).filter((disease) => disease !== undefined);
+  ).filter(
+  (disease): disease is NonNullable<typeof disease> =>
+    disease !== undefined,
+);
+
 const references = (
   await Promise.all(regimen.data.references.map((id) => getSourceById(id)))
-).filter((source) => source !== undefined);
+  ).filter(
+  (source): source is NonNullable<typeof source> =>
+    source !== undefined,
+);
 ---
 
 <html lang="en">
@@ -114,13 +145,82 @@ const references = (
 
       <section aria-labelledby="medications-heading">
         <h2 id="medications-heading">Medications</h2>
-
+      
         {
           medications.length > 0 ? (
             <ul>
-              {medications.map((drug) => (
+              {medications.map(({ drug, medication }) => (
                 <li>
-                  <a href={`/drugs/${drug.data.id}`}>{drug.data.title}</a>
+                  <a href={`/drugs/${drug.data.id}`}>
+                    {drug.data.title}
+                  </a>
+      
+                  {medication.rules.map((rule) => {
+                    const administration = rule.administration;
+                    const days = administration.administrationDays;
+      
+                    const hasAdministrationDetails =
+                      administration.notes ||
+                      medication.preparationNotes ||
+                      medication.infusionNotes ||
+                      medication.comments ||
+                      rule.notes;
+      
+                    return (
+                      <div>
+                        <p>
+                          {rule.dose.value} {rule.dose.unit}{' '}
+                          {administration.route}
+                          {administration.volume &&
+                            ` in ${administration.volume.value} ${administration.volume.unit}`}
+                          {administration.diluent &&
+                            ` ${administration.diluent}`}
+                          {administration.infusionDuration &&
+                            ` over ${administration.infusionDuration}`}
+                          {' — '}
+                          Day{days.length > 1 ? 's' : ''}{' '}
+                          {days.join(', ')}
+                        </p>
+      
+                        {hasAdministrationDetails && (
+                          <details>
+                            <summary>Administration details</summary>
+      
+                            {administration.notes && (
+                              <p>{administration.notes}</p>
+                            )}
+      
+                            {medication.preparationNotes && (
+                              <p>
+                                <strong>Preparation:</strong>{' '}
+                                {medication.preparationNotes}
+                              </p>
+                            )}
+      
+                            {medication.infusionNotes && (
+                              <p>
+                                <strong>Infusion:</strong>{' '}
+                                {medication.infusionNotes}
+                              </p>
+                            )}
+      
+                            {medication.comments && (
+                              <p>
+                                <strong>Notes:</strong>{' '}
+                                {medication.comments}
+                              </p>
+                            )}
+      
+                            {rule.notes && (
+                              <p>
+                                <strong>Notes:</strong> {rule.notes}
+                              </p>
+                            )}
+                          </details>
+                        )}
+                      </div>
+                    );
+                  })}
                 </li>
               ))}
             </ul>

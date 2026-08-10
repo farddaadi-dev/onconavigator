@@ -18,11 +18,17 @@ const firstLineRegimens = (
   await Promise.all(
     disease.data.treatment.firstLine.map((id) => getRegimenById(id)),
   )
-).filter((regimen) => regimen !== undefined);
+  ).filter(
+  (regimen): regimen is NonNullable<typeof regimen> =>
+    regimen !== undefined,
+);
 
 const references = (
   await Promise.all(disease.data.references.map((id) => getSourceById(id)))
-).filter((source) => source !== undefined);
+  ).filter(
+  (source): source is NonNullable<typeof source> =>
+    source !== undefined,
+);
 ---
 
 <html lang="en">
@@ -287,7 +293,65 @@ const references = (
           )
         }
       </section>
-
+      <section aria-labelledby="follow-up-heading">
+        <h2 id="follow-up-heading">Follow-up</h2>
+      
+        {
+          disease.data.followUp.responseAssessment.length > 0 && (
+            <div>
+              <h3>Response Assessment</h3>
+      
+              <ul>
+                {disease.data.followUp.responseAssessment.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      
+        {
+          disease.data.followUp.surveillance.length > 0 && (
+            <div>
+              <h3>Surveillance</h3>
+      
+              <ul>
+                {disease.data.followUp.surveillance.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      
+        {
+          disease.data.followUp.survivorship.length > 0 && (
+            <div>
+              <h3>Survivorship</h3>
+      
+              <ul>
+                {disease.data.followUp.survivorship.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      
+        {
+          disease.data.followUp.other.length > 0 && (
+            <div>
+              <h3>Other</h3>
+      
+              <ul>
+                {disease.data.followUp.other.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      </section>
       <section aria-labelledby="references-heading">
         <h2 id="references-heading">References</h2>
         {

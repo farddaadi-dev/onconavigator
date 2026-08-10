@@ -49,11 +49,19 @@ export const administrationSchema = z.object({
     .array(z.number().int().positive())
     .min(1),
 
+  diluent: z.string().optional(),
+
+  volume: z
+    .object({
+      value: z.number().positive(),
+      unit: z.string().min(1),
+    })
+    .optional(),
+
   infusionDuration: z.string().optional(),
 
   notes: z.string().optional(),
 });
-
 /* -------------------------------------------------------------------------- */
 /*                             Condition Schema                               */
 /* -------------------------------------------------------------------------- */

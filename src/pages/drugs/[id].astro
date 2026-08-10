@@ -1,6 +1,15 @@
 ---
 import { getCollection } from "astro:content";
 
+import {
+  getDiseaseById,
+  getRegimenById,
+  getSourceById,
+  getSupportiveCareById,
+} from "@/utils/content";
+import { formatLabel } from "@/utils/formatText";
+import { getClinicalLabel } from '@/utils/clinicalTerms';
+
 export async function getStaticPaths() {
   const drugs = await getCollection("drugs");
 
@@ -11,6 +20,40 @@ export async function getStaticPaths() {
 }
 
 const { drug } = Astro.props;
+
+const diseases = (
+  await Promise.all(
+    drug.data.indications.diseases.map((id) => getDiseaseById(id)),
+  )
+).filter(
+  (disease): disease is NonNullable<typeof disease> =>
+    disease !== undefined,
+);
+
+const regimens = (
+  await Promise.all(
+    drug.data.indications.usedInRegimens.map((id) => getRegimenById(id)),
+  )
+).filter(
+  (regimen): regimen is NonNullable<typeof regimen> =>
+    regimen !== undefined,
+);
+const supportiveCareItems = (
+  await Promise.all(
+    drug.data.supportiveCare.topics.map((id) => getSupportiveCareById(id)),
+  )
+).filter(
+  (item): item is NonNullable<typeof item> =>
+    item !== undefined,
+);
+const references = (
+  await Promise.all(
+    drug.data.references.map((id) => getSourceById(id)),
+  )
+).filter(
+  (source): source is NonNullable<typeof source> =>
+    source !== undefined,
+);
 ---
 
 <html lang="en">
@@ -27,10 +70,408 @@ const { drug } = Astro.props;
       <header>
         <h1>{drug.data.title}</h1>
 
-        {drug.data.aliases.length > 0 && (
-          <p>{drug.data.aliases.join(", ")}</p>
-        )}
+        {
+          drug.data.aliases.length > 0 && (
+            <p>{drug.data.aliases.join(", ")}</p>
+          )
+        }
       </header>
+
+      <section aria-labelledby="classification-heading">
+        <h2 id="classification-heading">Classification</h2>
+
+        <p>
+          <strong>Class:</strong>
+          {" "}
+          {formatLabel(drug.data.classification.class)}
+        </p>
+
+        {
+          drug.data.classification.subclass && (
+            <p>
+              <strong>Subclass:</strong>
+              {" "}
+              {drug.data.classification.subclass}
+            </p>
+          )
+        }
+
+        {
+          drug.data.classification.molecularTargets.length > 0 && (
+            <div>
+              <h3>Molecular targets</h3>
+
+              <ul>
+                {drug.data.classification.molecularTargets.map((target) => (
+                  <li>{getClinicalLabel(target)}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      </section>
+
+      <section aria-labelledby="indications-heading">
+        <h2 id="indications-heading">Indications</h2>
+
+        {
+          diseases.length > 0 && (
+            <div>
+              <h3>Diseases</h3>
+
+              <ul>
+                {diseases.map((disease) => (
+                  <li>
+                    <a href={`/diseases/${disease.data.id}`}>
+                      {disease.data.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+
+        {
+          regimens.length > 0 && (
+            <div>
+              <h3>Used in regimens</h3>
+
+              <ul>
+                {regimens.map((regimen) => (
+                  <li>
+                    <a href={`/regimens/${regimen.data.id}`}>
+                      {regimen.data.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+
+        {
+          diseases.length === 0 && regimens.length === 0 && (
+            <p>No indications are currently listed.</p>
+          )
+        }
+      </section>
+      <section aria-labelledby="administration-heading">
+        <h2 id="administration-heading">Administration</h2>
+      
+        {
+          drug.data.administration.routes.length > 0 && (
+            <div>
+              <h3>Routes</h3>
+      
+              <ul>
+                {drug.data.administration.routes.map((route) => (
+                  <li>{formatLabel(route)}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      
+        {
+          drug.data.administration.preparation.length > 0 && (
+            <div>
+              <h3>Preparation</h3>
+      
+              <ul>
+                {drug.data.administration.preparation.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      
+        {
+          drug.data.administration.infusion.length > 0 && (
+            <div>
+              <h3>Infusion</h3>
+      
+              <ul>
+                {drug.data.administration.infusion.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      
+        {
+          drug.data.administration.premedications.length > 0 && (
+            <div>
+              <h3>Premedications</h3>
+      
+              <ul>
+                {drug.data.administration.premedications.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      
+        {
+          drug.data.administration.specialInstructions.length > 0 && (
+            <div>
+              <h3>Special instructions</h3>
+      
+              <ul>
+                {drug.data.administration.specialInstructions.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      </section>
+      <section aria-labelledby="monitoring-heading">
+        <h2 id="monitoring-heading">Monitoring</h2>
+      
+        {
+          drug.data.monitoring.baseline.length > 0 && (
+            <div>
+              <h3>Baseline</h3>
+      
+              <ul>
+                {drug.data.monitoring.baseline.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      
+        {
+          drug.data.monitoring.duringTreatment.length > 0 && (
+            <div>
+              <h3>During Treatment</h3>
+      
+              <ul>
+                {drug.data.monitoring.duringTreatment.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      
+        {
+          drug.data.monitoring.longTerm.length > 0 && (
+            <div>
+              <h3>Long-term</h3>
+      
+              <ul>
+                {drug.data.monitoring.longTerm.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      </section>
+      <section aria-labelledby="safety-heading">
+        <h2 id="safety-heading">Safety</h2>
+      
+        {
+          drug.data.safety.contraindications.length > 0 && (
+            <div>
+              <h3>Contraindications</h3>
+      
+              <ul>
+                {drug.data.safety.contraindications.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      
+        {
+          drug.data.safety.warnings.length > 0 && (
+            <div>
+              <h3>Warnings</h3>
+      
+              <ul>
+                {drug.data.safety.warnings.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      
+        {
+          drug.data.safety.commonAdverseEffects.length > 0 && (
+            <div>
+              <h3>Common adverse effects</h3>
+      
+              <ul>
+                {drug.data.safety.commonAdverseEffects.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      
+        {
+          drug.data.safety.seriousAdverseEffects.length > 0 && (
+            <div>
+              <h3>Serious adverse effects</h3>
+      
+              <ul>
+                {drug.data.safety.seriousAdverseEffects.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      </section>
+      <section aria-labelledby="dose-modifications-heading">
+        <h2 id="dose-modifications-heading">Dose Modifications</h2>
+      
+        {
+          drug.data.doseModifications.renalImpairment.length > 0 && (
+            <div>
+              <h3>Renal impairment</h3>
+      
+              <ul>
+                {drug.data.doseModifications.renalImpairment.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      
+        {
+          drug.data.doseModifications.hepaticImpairment.length > 0 && (
+            <div>
+              <h3>Hepatic impairment</h3>
+      
+              <ul>
+                {drug.data.doseModifications.hepaticImpairment.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      
+        {
+          drug.data.doseModifications.hematologicToxicity.length > 0 && (
+            <div>
+              <h3>Hematologic toxicity</h3>
+      
+              <ul>
+                {drug.data.doseModifications.hematologicToxicity.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      
+        {
+          drug.data.doseModifications.neurologicToxicity.length > 0 && (
+            <div>
+              <h3>Neurologic toxicity</h3>
+      
+              <ul>
+                {drug.data.doseModifications.neurologicToxicity.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      
+        {
+          drug.data.doseModifications.cardiacToxicity.length > 0 && (
+            <div>
+              <h3>Cardiac toxicity</h3>
+      
+              <ul>
+                {drug.data.doseModifications.cardiacToxicity.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      
+        {
+          drug.data.doseModifications.infusionReaction.length > 0 && (
+            <div>
+              <h3>Infusion reaction</h3>
+      
+              <ul>
+                {drug.data.doseModifications.infusionReaction.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      
+        {
+          drug.data.doseModifications.other.length > 0 && (
+            <div>
+              <h3>Other</h3>
+      
+              <ul>
+                {drug.data.doseModifications.other.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      </section>
+      <section aria-labelledby="supportive-care-heading">
+        <h2 id="supportive-care-heading">Supportive Care</h2>
+      
+        {
+          supportiveCareItems.length > 0 ? (
+            <ul>
+              {supportiveCareItems.map((item) => (
+                <li>
+                  <a href={`/supportive-care/${item.data.id}`}>
+                    {item.data.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No supportive care information is currently listed.</p>
+          )
+        }
+      </section>
+      <section aria-labelledby="references-heading">
+        <h2 id="references-heading">References</h2>
+      
+        {
+          references.length > 0 ? (
+            <ul>
+              {references.map((source) => (
+                <li>
+                  <a href={`/sources/${source.data.id}`}>
+                    {source.data.publication.citation}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No references are currently listed.</p>
+          )
+        }
+      </section>
     </main>
   </body>
 </html>

@@ -87,7 +87,7 @@ preTreatmentAssessment:
     - Hepatitis B screening (HBsAg, anti-HBc, anti-HBs)
 
   imaging:
-    - Baseline cardiac assessment (e.g., echocardiography) when clinically indicated
+    - Assess baseline left ventricular function before anthracycline therapy according to clinical circumstances and protocol.
 
   calculations:
     - Calculate body surface area (BSA)
@@ -106,17 +106,21 @@ preTreatmentAssessment:
 treatmentPreparation:
 
   premedications:
-    - Premedicate according to individual drug recommendations.
+    - Acetaminophen before rituximab.
+    - H1 antihistamine before rituximab.
+    - Give Day 1 prednisone as part of premedication before rituximab.
 
   antiemetics:
-    - Standard antiemetic prophylaxis according to institutional practice
+    - Moderate antiemetic prophylaxis.
 
   hydration:
-    - Hydration according to tumor lysis syndrome risk and institutional practice
+    - Assess hydration and tumor lysis syndrome risk before treatment.
 
   prophylaxis:
-    - Consider antiviral prophylaxis for patients at risk of hepatitis B reactivation
-    - Assess need for tumor lysis syndrome prophylaxis
+    - Screen for hepatitis B virus before starting treatment.
+    - Assess need for hepatitis B antiviral prophylaxis according to HBV status.
+    - Consider tumor lysis syndrome prophylaxis in patients with high-volume disease.
+    - Primary G-CSF prophylaxis for neutropenia.
 
   other: []
 
@@ -132,6 +136,7 @@ medications:
   - drug: rituximab
 
     rules:
+
       - dose:
           value: 375
           unit: mg/m²
@@ -143,18 +148,27 @@ medications:
           administrationDays:
             - 1
 
-    infusionNotes: >
-      Administer according to institutional infusion protocol.
+          diluent: NS
 
-    monitoringNotes: >
-      Monitor for infusion-related reactions.
+          notes: >
+            Dilute to a final concentration of 1–4 mg/mL.
+            Administer by graduated infusion rate according to institutional
+            rituximab infusion protocol; do not administer as an IV push or bolus.
 
-    references: []
+        notes: >
+          First infusion: initiate at 50 mg/hour and increase by 50 mg/hour
+          every 30 minutes as tolerated, to a maximum of 400 mg/hour.
+          Subsequent infusions may use the standard graduated rate or,
+          when appropriate, a 90-minute rapid infusion.
+
+    references:
+      - nccn-b-cell-lymphomas
 
 
   - drug: cyclophosphamide
 
     rules:
+
       - dose:
           value: 750
           unit: mg/m²
@@ -165,6 +179,14 @@ medications:
 
           administrationDays:
             - 1
+
+          diluent: NS
+
+          volume:
+            value: 250
+            unit: mL
+
+          infusionDuration: 1 hour
 
     references: []
 
@@ -182,6 +204,10 @@ medications:
 
           administrationDays:
             - 1
+
+          infusionDurarion: 10 minutes
+
+          notes: IV Push
 
     monitoringNotes: >
       Monitor cumulative anthracycline exposure and cardiac function.
@@ -202,6 +228,15 @@ medications:
 
           administrationDays:
             - 1
+
+          diluent: NS
+
+          volume:
+            value: 50
+            unit: mL
+          
+          infusionDuration: 15 minutes
+
 
     comments: >
       Dose is commonly capped at 2 mg according to institutional policy.
@@ -226,6 +261,7 @@ medications:
             - 3
             - 4
             - 5
+        notes: On Day 1, administer as part of premedication before rituximab.
 
     references: []
 
@@ -240,14 +276,12 @@ monitoring:
     - CMP
     - ECOG performance status
     - Assess treatment-related toxicities
-    - Review laboratory results
 
   duringTreatment:
     - Monitor for rituximab infusion reactions
-    - Monitor for febrile neutropenia
+    - Assess for fever and signs of infection
     - Monitor for peripheral neuropathy
-    - Monitor cumulative anthracycline exposure
-
+    - Monitor cumulative anthracycline dose and cardiac toxicity
 
 # ----------------------------------------------------------------------------
 # Supportive Care
@@ -265,9 +299,9 @@ supportiveCare:
 # ----------------------------------------------------------------------------
 
 doseModifications:
-  - Delay treatment according to institutional protocol for significant hematologic toxicity.
-  - Adjust individual drug doses according to drug-specific toxicity guidelines.
-  - Refer to individual drug entries for renal, hepatic, neurologic, and cardiac dose modification guidance.
+  - Delay treatment when clinically indicated for significant hematologic toxicity.
+  - Modify individual drug doses according to the specific toxicity and applicable drug or institutional protocol.
+  - Refer to individual drug entries for drug-specific dose modification guidance.
 
 # ----------------------------------------------------------------------------
 # Follow-up
@@ -276,13 +310,13 @@ doseModifications:
 followUp:
 
   responseAssessment:
-    - Assess treatment response according to disease-specific guidelines
+    - Assess treatment response with PET-CT according to lymphoma response criteria.
 
   postTreatmentEvaluation:
-    - Perform end-of-treatment assessment as clinically indicated
+    - Perform end-of-treatment clinical and laboratory assessment as clinically indicated.
 
   surveillance:
-    - Follow disease-specific surveillance recommendations
+    - Follow disease-specific surveillance recommendations.
 
   other: []
 

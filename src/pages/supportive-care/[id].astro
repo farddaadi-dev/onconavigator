@@ -18,7 +18,10 @@ const references = (
   await Promise.all(
     supportiveCare.data.references.map((id) => getSourceById(id)),
   )
-).filter((source) => source !== undefined);
+  ).filter(
+  (source): source is NonNullable<typeof source> =>
+    source !== undefined,
+);
 ---
 
 <html lang="en">
