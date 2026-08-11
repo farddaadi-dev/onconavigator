@@ -1,0 +1,26 @@
+id: tumor-lysis-syndrome
+title: Tumor Lysis Syndrome
+aliases:
+  - TLS
+
+category: toxicity-prevention
+
+indications:
+  - Patients with high tumor burden or other features associated with increased tumor lysis syndrome risk.
+
+clinicalUse:
+  - Assess tumor lysis syndrome risk before treatment.
+  - Consider prophylactic measures according to risk and treatment protocol.
+
+monitoring:
+  - Monitor laboratory parameters according to tumor lysis syndrome risk and treatment protocol.
+
+safety:
+  - Management should be individualized according to tumor lysis syndrome risk and institutional protocol.
+
+references:
+  - nccn-b-cell-lymphomas
+
+review:
+  lastReviewed: 2026-08-11
+  reviewedBy: farshid

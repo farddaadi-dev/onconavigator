@@ -165,12 +165,13 @@ const references = (
       
                         const cycleRange = rule.condition?.cycleRange;
       
-                        const hasAdministrationDetails =
-                          administration.notes ||
-                          medication.preparationNotes ||
-                          medication.infusionNotes ||
-                          medication.comments ||
-                          rule.notes;
+                        const hasAdministrationDetails = Boolean(
+  administration.notes ||
+    medication.preparationNotes ||
+    medication.infusionNotes ||
+    medication.comments ||
+    rule.notes,
+);
       
                         return (
                           <div>
@@ -250,6 +251,103 @@ const references = (
         }
       </section>
 
+      <section aria-labelledby="assessment-heading">
+        <h2 id="assessment-heading">Pre-treatment Assessment</h2>
+      
+        {
+          regimen.data.preTreatmentAssessment.diagnosis.length > 0 && (
+            <div>
+              <h3>Diagnosis</h3>
+              <ul>
+                {regimen.data.preTreatmentAssessment.diagnosis.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      
+        {
+          regimen.data.preTreatmentAssessment.clinical.length > 0 && (
+            <div>
+              <h3>Clinical</h3>
+              <ul>
+                {regimen.data.preTreatmentAssessment.clinical.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      
+        {
+          regimen.data.preTreatmentAssessment.laboratory.length > 0 && (
+            <div>
+              <h3>Laboratory</h3>
+              <ul>
+                {regimen.data.preTreatmentAssessment.laboratory.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      
+        {
+          regimen.data.preTreatmentAssessment.infectionScreening.length > 0 && (
+            <div>
+              <h3>Infection Screening</h3>
+              <ul>
+                {regimen.data.preTreatmentAssessment.infectionScreening.map(
+                  (item) => (
+                    <li>{item}</li>
+                  ),
+                )}
+              </ul>
+            </div>
+          )
+        }
+      
+        {
+          regimen.data.preTreatmentAssessment.imaging.length > 0 && (
+            <div>
+              <h3>Imaging</h3>
+              <ul>
+                {regimen.data.preTreatmentAssessment.imaging.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      
+        {
+          regimen.data.preTreatmentAssessment.calculations.length > 0 && (
+            <div>
+              <h3>Calculations</h3>
+              <ul>
+                {regimen.data.preTreatmentAssessment.calculations.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      
+        {
+          regimen.data.preTreatmentAssessment.counselling.length > 0 && (
+            <div>
+              <h3>Counselling</h3>
+              <ul>
+                {regimen.data.preTreatmentAssessment.counselling.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      </section>
+
       <section aria-labelledby="preparation-heading">
         <h2 id="preparation-heading">Treatment Preparation</h2>
 
@@ -312,7 +410,93 @@ const references = (
         }
       </section>
 
-      <section>
-        <h2>Test</h2>
-        <p>Regimen page is working.</p>
+      
+      
+      <section aria-labelledby="supportive-care-heading">
+        <h2 id="supportive-care-heading">Supportive Care</h2>
+      
+        {
+          supportiveCareItems.length > 0 ? (
+            <ul>
+              {supportiveCareItems.map((item) => (
+                <li>
+                  <a href={`/supportive-care/${item.data.id}`}>
+                    {item.data.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No supportive care information is currently listed.</p>
+          )
+        }
       </section>
+      
+      <section aria-labelledby="monitoring-heading">
+        <h2 id="monitoring-heading">Monitoring</h2>
+      
+        {
+          regimen.data.monitoring.beforeEachCycle.length > 0 && (
+            <div>
+              <h3>Before Each Cycle</h3>
+              <ul>
+                {regimen.data.monitoring.beforeEachCycle.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      
+        {
+          regimen.data.monitoring.duringTreatment.length > 0 && (
+            <div>
+              <h3>During Treatment</h3>
+              <ul>
+                {regimen.data.monitoring.duringTreatment.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      </section>
+      
+      <section aria-labelledby="dose-modifications-heading">
+        <h2 id="dose-modifications-heading">Dose Modifications</h2>
+      
+        {
+          regimen.data.doseModifications.length > 0 ? (
+            <ul>
+              {regimen.data.doseModifications.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          ) : (
+            <p>No dose modification information is currently listed.</p>
+          )
+        }
+      </section>
+      
+      <section aria-labelledby="references-heading">
+        <h2 id="references-heading">References</h2>
+      
+        {
+          references.length > 0 ? (
+            <ul>
+              {references.map((source) => (
+                <li>
+                  <a href={`/sources/${source.data.id}`}>
+                    {source.data.publication.citation}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No references are currently listed.</p>
+          )
+        }
+      </section>
+    </main>
+  </body>
+</html>

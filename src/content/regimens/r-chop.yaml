@@ -205,7 +205,7 @@ medications:
           administrationDays:
             - 1
 
-          infusionDurarion: 10 minutes
+          infusionDuration: 10 minutes
 
           notes: IV Push
 

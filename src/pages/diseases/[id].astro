@@ -1,6 +1,12 @@
 ---
 import { getCollection } from "astro:content";
-import { getRegimenById, getSourceById } from "../../utils/content";
+import { getClinicalLabel } from '@/utils/clinicalTerms';
+import { formatLabel } from '@/utils/formatText';
+import {
+  getRegimenById,
+  getSourceById,
+  getSupportiveCareById,
+} from "@/utils/content";
 
 export async function getStaticPaths() {
   const diseases = await getCollection("diseases");
@@ -60,6 +66,17 @@ const categoryGroups = await Promise.all(
   }),
 );
 
+const supportiveCareItems = (
+  await Promise.all(
+    disease.data.supportiveCare.map((id) =>
+      getSupportiveCareById(id),
+    ),
+  )
+).filter(
+  (item): item is NonNullable<typeof item> =>
+    item !== undefined,
+);
+
 const references = (
   await Promise.all(
     disease.data.references.map((id) => getSourceById(id)),
@@ -104,9 +121,8 @@ const references = (
                   {
                     category.treatments.map((treatment) => (
                       <div>
-                        <h4>
-                          {treatment.setting} · {treatment.lineOfTherapy}
-                        </h4>
+                        <h4>{formatLabel(treatment.setting)}</h4>
+                        <h5>{formatLabel(treatment.lineOfTherapy)}</h5>
 
                         {
                           treatment.regimens.length > 0 ? (
@@ -143,9 +159,8 @@ const references = (
             {
               treatmentGroups.map((treatment) => (
                 <div>
-                  <h3>
-                    {treatment.setting} · {treatment.lineOfTherapy}
-                  </h3>
+                  <h3>{formatLabel(treatment.setting)}</h3>
+                  <h4>{formatLabel(treatment.lineOfTherapy)}</h4>
 
                   {
                     treatment.regimens.length > 0 ? (
@@ -169,21 +184,25 @@ const references = (
         )
       }
 
-      {
-        disease.data.supportiveCare.length > 0 && (
-          <section aria-labelledby="supportive-care-heading">
-            <h2 id="supportive-care-heading">Supportive Care</h2>
+{
+  supportiveCareItems.length > 0 && (
+    <section aria-labelledby="supportive-care-heading">
+      <h2 id="supportive-care-heading">Supportive Care</h2>
 
-            <ul>
-              {
-                disease.data.supportiveCare.map((id) => (
-                  <li>{id}</li>
-                ))
-              }
-            </ul>
-          </section>
-        )
-      }
+      <ul>
+        {
+          supportiveCareItems.map((item) => (
+            <li>
+              <a href={`/supportive-care/${item.data.id}`}>
+                {item.data.title}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  )
+}
 
       <section aria-labelledby="references-heading">
         <h2 id="references-heading">References</h2>

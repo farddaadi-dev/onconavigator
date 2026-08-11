@@ -1,0 +1,26 @@
+id: febrile-neutropenia
+title: Febrile Neutropenia
+
+aliases: []
+
+category: infection-prevention
+
+indications:
+  - Patients receiving myelosuppressive systemic anticancer therapy at risk of febrile neutropenia.
+
+clinicalUse:
+  - Assess febrile neutropenia risk before treatment.
+  - Consider primary prophylaxis with G-CSF when clinically indicated.
+
+monitoring:
+  - Monitor for fever and signs or symptoms of infection during treatment.
+
+safety:
+  - Management should follow current institutional and clinical protocols.
+
+references:
+  - nccn-b-cell-lymphomas
+
+review:
+  lastReviewed: 2026-08-11
+  reviewedBy: farshid
