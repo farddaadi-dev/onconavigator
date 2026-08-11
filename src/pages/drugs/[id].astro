@@ -156,6 +156,31 @@ const references = (
           )
         }
       </section>
+      <section aria-labelledby="dosage-forms-heading">
+        <h2 id="dosage-forms-heading">Dosage Forms</h2>
+      
+        {
+          drug.data.dosageForms.length > 0 ? (
+            <ul>
+              {drug.data.dosageForms.map((dosageForm) => (
+                <li>
+                  <strong>{dosageForm.formulation}</strong>
+      
+                  {dosageForm.strengths.length > 0 && (
+                    <ul>
+                      {dosageForm.strengths.map((strength) => (
+                        <li>{strength}</li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No dosage form information is currently listed.</p>
+          )
+        }
+      </section>
       <section aria-labelledby="administration-heading">
         <h2 id="administration-heading">Administration</h2>
       

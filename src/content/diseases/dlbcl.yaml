@@ -11,120 +11,13 @@ id: dlbcl
 title: Diffuse Large B-Cell Lymphoma
 
 aliases:
-
   - DLBCL
 
-
 # ----------------------------------------------------------------------------
-# Clinical Context
-# ----------------------------------------------------------------------------
-
-clinicalContext:
-
-  category:
-
-    - hematologic-malignancy
-
-    - lymphoma
-
-
-  behavior:
-
-    - aggressive
-
-
-# ----------------------------------------------------------------------------
-# Diagnosis
+# Categories
 # ----------------------------------------------------------------------------
 
-diagnosis:
-
-  criteria:
-
-    - Histologic confirmation of diffuse large B-cell lymphoma
-    - Classification according to WHO/ICC lymphoma criteria
-
-  pathology:
-
-    - Large B-cell morphology
-
-  immunophenotype:
-
-    - cd20
-
-  molecularTesting:
-
-    - myc
-    - bcl2
-    - bcl6
-
-  imaging:
-
-    - PET-CT for staging and response assessment
-
-  other: []
-
-
-# ----------------------------------------------------------------------------
-# Biomarkers
-# ----------------------------------------------------------------------------
-
-biomarkers:
-
-  key:
-
-    - cd20
-
-  diagnostic: []
-
-  predictive:
-
-    - cd20
-
-  prognostic:
-
-    - myc
-
-    - bcl2
-
-  other: []
-
-
-# ----------------------------------------------------------------------------
-# Staging
-# ----------------------------------------------------------------------------
-
-staging:
-
-  system: Lugano Classification
-
-  assessments:
-
-    - PET-CT
-
-    - Clinical assessment
-
-    - Laboratory evaluation including LDH
-
-
-  categories:
-
-    - name: Stage I
-      description: Limited nodal involvement
-
-    - name: Stage II
-      description: Multiple nodal sites on the same side of the diaphragm
-
-    - name: Stage III
-      description: Nodal involvement on both sides of the diaphragm
-
-    - name: Stage IV
-      description: Disseminated extranodal involvement
-
-
-  notes:
-
-    - Staging approach follows lymphoma-specific criteria.
+categories: []
 
 # ----------------------------------------------------------------------------
 # Treatment
@@ -132,69 +25,30 @@ staging:
 
 treatment:
 
-  firstLine:
-
-    - r-chop
-
-
-  secondLine: []
-
-
-  laterLine: []
-
-
-  maintenance: []
-
-
-  supportiveCare:
-
-    - tumor-lysis-syndrome
-
-    - febrile-neutropenia
-
-
-  other: []
-
+  - setting: newly-diagnosed
+    lineOfTherapy: first-line
+    regimens:
+      - r-chop
 
 # ----------------------------------------------------------------------------
-# Follow-up
+# Supportive Care
 # ----------------------------------------------------------------------------
 
-followUp:
-
-  responseAssessment:
-
-    - PET-CT response assessment according to lymphoma response criteria
-
-
-  surveillance:
-
-    - Clinical follow-up according to disease status and guideline recommendations
-
-
-  survivorship:
-
-    - Monitor treatment-related late effects
-
-
-  other: []
-
+supportiveCare:
+  - tumor-lysis-syndrome
+  - febrile-neutropenia
 
 # ----------------------------------------------------------------------------
 # References
 # ----------------------------------------------------------------------------
 
 references:
-
   - nccn-b-cell-lymphomas
-
 
 # ----------------------------------------------------------------------------
 # Review
 # ----------------------------------------------------------------------------
 
 review:
-
   lastReviewed: 2026-08-07
-
   reviewedBy: farshid-fardad

@@ -6,7 +6,7 @@ import {
   reviewSchema,
 } from "./shared.ts";
 
-import { medicationSchema } from "./medication";
+import { medicationSchema } from "./medication.ts";
 import { scheduleSchema } from "./schedule.ts";
 
 /* -------------------------------------------------------------------------- */
@@ -30,60 +30,38 @@ export const lineOfTherapySchema = z.enum([
 ]);
 
 /* -------------------------------------------------------------------------- */
-/*                           Monitoring Schema                                */
+/*                              Monitoring Schema                             */
 /* -------------------------------------------------------------------------- */
 
 const monitoringSchema = z.object({
   beforeEachCycle: z.array(z.string()).default([]),
-
   duringTreatment: z.array(z.string()).default([]),
 });
 
 /* -------------------------------------------------------------------------- */
-/*                      Pre-treatment Measures Schema                         */
+/*                         Pre-treatment Assessment                           */
 /* -------------------------------------------------------------------------- */
 
 const preTreatmentAssessmentSchema = z.object({
   diagnosis: z.array(z.string()).default([]),
-
   clinical: z.array(z.string()).default([]),
-
   laboratory: z.array(z.string()).default([]),
-
   infectionScreening: z.array(z.string()).default([]),
-
   imaging: z.array(z.string()).default([]),
-
   calculations: z.array(z.string()).default([]),
-
   counselling: z.array(z.string()).default([]),
-
   other: z.array(z.string()).default([]),
 });
+
+/* -------------------------------------------------------------------------- */
+/*                           Treatment Preparation                            */
+/* -------------------------------------------------------------------------- */
 
 const treatmentPreparationSchema = z.object({
   premedications: z.array(z.string()).default([]),
-
   antiemetics: z.array(z.string()).default([]),
-
   hydration: z.array(z.string()).default([]),
-
   prophylaxis: z.array(z.string()).default([]),
-
-  other: z.array(z.string()).default([]),
-});
-
-/* -------------------------------------------------------------------------- */
-/*                              Follow up Schema                                */
-/* -------------------------------------------------------------------------- */
-
-const followUpSchema = z.object({
-  responseAssessment: z.array(z.string()).default([]),
-
-  postTreatmentEvaluation: z.array(z.string()).default([]),
-
-  surveillance: z.array(z.string()).default([]),
-
   other: z.array(z.string()).default([]),
 });
 
@@ -95,9 +73,7 @@ export const regimenSchema = z.object({
   /* ------------------------------- Identity ------------------------------- */
 
   id: identifierSchema,
-  
   title: z.string().min(1),
-
   aliases: z.array(z.string()).default([]),
 
   /* --------------------------- Clinical Context --------------------------- */
@@ -106,33 +82,43 @@ export const regimenSchema = z.object({
 
   intent: treatmentIntentSchema,
 
-  setting: z.string(),
+  setting: z.string().min(1),
 
   lineOfTherapy: lineOfTherapySchema,
 
   biomarkers: z.array(identifierSchema).default([]),
 
-  /* -------------------------- Clinical Workflow --------------------------- */
+  /* ----------------------------- Eligibility ----------------------------- */
 
   eligibility: z.array(z.string()).default([]),
 
+  /* ------------------------------- Schedule ------------------------------- */
+
   schedule: scheduleSchema,
+
+  /* ------------------------- Pre-treatment Workflow ---------------------- */
 
   preTreatmentAssessment: preTreatmentAssessmentSchema,
 
   treatmentPreparation: treatmentPreparationSchema,
 
+  /* ------------------------------ Medications ----------------------------- */
+
   medications: z.array(medicationSchema).min(1),
+
+  /* ------------------------------- Monitoring ----------------------------- */
 
   monitoring: monitoringSchema,
 
+  /* ---------------------------- Supportive Care --------------------------- */
+
   supportiveCare: z.array(identifierSchema).default([]),
+
+  /* -------------------------- Dose Modifications -------------------------- */
 
   doseModifications: z.array(z.string()).default([]),
 
-  followUp: followUpSchema,
-
-  /* ----------------------------- Governance ------------------------------ */
+  /* ----------------------------- Governance ------------------------------- */
 
   references: referenceListSchema,
 

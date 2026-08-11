@@ -67,16 +67,6 @@ export const administrationSchema = z.object({
 /* -------------------------------------------------------------------------- */
 
 export const conditionSchema = z.object({
-  cycle: z
-    .object({
-      equals: z.number().int().positive().optional(),
-
-      greaterThan: z.number().int().positive().optional(),
-
-      lessThan: z.number().int().positive().optional(),
-    })
-    .optional(),
-
   cycleRange: cycleRangeSchema.optional(),
 });
 

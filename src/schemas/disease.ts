@@ -7,110 +7,23 @@ import {
 } from "./shared.ts";
 
 /* -------------------------------------------------------------------------- */
-/*                         Clinical Context Schema                            */
+/*                          Treatment Context Schema                          */
 /* -------------------------------------------------------------------------- */
 
-const clinicalContextSchema = z.object({
-
-  category: z.array(identifierSchema).default([]),
-
-  behavior: z.array(identifierSchema).default([]),
-
+const treatmentContextSchema = z.object({
+  setting: z.string().min(1),
+  lineOfTherapy: z.string().min(1),
+  regimens: z.array(identifierSchema).default([]),
 });
 
 /* -------------------------------------------------------------------------- */
-/*                            Diagnosis Schema                                */
+/*                              Category Schema                               */
 /* -------------------------------------------------------------------------- */
 
-const diagnosisSchema = z.object({
-
-  criteria: z.array(z.string()).default([]),
-
-  pathology: z.array(z.string()).default([]),
-
-  immunophenotype: z.array(identifierSchema).default([]),
-
-  molecularTesting: z.array(identifierSchema).default([]),
-
-  imaging: z.array(z.string()).default([]),
-
-  other: z.array(z.string()).default([]),
-
-});
-
-/* -------------------------------------------------------------------------- */
-/*                           Biomarker Schema                                 */
-/* -------------------------------------------------------------------------- */
-
-const biomarkerSchema = z.object({
-
-  key: z.array(identifierSchema).default([]),
-
-  diagnostic: z.array(identifierSchema).default([]),
-
-  predictive: z.array(identifierSchema).default([]),
-
-  prognostic: z.array(identifierSchema).default([]),
-
-  other: z.array(identifierSchema).default([]),
-
-});
-
-/* -------------------------------------------------------------------------- */
-/*                            Staging Schema                                  */
-/* -------------------------------------------------------------------------- */
-
-const stagingSchema = z.object({
-
-  system: z.string().optional(),
-
-  assessments: z.array(z.string()).default([]),
-
-  categories: z.array(
-    z.object({
-      name: z.string(),
-      description: z.string(),
-    }),
-  ).default([]),
-
-  notes: z.array(z.string()).default([]),
-
-});
-
-/* -------------------------------------------------------------------------- */
-/*                          Treatment Schema                                  */
-/* -------------------------------------------------------------------------- */
-
-const treatmentSchema = z.object({
-
-  firstLine: z.array(identifierSchema).default([]),
-
-  secondLine: z.array(identifierSchema).default([]),
-
-  laterLine: z.array(identifierSchema).default([]),
-
-  maintenance: z.array(identifierSchema).default([]),
-
-  supportiveCare: z.array(identifierSchema).default([]),
-
-  other: z.array(identifierSchema).default([]),
-
-});
-
-/* -------------------------------------------------------------------------- */
-/*                           Follow-up Schema                                 */
-/* -------------------------------------------------------------------------- */
-
-const followUpSchema = z.object({
-
-  responseAssessment: z.array(z.string()).default([]),
-
-  surveillance: z.array(z.string()).default([]),
-
-  survivorship: z.array(z.string()).default([]),
-
-  other: z.array(z.string()).default([]),
-
+const categorySchema = z.object({
+  id: identifierSchema,
+  title: z.string().min(1),
+  treatment: z.array(treatmentContextSchema).default([]),
 });
 
 /* -------------------------------------------------------------------------- */
@@ -118,29 +31,26 @@ const followUpSchema = z.object({
 /* -------------------------------------------------------------------------- */
 
 export const diseaseSchema = z.object({
-
-  
+  /* ------------------------------- Identity ------------------------------- */
 
   id: identifierSchema,
-
   title: z.string().min(1),
-
   aliases: z.array(z.string()).default([]),
 
-  clinicalContext: clinicalContextSchema,
+  /* ------------------------------ Categories ------------------------------ */
 
-  diagnosis: diagnosisSchema,
+  categories: z.array(categorySchema).default([]),
 
-  biomarkers: biomarkerSchema,
+  /* ------------------------------ Treatment ------------------------------- */
 
-  staging: stagingSchema,
-  
-  treatment: treatmentSchema,
+  treatment: z.array(treatmentContextSchema).default([]),
 
-  followUp: followUpSchema,
+  /* ---------------------------- Supportive Care --------------------------- */
+
+  supportiveCare: z.array(identifierSchema).default([]),
+
+  /* ----------------------------- Governance ------------------------------- */
 
   references: referenceListSchema,
-
   review: reviewSchema,
-
 });

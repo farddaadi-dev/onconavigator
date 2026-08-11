@@ -148,82 +148,102 @@ const references = (
       
         {
           medications.length > 0 ? (
-            <ul>
-              {medications.map(({ drug, medication }) => (
-                <li>
-                  <a href={`/drugs/${drug.data.id}`}>
-                    {drug.data.title}
-                  </a>
+            <div>
+              {
+                medications.map(({ drug, medication }) => (
+                  <article>
+                    <h3>
+                      <a href={`/drugs/${drug.data.id}`}>
+                        {drug.data.title}
+                      </a>
+                    </h3>
       
-                  {medication.rules.map((rule) => {
-                    const administration = rule.administration;
-                    const days = administration.administrationDays;
+                    {
+                      medication.rules.map((rule) => {
+                        const administration = rule.administration;
+                        const days = administration.administrationDays;
       
-                    const hasAdministrationDetails =
-                      administration.notes ||
-                      medication.preparationNotes ||
-                      medication.infusionNotes ||
-                      medication.comments ||
-                      rule.notes;
+                        const cycleRange = rule.condition?.cycleRange;
       
-                    return (
-                      <div>
-                        <p>
-                          {rule.dose.value} {rule.dose.unit}{' '}
-                          {administration.route}
-                          {administration.volume &&
-                            ` in ${administration.volume.value} ${administration.volume.unit}`}
-                          {administration.diluent &&
-                            ` ${administration.diluent}`}
-                          {administration.infusionDuration &&
-                            ` over ${administration.infusionDuration}`}
-                          {' — '}
-                          Day{days.length > 1 ? 's' : ''}{' '}
-                          {days.join(', ')}
-                        </p>
+                        const hasAdministrationDetails =
+                          administration.notes ||
+                          medication.preparationNotes ||
+                          medication.infusionNotes ||
+                          medication.comments ||
+                          rule.notes;
       
-                        {hasAdministrationDetails && (
-                          <details>
-                            <summary>Administration details</summary>
+                        return (
+                          <div>
+                            <p>
+                              <strong>
+                                {rule.dose.value} {rule.dose.unit}
+                              </strong>{' '}
+                              {administration.route}
       
-                            {administration.notes && (
-                              <p>{administration.notes}</p>
-                            )}
+                              {administration.volume &&
+                                ` in ${administration.volume.value} ${administration.volume.unit}`}
       
-                            {medication.preparationNotes && (
-                              <p>
-                                <strong>Preparation:</strong>{' '}
-                                {medication.preparationNotes}
-                              </p>
-                            )}
+                              {administration.diluent &&
+                                ` ${administration.diluent}`}
       
-                            {medication.infusionNotes && (
-                              <p>
-                                <strong>Infusion:</strong>{' '}
-                                {medication.infusionNotes}
-                              </p>
-                            )}
+                              {administration.infusionDuration &&
+                                ` over ${administration.infusionDuration}`}
       
-                            {medication.comments && (
-                              <p>
-                                <strong>Notes:</strong>{' '}
-                                {medication.comments}
-                              </p>
-                            )}
+                              {' — '}
+                              Day{days.length > 1 ? 's' : ''}{' '}
+                              {days.join(', ')}
       
-                            {rule.notes && (
-                              <p>
-                                <strong>Notes:</strong> {rule.notes}
-                              </p>
-                            )}
-                          </details>
-                        )}
-                      </div>
-                    );
-                  })}
-                </li>
-              ))}
-            </ul>
+                              {cycleRange &&
+                                ` · Cycles ${cycleRange.start}–${cycleRange.end}`}
+                            </p>
+      
+                            {
+                              hasAdministrationDetails && (
+                                <details>
+                                  <summary>Administration details</summary>
+      
+                                  {administration.notes && (
+                                    <p>{administration.notes}</p>
+                                  )}
+      
+                                  {medication.preparationNotes && (
+                                    <p>
+                                      <strong>Preparation:</strong>{' '}
+                                      {medication.preparationNotes}
+                                    </p>
+                                  )}
+      
+                                  {medication.infusionNotes && (
+                                    <p>
+                                      <strong>Infusion:</strong>{' '}
+                                      {medication.infusionNotes}
+                                    </p>
+                                  )}
+      
+                                  {medication.comments && (
+                                    <p>
+                                      <strong>Notes:</strong>{' '}
+                                      {medication.comments}
+                                    </p>
+                                  )}
+      
+                                  {rule.notes && (
+                                    <p>
+                                      <strong>Notes:</strong>{' '}
+                                      {rule.notes}
+                                    </p>
+                                  )}
+                                </details>
+                              )
+                            }
+                          </div>
+                        );
+                      })
+                    }
+                  </article>
+                ))
+              }
+            </div>
           ) : (
             <p>No medications are currently listed.</p>
           )
@@ -292,254 +312,7 @@ const references = (
         }
       </section>
 
-      <section aria-labelledby="assessment-heading">
-        <h2 id="assessment-heading">Pre-treatment Assessment</h2>
-
-        {
-          regimen.data.preTreatmentAssessment.diagnosis.length > 0 && (
-            <div>
-              <h3>Diagnosis</h3>
-
-              <ul>
-                {regimen.data.preTreatmentAssessment.diagnosis.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            </div>
-          )
-        }
-
-        {
-          regimen.data.preTreatmentAssessment.clinical.length > 0 && (
-            <div>
-              <h3>Clinical</h3>
-
-              <ul>
-                {regimen.data.preTreatmentAssessment.clinical.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            </div>
-          )
-        }
-
-        {
-          regimen.data.preTreatmentAssessment.laboratory.length > 0 && (
-            <div>
-              <h3>Laboratory</h3>
-
-              <ul>
-                {regimen.data.preTreatmentAssessment.laboratory.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            </div>
-          )
-        }
-
-        {
-          regimen.data.preTreatmentAssessment.infectionScreening.length > 0 && (
-            <div>
-              <h3>Infection Screening</h3>
-
-              <ul>
-                {regimen.data.preTreatmentAssessment.infectionScreening.map(
-                  (item) => (
-                    <li>{item}</li>
-                  ),
-                )}
-              </ul>
-            </div>
-          )
-        }
-
-        {
-          regimen.data.preTreatmentAssessment.imaging.length > 0 && (
-            <div>
-              <h3>Imaging</h3>
-
-              <ul>
-                {regimen.data.preTreatmentAssessment.imaging.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            </div>
-          )
-        }
-
-        {
-          regimen.data.preTreatmentAssessment.calculations.length > 0 && (
-            <div>
-              <h3>Calculations</h3>
-
-              <ul>
-                {regimen.data.preTreatmentAssessment.calculations.map(
-                  (item) => (
-                    <li>{item}</li>
-                  ),
-                )}
-              </ul>
-            </div>
-          )
-        }
-
-        {
-          regimen.data.preTreatmentAssessment.counselling.length > 0 && (
-            <div>
-              <h3>Counselling</h3>
-
-              <ul>
-                {regimen.data.preTreatmentAssessment.counselling.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            </div>
-          )
-        }
+      <section>
+        <h2>Test</h2>
+        <p>Regimen page is working.</p>
       </section>
-
-      <section aria-labelledby="monitoring-heading">
-        <h2 id="monitoring-heading">Monitoring</h2>
-
-        {
-          regimen.data.monitoring.beforeEachCycle.length > 0 && (
-            <div>
-              <h3>Before Each Cycle</h3>
-
-              <ul>
-                {regimen.data.monitoring.beforeEachCycle.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            </div>
-          )
-        }
-
-        {
-          regimen.data.monitoring.duringTreatment.length > 0 && (
-            <div>
-              <h3>During Treatment</h3>
-
-              <ul>
-                {regimen.data.monitoring.duringTreatment.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            </div>
-          )
-        }
-      </section>
-      <section aria-labelledby="supportive-care-heading">
-        <h2 id="supportive-care-heading">Supportive Care</h2>
-
-        {
-          supportiveCareItems.length > 0 ? (
-            <ul>
-              {supportiveCareItems.map((item) => (
-                <li>
-                  <a href={`/supportive-care/${item.data.id}`}>
-                    {item.data.title}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>No supportive care information is currently listed.</p>
-          )
-        }
-      </section>
-      <section aria-labelledby="dose-modifications-heading">
-        <h2 id="dose-modifications-heading">Dose Modifications</h2>
-
-        {
-          regimen.data.doseModifications.length > 0 ? (
-            <ul>
-              {regimen.data.doseModifications.map((item) => (
-                <li>{item}</li>
-              ))}
-            </ul>
-          ) : (
-            <p>No dose modification information is currently listed.</p>
-          )
-        }
-      </section>
-      <section aria-labelledby="follow-up-heading">
-        <h2 id="follow-up-heading">Follow-up</h2>
-
-        {
-          regimen.data.followUp.responseAssessment.length > 0 && (
-            <div>
-              <h3>Response Assessment</h3>
-
-              <ul>
-                {regimen.data.followUp.responseAssessment.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            </div>
-          )
-        }
-
-        {
-          regimen.data.followUp.postTreatmentEvaluation.length > 0 && (
-            <div>
-              <h3>Post-treatment Evaluation</h3>
-
-              <ul>
-                {regimen.data.followUp.postTreatmentEvaluation.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            </div>
-          )
-        }
-
-        {
-          regimen.data.followUp.surveillance.length > 0 && (
-            <div>
-              <h3>Surveillance</h3>
-
-              <ul>
-                {regimen.data.followUp.surveillance.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            </div>
-          )
-        }
-
-        {
-          regimen.data.followUp.other.length > 0 && (
-            <div>
-              <h3>Other</h3>
-
-              <ul>
-                {regimen.data.followUp.other.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            </div>
-          )
-        }
-      </section>
-      <section aria-labelledby="references-heading">
-        <h2 id="references-heading">References</h2>
-        {
-          references.length > 0 ? (
-            <ul>
-              {references.map((source) => (
-                <li>
-                  <a href={`/sources/${source.data.id}`}>
-                    {source.data.publication.citation}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>No references are currently listed.</p>
-          )
-        }
-      </section>
-    </main>
-  </body>
-</html>
