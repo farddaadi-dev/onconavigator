@@ -1,11 +1,29 @@
 # ============================================================================
+
 # Drug Template
+
 #
+
 # Copy this file when creating a new drug entry.
+
+#
+
+# Notes:
+
+# - Keep drug-level information general and reusable.
+
+# - Regimen-specific dosing and administration belong in the regimen entry.
+
+# - Drug-specific dose modification guidance may be stored here and referenced
+
+# from regimen entries when applicable.
+
 # ============================================================================
 
 # ----------------------------------------------------------------------------
+
 # Identity
+
 # ----------------------------------------------------------------------------
 
 id:
@@ -15,115 +33,99 @@ title:
 aliases: []
 
 # ----------------------------------------------------------------------------
+
 # Classification
+
 # ----------------------------------------------------------------------------
 
 classification:
 
-  class:
+class:
 
-  subclass:
+subclass:
 
-  molecularTargets: []
+molecularTargets: []
 
 # ----------------------------------------------------------------------------
+
 # Indications
+
 # ----------------------------------------------------------------------------
 
 indications:
 
-  diseases: []
+diseases: []
 
-  usedInRegimens: []
+usedInRegimens: []
 
 # ----------------------------------------------------------------------------
+
 # Dosage Forms
-# ----------------------------------------------------------------------------
-
-dosageForms: []
 
 # ----------------------------------------------------------------------------
-# Administration
-# ----------------------------------------------------------------------------
 
-administration:
+dosageForms:
 
-  routes: []
+# Example:
 
-  preparation: []
+#
 
-  infusion: []
+# - formulation: concentrate for intravenous infusion
 
-  premedications: []
+# strengths:
 
-  specialInstructions: []
+# - 100 mg / 10 mL
 
-# ----------------------------------------------------------------------------
-# Monitoring
-# ----------------------------------------------------------------------------
+# - 500 mg / 50 mL
 
-monitoring:
+#
 
-  baseline: []
+# - formulation: subcutaneous injection
 
-  duringTreatment: []
+# strengths:
 
-  longTerm: []
+# - 1400 mg / 11.7 mL
+
+# - 1600 mg / 13.4 mL
 
 # ----------------------------------------------------------------------------
+
 # Dose Modifications
+
 # ----------------------------------------------------------------------------
 
 doseModifications:
 
-  renalImpairment: []
+renalImpairment: []
 
-  hepaticImpairment: []
+hepaticImpairment: []
 
-  hematologicToxicity: []
+hematologicToxicity: []
 
-  neurologicToxicity: []
+neurologicToxicity: []
 
-  cardiacToxicity: []
+cardiacToxicity: []
 
-  infusionReaction: []
+infusionReaction: []
 
-  other: []
-
-# ----------------------------------------------------------------------------
-# Safety
-# ----------------------------------------------------------------------------
-
-safety:
-
-  contraindications: []
-
-  warnings: []
-
-  commonAdverseEffects: []
-
-  seriousAdverseEffects: []
+other: []
 
 # ----------------------------------------------------------------------------
-# Supportive Care
-# ----------------------------------------------------------------------------
 
-supportiveCare:
-
-  topics: []
-
-# ----------------------------------------------------------------------------
 # References
+
 # ----------------------------------------------------------------------------
 
 references: []
 
 # ----------------------------------------------------------------------------
+
 # Review
+
 # ----------------------------------------------------------------------------
 
 review:
 
-  lastReviewed:
+lastReviewed:
 
-  reviewedBy:
+reviewedBy:

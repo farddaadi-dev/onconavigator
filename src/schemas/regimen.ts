@@ -6,7 +6,11 @@ import {
   reviewSchema,
 } from "./shared.ts";
 
-import { medicationSchema } from "./medication.ts";
+import {
+  doseSchema,
+  medicationSchema,
+  routeSchema,
+} from "./medication.ts";
 import { scheduleSchema } from "./schedule.ts";
 
 /* -------------------------------------------------------------------------- */
@@ -57,9 +61,31 @@ const preTreatmentAssessmentSchema = z.object({
 /*                           Treatment Preparation                            */
 /* -------------------------------------------------------------------------- */
 
+const emetogenicRiskSchema = z.enum([
+  "minimal",
+  "low",
+  "moderate",
+  "high",
+]);
+
+const antiemeticMedicationSchema = z.object({
+  drug: identifierSchema,
+  dose: doseSchema,
+  administration: z.object({
+    route: routeSchema,
+    timing: z.string().optional(),
+    notes: z.string().optional(),
+  }),
+});
+
+const antiemeticSchema = z.object({
+  risk: emetogenicRiskSchema,
+  medications: z.array(antiemeticMedicationSchema).default([]),
+});
+
 const treatmentPreparationSchema = z.object({
   premedications: z.array(z.string()).default([]),
-  antiemetics: z.array(z.string()).default([]),
+  antiemetics: antiemeticSchema,
   hydration: z.array(z.string()).default([]),
   prophylaxis: z.array(z.string()).default([]),
   other: z.array(z.string()).default([]),

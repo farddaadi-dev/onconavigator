@@ -1,0 +1,63 @@
+# ----------------------------------------------------------------------------
+# Identity
+# ----------------------------------------------------------------------------
+
+id: antiemetic-prophylaxis
+
+title: Antiemetic Prophylaxis
+
+aliases:
+  - Chemotherapy-induced nausea and vomiting prophylaxis
+  - CINV prophylaxis
+
+# ----------------------------------------------------------------------------
+# Classification
+# ----------------------------------------------------------------------------
+
+category: toxicity-prevention
+
+# ----------------------------------------------------------------------------
+# Clinical Use
+# ----------------------------------------------------------------------------
+
+indications:
+  - Prevention of chemotherapy-induced nausea and vomiting
+  - Prevention of delayed nausea and vomiting when clinically indicated
+
+clinicalUse:
+  - Select prophylaxis according to the emetogenic risk of the chemotherapy regimen.
+  - Use guideline-based antiemetic prophylaxis from the first cycle rather than waiting to assess individual emetic response.
+  - For high-emetic-risk regimens, use a guideline-recommended multidrug prophylactic regimen according to current recommendations and institutional protocol.
+  - Consider patient-specific factors that may increase the risk of nausea and vomiting.
+
+# ----------------------------------------------------------------------------
+# Monitoring
+# ----------------------------------------------------------------------------
+
+monitoring:
+  - Assess nausea and vomiting during treatment.
+  - Assess adherence to prescribed prophylactic and scheduled antiemetic therapy.
+  - Monitor for adverse effects of antiemetic medications.
+
+# ----------------------------------------------------------------------------
+# Safety
+# ----------------------------------------------------------------------------
+
+safety:
+  - Select antiemetic agents according to patient-specific contraindications, drug interactions, and treatment protocol.
+  - Consider sedation, constipation, extrapyramidal effects, and other agent-specific adverse effects when selecting antiemetic therapy.
+
+# ----------------------------------------------------------------------------
+# References
+# ----------------------------------------------------------------------------
+
+references: []
+
+# ----------------------------------------------------------------------------
+# Review
+# ----------------------------------------------------------------------------
+
+review:
+  lastReviewed: 2026-08-11
+  reviewedBy: farshid-fardad
+

@@ -15,7 +15,6 @@ title: R-CHOP
 aliases:
   - CHOP-R
 
-
 # ----------------------------------------------------------------------------
 # Clinical Context
 # ----------------------------------------------------------------------------
@@ -32,7 +31,6 @@ lineOfTherapy: first-line
 biomarkers:
   - cd20
 
-
 # ----------------------------------------------------------------------------
 # Eligibility
 # ----------------------------------------------------------------------------
@@ -42,26 +40,20 @@ eligibility:
   - Adequate bone marrow, renal, and hepatic function according to protocol requirements
   - No contraindication to anthracycline-based therapy
 
-
 # ----------------------------------------------------------------------------
 # Schedule
 # ----------------------------------------------------------------------------
 
 schedule:
-
   cycle:
-
     length:
       value: 21
       unit: days
 
   stopCondition:
-
     plannedCycles: 6
 
   treatmentPhases: []
-
-
 
 # ----------------------------------------------------------------------------
 # Pre-treatment Assessment
@@ -98,7 +90,6 @@ preTreatmentAssessment:
 
   other: []
 
-
 # ----------------------------------------------------------------------------
 # Treatment Preparation
 # ----------------------------------------------------------------------------
@@ -111,7 +102,8 @@ treatmentPreparation:
     - Give Day 1 prednisone as part of premedication before rituximab.
 
   antiemetics:
-    - Moderate antiemetic prophylaxis.
+    risk: high
+    medications: []
 
   hydration:
     - Assess hydration and tumor lysis syndrome risk before treatment.
@@ -123,15 +115,16 @@ treatmentPreparation:
     - Primary G-CSF prophylaxis for neutropenia.
 
   other: []
-
-
 # ----------------------------------------------------------------------------
 # Medications
 # ----------------------------------------------------------------------------
-
 # Medications are listed in administration order.
 
 medications:
+
+  # --------------------------------------------------------------------------
+  # Rituximab
+  # --------------------------------------------------------------------------
 
   - drug: rituximab
 
@@ -144,26 +137,26 @@ medications:
 
         administration:
           route: IV
-
           administrationDays:
             - 1
-
           diluent: NS
-
           notes: >
             Dilute to a final concentration of 1–4 mg/mL.
-            Administer by graduated infusion rate according to institutional
-            rituximab infusion protocol; do not administer as an IV push or bolus.
+            Do not administer as an IV push or bolus.
 
-        notes: >
-          First infusion: initiate at 50 mg/hour and increase by 50 mg/hour
-          every 30 minutes as tolerated, to a maximum of 400 mg/hour.
-          Subsequent infusions may use the standard graduated rate or,
-          when appropriate, a 90-minute rapid infusion.
+    infusionNotes: >
+      Administer by graduated infusion rate according to institutional
+      rituximab infusion protocol. First infusion: initiate at 50 mg/hour
+      and increase by 50 mg/hour every 30 minutes as tolerated, to a maximum
+      of 400 mg/hour. Subsequent infusions may use the standard graduated
+      rate or, when appropriate, a 90-minute rapid infusion.
 
     references:
       - nccn-b-cell-lymphomas
 
+  # --------------------------------------------------------------------------
+  # Cyclophosphamide
+  # --------------------------------------------------------------------------
 
   - drug: cyclophosphamide
 
@@ -176,24 +169,24 @@ medications:
 
         administration:
           route: IV
-
           administrationDays:
             - 1
-
           diluent: NS
-
           volume:
             value: 250
             unit: mL
-
           infusionDuration: 1 hour
 
     references: []
 
+  # --------------------------------------------------------------------------
+  # Doxorubicin
+  # --------------------------------------------------------------------------
 
   - drug: doxorubicin
 
     rules:
+
       - dose:
           value: 50
           unit: mg/m²
@@ -201,12 +194,9 @@ medications:
 
         administration:
           route: IV
-
           administrationDays:
             - 1
-
           infusionDuration: 10 minutes
-
           notes: IV Push
 
     monitoringNotes: >
@@ -214,10 +204,14 @@ medications:
 
     references: []
 
+  # --------------------------------------------------------------------------
+  # Vincristine
+  # --------------------------------------------------------------------------
 
   - drug: vincristine
 
     rules:
+
       - dose:
           value: 1.4
           unit: mg/m²
@@ -225,28 +219,27 @@ medications:
 
         administration:
           route: IV
-
           administrationDays:
             - 1
-
           diluent: NS
-
           volume:
             value: 50
             unit: mL
-          
           infusionDuration: 15 minutes
 
-
-    comments: >
-      Dose is commonly capped at 2 mg according to institutional policy.
+        notes: >
+          Dose is commonly capped at 2 mg according to institutional policy.
 
     references: []
 
+  # --------------------------------------------------------------------------
+  # Prednisone
+  # --------------------------------------------------------------------------
 
   - drug: prednisone
 
     rules:
+
       - dose:
           value: 100
           unit: mg
@@ -254,14 +247,14 @@ medications:
 
         administration:
           route: PO
-
           administrationDays:
             - 1
             - 2
             - 3
             - 4
             - 5
-        notes: On Day 1, administer as part of premedication before rituximab.
+          notes: >
+            On Day 1, administer as part of premedication before rituximab.
 
     references: []
 
@@ -287,12 +280,11 @@ monitoring:
 # Supportive Care
 # ----------------------------------------------------------------------------
 
-supportiveCare: 
+supportiveCare:
   - antiemetic-prophylaxis
   - g-csf-support
   - tumor-lysis-syndrome
   - hepatitis-b-reactivation
-
 
 # ----------------------------------------------------------------------------
 # Dose Modifications
@@ -320,7 +312,6 @@ followUp:
 
   other: []
 
-
 # ----------------------------------------------------------------------------
 # References
 # ----------------------------------------------------------------------------
@@ -335,7 +326,6 @@ references:
 # ----------------------------------------------------------------------------
 
 review:
-
   lastReviewed: 2026-08-05
-
   reviewedBy: farshid-fardad
+

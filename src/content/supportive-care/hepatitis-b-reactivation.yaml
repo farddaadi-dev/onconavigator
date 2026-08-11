@@ -1,0 +1,65 @@
+# ----------------------------------------------------------------------------
+# Identity
+# ----------------------------------------------------------------------------
+
+id: hepatitis-b-reactivation
+
+title: Hepatitis B Reactivation
+
+aliases:
+  - HBV reactivation
+  - Hepatitis B virus reactivation
+
+# ----------------------------------------------------------------------------
+# Classification
+# ----------------------------------------------------------------------------
+
+category: infection-prevention
+
+# ----------------------------------------------------------------------------
+# Clinical Use
+# ----------------------------------------------------------------------------
+
+indications:
+  - Patients receiving systemic anticancer therapy with potential risk of HBV reactivation
+  - Patients receiving anti-CD20 therapy such as rituximab
+
+clinicalUse:
+  - Screen patients before systemic anticancer therapy with HBsAg, anti-HBc, and anti-HBs.
+  - Assess HBV reactivation risk according to HBV serologic status and planned anticancer therapy.
+  - Patients with chronic HBV receiving systemic anticancer therapy should receive antiviral prophylaxis.
+  - Patients with past HBV infection receiving high-risk therapy such as anti-CD20 monoclonal antibody therapy should receive antiviral prophylaxis or, when appropriate, close laboratory monitoring according to current guidelines and clinical circumstances.
+  - Coordinate management with a clinician experienced in HBV care when antiviral therapy or specialized monitoring is required.
+
+# ----------------------------------------------------------------------------
+# Monitoring
+# ----------------------------------------------------------------------------
+
+monitoring:
+  - Monitor HBV DNA and liver enzymes according to HBV status, antiviral therapy, and clinical protocol.
+  - Monitor for clinical or laboratory evidence of hepatitis during and after anticancer therapy.
+  - Continue appropriate monitoring after completion of anticancer therapy because delayed HBV reactivation may occur.
+
+# ----------------------------------------------------------------------------
+# Safety
+# ----------------------------------------------------------------------------
+
+safety:
+  - Do not delay urgently needed anticancer therapy solely while awaiting HBV screening results.
+  - Antiviral selection and duration should follow current HBV and oncology guidance.
+  - Patients with chronic or past HBV infection receiving high-risk therapy require appropriate antiviral management or a clearly defined monitoring strategy.
+
+# ----------------------------------------------------------------------------
+# References
+# ----------------------------------------------------------------------------
+
+references: []
+
+# ----------------------------------------------------------------------------
+# Review
+# ----------------------------------------------------------------------------
+
+review:
+  lastReviewed: 2026-08-11
+  reviewedBy: farshid-fardad
+

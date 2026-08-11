@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
-
+import { formatLabel } from '@/utils/formatText';
 import { getSourceById } from '@/utils/content';
 
 export async function getStaticPaths() {
@@ -47,9 +47,23 @@ const references = (
 
       <section>
         <h2>Category</h2>
-        <p>{supportiveCare.data.category}</p>
+        <p>{formatLabel(supportiveCare.data.category)}</p>
       </section>
-
+      <section>
+        <h2>Indications</h2>
+      
+        {
+          supportiveCare.data.indications.length > 0 ? (
+            <ul>
+              {supportiveCare.data.indications.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          ) : (
+            <p>No indications are currently listed.</p>
+          )
+        }
+      </section>
       <section>
         <h2>Clinical Use</h2>
 
@@ -68,18 +82,34 @@ const references = (
 
       <section>
         <h2>Monitoring</h2>
-
-        <ul>
-          {supportiveCare.data.monitoring.map((item) => <li>{item}</li>)}
-        </ul>
+      
+        {
+          supportiveCare.data.monitoring.length > 0 ? (
+            <ul>
+              {supportiveCare.data.monitoring.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          ) : (
+            <p>No monitoring information listed.</p>
+          )
+        }
       </section>
-
+      
       <section>
         <h2>Safety</h2>
-
-        <ul>
-          {supportiveCare.data.safety.map((item) => <li>{item}</li>)}
-        </ul>
+      
+        {
+          supportiveCare.data.safety.length > 0 ? (
+            <ul>
+              {supportiveCare.data.safety.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          ) : (
+            <p>No safety information listed.</p>
+          )
+        }
       </section>
 
       <section aria-labelledby="references-heading">

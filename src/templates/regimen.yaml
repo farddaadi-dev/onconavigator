@@ -11,7 +11,6 @@
 #
 # ============================================================================
 
-
 # ----------------------------------------------------------------------------
 # Identity
 # ----------------------------------------------------------------------------
@@ -22,15 +21,14 @@ title:
 
 aliases: []
 
-
 # ----------------------------------------------------------------------------
 # Clinical Context
 # ----------------------------------------------------------------------------
 
-# Related disease identifiers
+# Related disease identifiers.
 diseases: []
 
-# Examples:
+# Treatment intent:
 # curative
 # adjuvant
 # neoadjuvant
@@ -39,27 +37,24 @@ diseases: []
 # palliative
 intent:
 
-# Clinical setting
+# Clinical setting.
 setting:
 
-# Examples:
+# Line of therapy:
 # first-line
 # second-line
 # third-line
 # later-line
 lineOfTherapy:
 
-
-# Biomarkers relevant to treatment selection
+# Biomarkers relevant to treatment selection.
 biomarkers: []
-
 
 # ----------------------------------------------------------------------------
 # Eligibility
 # ----------------------------------------------------------------------------
 
 eligibility: []
-
 
 # ----------------------------------------------------------------------------
 # Schedule
@@ -68,13 +63,11 @@ eligibility: []
 schedule:
 
   cycle:
-
     length:
       value:
       unit: days
 
   stopCondition:
-
     plannedCycles:
 
     duration:
@@ -86,9 +79,6 @@ schedule:
     untilUnacceptableToxicity:
 
   treatmentPhases: []
-
-  notes:
-
 
 # ----------------------------------------------------------------------------
 # Pre-treatment Assessment
@@ -120,27 +110,50 @@ preTreatmentAssessment:
   # Other pre-treatment assessments.
   other: []
 
-
 # ----------------------------------------------------------------------------
 # Treatment Preparation
 # ----------------------------------------------------------------------------
 
 treatmentPreparation:
 
-  # Medications administered immediately before chemotherapy.
-  premedications: []
+# Medications administered immediately before treatment.
+premedications: []
 
-  # Antiemetic regimen.
-  antiemetics: []
+# Antiemetic prophylaxis.
+antiemetics:
 
-  # Hydration before or during treatment.
-  hydration: []
+  # Expected chemotherapy-induced nausea/vomiting risk.
+  #
+  # Options:
+  # minimal
+  # low
+  # moderate
+  # high
+  risk:
 
-  # Prophylactic measures (e.g., antiviral, TLS prophylaxis).
-  prophylaxis: []
+  # Specific antiemetic medications used for this regimen.
+  medications:
 
-  # Other preparation steps.
-  other: []
+  - drug:
+
+    dose:
+      value:
+      unit:
+      type:
+
+    administration:
+      route:
+      timing:
+      notes:
+
+# Hydration before or during treatment.
+hydration: []
+
+# Prophylactic measures (e.g., antiviral, TLS prophylaxis).
+prophylaxis: []
+
+# Other preparation steps.
+other: []
 
 # ----------------------------------------------------------------------------
 # Medications
@@ -152,15 +165,25 @@ treatmentPreparation:
 # - drug: linked drug identifier
 # - rules: one or more dose/administration rules
 #
+# Each rule contains:
+# - condition: optional conditions such as cycle range
+# - dose
+# - administration
+# - notes: optional rule-specific information
+#
 # Administration fields:
 # - route: IV, PO, SC, IM, or IT
 # - administrationDays: treatment day(s)
 # - diluent: optional
 # - volume: optional
 # - infusionDuration: optional
-# - notes: optional
+# - notes: optional administration-specific information
 #
-# Example structure:
+# Medication-level fields:
+# - preparationNotes
+# - infusionNotes
+# - monitoringNotes
+# - comments
 
 medications:
 
@@ -168,7 +191,12 @@ medications:
 
     rules:
 
-      - dose:
+      - condition:
+          cycleRange:
+            start:
+            end:
+
+        dose:
           value:
           unit:
           type:
@@ -184,13 +212,14 @@ medications:
           infusionDuration:
           notes:
 
-        # Optional rule-specific notes
         notes:
 
-    # Optional medication-level information
     preparationNotes:
+
     infusionNotes:
+
     monitoringNotes:
+
     comments:
 
     references: []
@@ -205,22 +234,18 @@ monitoring:
 
   duringTreatment: []
 
-
 # ----------------------------------------------------------------------------
 # Supportive Care
 # ----------------------------------------------------------------------------
 
-# Use clinical-support identifiers when available.
-
+# Use supportive-care identifiers when available.
 supportiveCare: []
-
 
 # ----------------------------------------------------------------------------
 # Dose Modifications
 # ----------------------------------------------------------------------------
 
 doseModifications: []
-
 
 # ----------------------------------------------------------------------------
 # Follow-up
@@ -240,13 +265,11 @@ followUp:
   # Other follow-up considerations.
   other: []
 
-
 # ----------------------------------------------------------------------------
 # References
 # ----------------------------------------------------------------------------
 
 references: []
-
 
 # ----------------------------------------------------------------------------
 # Review
@@ -257,3 +280,7 @@ review:
   lastReviewed:
 
   reviewedBy:
+
+  # Optional.
+  nextReview:
+
