@@ -12,8 +12,12 @@ id: r-chop
 
 title: R-CHOP
 
+description: Rituximab plus Cyclophosphamide, Doxorubicin, Vincristine, and Prednisone
+
 aliases:
   - CHOP-R
+
+type: standalone
 
 # ----------------------------------------------------------------------------
 # Clinical Context
@@ -22,11 +26,14 @@ aliases:
 diseases:
   - dlbcl
 
-intent: curative
+treatmentIntent: 
+  - curative
 
-setting: Newly diagnosed
+setting: 
+  - newly-diagnosed
 
-lineOfTherapy: first-line
+lineOfTherapy: 
+  - first-line
 
 biomarkers:
   - cd20
@@ -102,8 +109,16 @@ treatmentPreparation:
     - Give Day 1 prednisone as part of premedication before rituximab.
 
   antiemetics:
-    risk: high
-    medications: []
+    risk: moderate
+    medications:
+      - drug: palonosetron
+        dose:
+          value: 0.25
+          unit: mg
+          type: flat
+        administration:
+          route: IV
+          timing: 30 minutes before treatment
 
   hydration:
     - Assess hydration and tumor lysis syndrome risk before treatment.

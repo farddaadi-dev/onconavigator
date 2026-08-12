@@ -1,0 +1,69 @@
+# ============================================================================
+# Health Canada — Paclitaxel Injection
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# Identity
+# ----------------------------------------------------------------------------
+
+id: health-canada-paclitaxel
+
+title: Paclitaxel Injection — Health Canada Product Information
+
+aliases:
+  - Paclitaxel Injection
+
+# ----------------------------------------------------------------------------
+# Publication
+# ----------------------------------------------------------------------------
+
+publication:
+
+  type: product-monograph
+
+  publisher: Health Canada
+
+  year: 2023
+
+  version: "2023-03-10"
+
+  previousVersions: []
+
+  citation: >
+    Health Canada. PACLITAXEL INJECTION. Product Monograph.
+    DIN 02536056. Eugia Pharma Inc. March 10, 2023.
+
+# ----------------------------------------------------------------------------
+# Access
+# ----------------------------------------------------------------------------
+
+access:
+
+  url: https://health-products.canada.ca/dpd-bdpp/info?code=102486&lang=eng
+
+  requiresSubscription: false
+
+  notes: >
+    Health Canada Drug Product Database product information and
+    product monograph.
+
+# ----------------------------------------------------------------------------
+# Discovery
+# ----------------------------------------------------------------------------
+
+keywords:
+  - paclitaxel
+  - taxane
+  - chemotherapy
+  - intravenous
+  - product-monograph
+
+# ----------------------------------------------------------------------------
+# Review
+# ----------------------------------------------------------------------------
+
+review:
+
+  lastReviewed: 2026-08-12
+
+  reviewedBy: farshid-fardad

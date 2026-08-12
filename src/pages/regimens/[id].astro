@@ -13,34 +13,88 @@ export async function getStaticPaths() {
 
   return regimens.map((regimen) => ({
     params: { id: regimen.data.id },
-    props: { regimen },
+    props: {
+      regimen,
+      regimens,
+    },
   }));
 }
 
-const { regimen } = Astro.props;
+const { regimen, regimens } = Astro.props;
+const components =
+  regimen.data.type === 'composite'
+    ? regimen.data.components
+        .map((component) => ({
+          component,
+          regimen: regimens.find(
+            (item) => item.data.id === component.regimen,
+          ),
+        }))
+        .filter(
+          (
+            item,
+          ): item is {
+            component: (typeof regimen.data.components)[number];
+            regimen: (typeof regimens)[number];
+          } => item.regimen !== undefined,
+        )
+    : [];
 
-type ResolvedMedication = {
+
+    type ResolvedMedication = {
   drug: NonNullable<Awaited<ReturnType<typeof getDrugById>>>;
-  medication: (typeof regimen.data.medications)[number];
+  medication: Extract<
+    typeof regimen.data,
+    { type: 'standalone' }
+  >['medications'][number];
 };
 
-const medications = (
+const medications =
+  regimen.data.type === 'standalone'
+    ? (
+        await Promise.all(
+          regimen.data.medications.map(async (medication) => {
+            const drug = await getDrugById(medication.drug);
+
+            if (!drug) {
+              return undefined;
+            }
+
+            return {
+              drug,
+              medication,
+            };
+          }),
+        )
+      ).filter(
+        (item): item is ResolvedMedication => item !== undefined,
+      )
+    : [];
+
+const antiemetics = (
   await Promise.all(
-    regimen.data.medications.map(async (medication) => {
-      const drug = await getDrugById(medication.drug);
+    regimen.data.treatmentPreparation.antiemetics.medications.map(
+      async (antiemetic) => {
+        const drug = await getDrugById(antiemetic.drug);
 
-      if (!drug) {
-        return undefined;
-      }
+        if (!drug) {
+          return undefined;
+        }
 
-      return {
-        drug,
-        medication,
-      };
-    }),
+        return {
+          drug,
+          antiemetic,
+        };
+      },
+    ),
   )
 ).filter(
-  (item): item is ResolvedMedication => item !== undefined,
+  (
+    item,
+  ): item is {
+    drug: NonNullable<Awaited<ReturnType<typeof getDrugById>>>;
+    antiemetic: (typeof regimen.data.treatmentPreparation.antiemetics.medications)[number];
+  } => item !== undefined,
 );
 
 const supportiveCareItems = (
@@ -81,25 +135,27 @@ const references = (
       <header>
         <h1>{regimen.data.title}</h1>
 
-        {
-          regimen.data.aliases.length > 0 && (
-            <p>{regimen.data.aliases.join(', ')}</p>
-          )
-        }
+<p>{regimen.data.description}</p>
 
-        <p>
-          <strong>Setting:</strong>
-          {regimen.data.setting}
-        </p>
+<p>
+  <strong>Setting:</strong>
+  {regimen.data.setting
+    .map((setting) => formatLabel(setting))
+    .join(' / ')}
+</p>
 
-        <p>
-          <strong>Intent:</strong>
-          {formatLabel(regimen.data.intent)}
-        </p>
+<p>
+  <strong>Treatment intent:</strong>
+  {regimen.data.treatmentIntent
+    .map((intent) => formatLabel(intent))
+    .join(' / ')}
+</p>
 
         <p>
           <strong>Line of therapy:</strong>
-          {formatLabel(regimen.data.lineOfTherapy)}
+          {regimen.data.lineOfTherapy
+            .map((line) => formatLabel(line))
+            .join(' / ')}
         </p>
       </header>
 
@@ -119,29 +175,77 @@ const references = (
         </ul>
       </section>
 
-      <section aria-labelledby="schedule-heading">
-        <h2 id="schedule-heading">Schedule</h2>
+      {
+        regimen.data.type === 'composite' && (
+          <section aria-labelledby="components-heading">
+            <h2 id="components-heading">Components</h2>
+      
+            {
+              components.length > 0 ? (
+                <ol>
+                  {
+                    components.map(({ component, regimen: componentRegimen }) => (
+                      <li>
+                        <a href={`/regimens/${componentRegimen.data.id}`}>
+                          {componentRegimen.data.title}
+                        </a>
+      
+                        {
+                          component.cycleRange && (
+                            <span>
+                              {' — '}
+                              Cycles {component.cycleRange.start}–
+                              {component.cycleRange.end}
+                            </span>
+                          )
+                        }
+      
+                        {
+                          component.notes && (
+                            <p>{component.notes}</p>
+                          )
+                        }
+                      </li>
+                    ))
+                  }
+                </ol>
+              ) : (
+                <p>No components are currently listed.</p>
+              )
+            }
+          </section>
+        )
+      }
 
-        {
-          regimen.data.schedule.cycle && (
-            <p>
-              <strong>Cycle length:</strong>
-              {regimen.data.schedule.cycle.length.value}{' '}
-              {regimen.data.schedule.cycle.length.unit}
-            </p>
-          )
-        }
+{
+  regimen.data.type === 'standalone' && (
+    <section aria-labelledby="schedule-heading">
+      <h2 id="schedule-heading">Schedule</h2>
 
-        {
-          regimen.data.schedule.stopCondition.plannedCycles && (
-            <p>
-              <strong>Planned cycles:</strong>
-              {regimen.data.schedule.stopCondition.plannedCycles}
-            </p>
-          )
-        }
-      </section>
+      {
+        regimen.data.schedule.cycle && (
+          <p>
+            <strong>Cycle length:</strong>
+            {regimen.data.schedule.cycle.length.value}{' '}
+            {regimen.data.schedule.cycle.length.unit}
+          </p>
+        )
+      }
 
+      {
+        regimen.data.schedule.stopCondition.plannedCycles && (
+          <p>
+            <strong>Planned cycles:</strong>
+            {regimen.data.schedule.stopCondition.plannedCycles}
+          </p>
+        )
+      }
+    </section>
+  )
+}
+      {
+        regimen.data.type === 'standalone' && (
+          <>
       <section aria-labelledby="medications-heading">
         <h2 id="medications-heading">Medications</h2>
       
@@ -366,19 +470,52 @@ const references = (
           )
         }
 
-        {
-          regimen.data.treatmentPreparation.antiemetics.length > 0 && (
-            <div>
-              <h3>Antiemetics</h3>
+{
+  antiemetics.length > 0 && (
+    <div>
+      <h3>Antiemetics</h3>
 
-              <ul>
-                {regimen.data.treatmentPreparation.antiemetics.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            </div>
-          )
-        }
+      <p>
+        <strong>Emetogenic risk:</strong>{' '}
+        {formatLabel(
+          regimen.data.treatmentPreparation.antiemetics.risk,
+        )}
+      </p>
+
+      <ul>
+        {antiemetics.map(({ drug, antiemetic }) => (
+          <li>
+            <strong>
+              <a href={`/drugs/${drug.data.id}`}>
+                {drug.data.title}
+              </a>
+            </strong>
+            {' — '}
+            {antiemetic.dose.value} {antiemetic.dose.unit}{' '}
+{formatLabel(antiemetic.administration.route)}
+
+            {
+              antiemetic.administration.timing && (
+                <>
+                  {' — '}
+                  {antiemetic.administration.timing}
+                </>
+              )
+            }
+
+            {
+              antiemetic.administration.notes && (
+                <div>
+                  {antiemetic.administration.notes}
+                </div>
+              )
+            }
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
 
         {
           regimen.data.treatmentPreparation.hydration.length > 0 && (
@@ -476,7 +613,9 @@ const references = (
           )
         }
       </section>
-      
+      </>
+  )
+}    
       <section aria-labelledby="references-heading">
         <h2 id="references-heading">References</h2>
       

@@ -1,6 +1,7 @@
 import { z } from "astro:content";
 
 import {
+  cycleRangeSchema,
   identifierSchema,
   referenceListSchema,
   reviewSchema,
@@ -11,6 +12,7 @@ import {
   medicationSchema,
   routeSchema,
 } from "./medication.ts";
+
 import { scheduleSchema } from "./schedule.ts";
 
 /* -------------------------------------------------------------------------- */
@@ -19,18 +21,29 @@ import { scheduleSchema } from "./schedule.ts";
 
 export const treatmentIntentSchema = z.enum([
   "curative",
+  "palliative",
+]);
+
+export const treatmentSettingSchema = z.enum([
   "adjuvant",
   "neoadjuvant",
-  "definitive",
+  "metastatic",
+  "induction",
+  "consolidation",
   "maintenance",
-  "palliative",
+  "newly-diagnosed",
 ]);
 
 export const lineOfTherapySchema = z.enum([
   "first-line",
   "second-line",
   "third-line",
-  "later-line",
+  "subsequent-line",
+]);
+
+export const regimenTypeSchema = z.enum([
+  "standalone",
+  "composite",
 ]);
 
 /* -------------------------------------------------------------------------- */
@@ -92,26 +105,33 @@ const treatmentPreparationSchema = z.object({
 });
 
 /* -------------------------------------------------------------------------- */
-/*                              Regimen Schema                                */
+/*                         Regimen Component Schema                           */
 /* -------------------------------------------------------------------------- */
 
-export const regimenSchema = z.object({
+const regimenComponentSchema = z.object({
+  regimen: identifierSchema,
+  cycleRange: cycleRangeSchema.optional(),
+  notes: z.string().optional(),
+});
+
+/* -------------------------------------------------------------------------- */
+/*                           Common Regimen Fields                            */
+/* -------------------------------------------------------------------------- */
+
+const regimenBaseSchema = z.object({
   /* ------------------------------- Identity ------------------------------- */
 
   id: identifierSchema,
   title: z.string().min(1),
+  description: z.string().min(1),
   aliases: z.array(z.string()).default([]),
 
   /* --------------------------- Clinical Context --------------------------- */
 
   diseases: z.array(identifierSchema).min(1),
-
-  intent: treatmentIntentSchema,
-
-  setting: z.string().min(1),
-
-  lineOfTherapy: lineOfTherapySchema,
-
+  treatmentIntent: z.array(treatmentIntentSchema).min(1),
+  setting: z.array(treatmentSettingSchema).min(1),
+  lineOfTherapy: z.array(lineOfTherapySchema).min(1),
   biomarkers: z.array(identifierSchema).default([]),
 
   /* ----------------------------- Eligibility ----------------------------- */
@@ -125,12 +145,7 @@ export const regimenSchema = z.object({
   /* ------------------------- Pre-treatment Workflow ---------------------- */
 
   preTreatmentAssessment: preTreatmentAssessmentSchema,
-
   treatmentPreparation: treatmentPreparationSchema,
-
-  /* ------------------------------ Medications ----------------------------- */
-
-  medications: z.array(medicationSchema).min(1),
 
   /* ------------------------------- Monitoring ----------------------------- */
 
@@ -147,6 +162,34 @@ export const regimenSchema = z.object({
   /* ----------------------------- Governance ------------------------------- */
 
   references: referenceListSchema,
-
   review: reviewSchema,
 });
+
+/* -------------------------------------------------------------------------- */
+/*                         Standalone Regimen Schema                           */
+/* -------------------------------------------------------------------------- */
+
+const standaloneRegimenSchema = regimenBaseSchema.extend({
+  type: z.literal("standalone"),
+
+  medications: z.array(medicationSchema).min(1),
+});
+
+/* -------------------------------------------------------------------------- */
+/*                          Composite Regimen Schema                           */
+/* -------------------------------------------------------------------------- */
+
+const compositeRegimenSchema = regimenBaseSchema.extend({
+  type: z.literal("composite"),
+
+  components: z.array(regimenComponentSchema).min(1),
+});
+
+/* -------------------------------------------------------------------------- */
+/*                              Regimen Schema                                */
+/* -------------------------------------------------------------------------- */
+
+export const regimenSchema = z.discriminatedUnion("type", [
+  standaloneRegimenSchema,
+  compositeRegimenSchema,
+]);

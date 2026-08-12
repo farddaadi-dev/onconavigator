@@ -1,98 +1,136 @@
 # ============================================================================
-# Palonosetron
+# AC-T
+#
+# Doxorubicin + Cyclophosphamide followed by Paclitaxel
 # ============================================================================
 
-id: palonosetron
+id: ac-t
 
-title: Palonosetron
+title: AC-T
 
-aliases:
-  - Aloxi
+description: Doxorubicin plus Cyclophosphamide followed by weekly Paclitaxel
 
-# ----------------------------------------------------------------------------
-# Classification
-# ----------------------------------------------------------------------------
+type: composite
 
-classification:
-  class: supportive-care
-  subclass: 5-HT3 receptor antagonist
-  molecularTargets: []
+aliases: []
 
 # ----------------------------------------------------------------------------
-# Indications
+# Clinical Context
 # ----------------------------------------------------------------------------
 
-indications:
-  diseases: []
-  usedInRegimens:
-    - r-chop
+diseases:
+  - breast-cancer
+
+treatmentIntent: 
+  - curative
+
+setting:
+  - adjuvant
+  - neoadjuvant
+
+lineOfTherapy: 
+  - first-line
+
+biomarkers: []
 
 # ----------------------------------------------------------------------------
-# Dosage Forms
+# Eligibility
 # ----------------------------------------------------------------------------
 
-dosageForms:
-  - formulation: solution for intravenous injection
-    strengths:
-      - 0.25 mg / 5 mL
-      - 0.075 mg / 1.5 mL
+eligibility:
+  - Breast cancer for which sequential anthracycline and taxane-based chemotherapy is indicated.
+  - Adequate hematologic, renal, and hepatic function according to protocol requirements.
+  - No contraindication to anthracycline or paclitaxel therapy.
 
 # ----------------------------------------------------------------------------
-# Administration
+# Schedule
 # ----------------------------------------------------------------------------
 
-administration:
-  routes:
-    - IV
-  preparation: []
-  infusion: []
+schedule:
+  cycle:
+    length:
+      value: 21
+      unit: days
+
+  stopCondition:
+    plannedCycles: 16
+
+  treatmentPhases: []
+
+# ----------------------------------------------------------------------------
+# Components
+# ----------------------------------------------------------------------------
+
+components:
+  - regimen: ac
+    cycleRange:
+      start: 1
+      end: 4
+    notes: Doxorubicin and cyclophosphamide every 21 days.
+
+  - regimen: paclitaxel-weekly
+    cycleRange:
+      start: 5
+      end: 16
+    notes: Paclitaxel 80 mg/m² weekly for 12 cycles.
+
+# ----------------------------------------------------------------------------
+# Pre-treatment Assessment
+# ----------------------------------------------------------------------------
+
+preTreatmentAssessment:
+  diagnosis: []
+  clinical: []
+  laboratory: []
+  infectionScreening: []
+  imaging: []
+  calculations: []
+  counselling: []
+  other: []
+
+# ----------------------------------------------------------------------------
+# Treatment Preparation
+# ----------------------------------------------------------------------------
+
+treatmentPreparation:
   premedications: []
-  specialInstructions: []
+
+  antiemetics:
+    risk: high
+    medications: []
+
+  hydration: []
+  prophylaxis: []
+  other: []
 
 # ----------------------------------------------------------------------------
 # Monitoring
 # ----------------------------------------------------------------------------
 
 monitoring:
-  baseline: []
+  beforeEachCycle: []
   duringTreatment: []
-  longTerm: []
-
-# ----------------------------------------------------------------------------
-# Dose Modifications
-# ----------------------------------------------------------------------------
-
-doseModifications:
-  renalImpairment: []
-  hepaticImpairment: []
-  hematologicToxicity: []
-  neurologicToxicity: []
-  cardiacToxicity: []
-  infusionReaction: []
-  other: []
-
-# ----------------------------------------------------------------------------
-# Safety
-# ----------------------------------------------------------------------------
-
-safety:
-  contraindications: []
-  warnings: []
-  commonAdverseEffects: []
-  seriousAdverseEffects: []
 
 # ----------------------------------------------------------------------------
 # Supportive Care
 # ----------------------------------------------------------------------------
 
-supportiveCare:
-  topics: []
+supportiveCare: []
+
+# ----------------------------------------------------------------------------
+# Dose Modifications
+# ----------------------------------------------------------------------------
+
+doseModifications: []
 
 # ----------------------------------------------------------------------------
 # References
 # ----------------------------------------------------------------------------
 
-references: []
+references:
+  - eviq-breast-ac-paclitaxel-4113
+  - eviq-breast-paclitaxel-weekly-4103
+  - health-canada-paclitaxel
 
 # ----------------------------------------------------------------------------
 # Review

@@ -1,0 +1,157 @@
+id: ac
+title: AC
+type: standalone
+description: Doxorubicin plus Cyclophosphamide
+aliases: []
+
+diseases:
+  - breast-cancer
+
+treatmentIntent: 
+  - curative
+  
+setting:
+  - adjuvant
+  - neoadjuvant
+lineOfTherapy: 
+  - first-line
+
+biomarkers: []
+
+eligibility: []
+
+schedule:
+  cycle:
+    length:
+      value: 21
+      unit: days
+  stopCondition:
+    plannedCycles: 4
+  treatmentPhases: []
+
+preTreatmentAssessment:
+  diagnosis:
+    - Confirm breast cancer diagnosis and treatment indication.
+
+  clinical:
+    - Document ECOG performance status.
+    - Record height and weight.
+    - Assess baseline cardiac status before anthracycline therapy.
+
+  laboratory:
+    - Complete blood count (CBC).
+    - Comprehensive metabolic panel (CMP).
+    - Assess hepatic function before treatment.
+
+  infectionScreening: []
+
+  imaging:
+    - Assess baseline left ventricular function before anthracycline therapy according to clinical circumstances and protocol.
+
+  calculations:
+    - Calculate body surface area (BSA).
+
+  counselling:
+    - Discuss treatment goals and potential adverse effects.
+    - Obtain informed consent.
+
+  other: []
+
+treatmentPreparation:
+  premedications:
+    - Administer dexamethasone as part of the AC antiemetic regimen before chemotherapy.
+
+  antiemetics:
+    risk: high
+    medications:
+      - drug: netupitant-palonosetron
+        dose:
+          value: 1
+          unit: fixed-dose combination
+          type: flat
+        administration:
+          route: PO
+          timing: 60 minutes before AC chemotherapy
+          notes: Netupitant 300 mg / palonosetron 0.5 mg fixed-dose combination.
+
+      - drug: dexamethasone
+        dose:
+          value: 12
+          unit: mg
+          type: flat
+        administration:
+          route: PO
+          timing: 60 minutes before AC chemotherapy
+          notes: The dose may be reduced according to clinician discretion and applicable antiemetic protocol.
+
+  hydration: []
+
+  prophylaxis:
+    - Consider primary G-CSF prophylaxis according to regimen and patient-specific risk factors.
+
+  other: []
+
+medications:
+
+  - drug: doxorubicin
+    rules:
+      - dose:
+          value: 60
+          unit: mg/m²
+          type: bsa
+        administration:
+          route: IV
+          administrationDays:
+            - 1
+          infusionDuration: 5–15 minutes
+        condition:
+          cycleRange:
+            start: 1
+            end: 4
+
+  - drug: cyclophosphamide
+    rules:
+      - dose:
+          value: 600
+          unit: mg/m²
+          type: bsa
+        administration:
+          route: IV
+          administrationDays:
+            - 1
+          diluent: NS
+          volume:
+            value: 500
+            unit: mL
+          infusionDuration: 30–60 minutes
+        condition:
+          cycleRange:
+            start: 1
+            end: 4
+
+monitoring:
+  beforeEachCycle:
+    - Complete blood count (CBC).
+    - Assess treatment-related toxicities.
+    - Assess hepatic function as clinically indicated.
+    - Assess cardiac function according to anthracycline exposure and clinical circumstances.
+
+  duringTreatment:
+    - Monitor cumulative anthracycline exposure and cardiac toxicity.
+    - Monitor for myelosuppression.
+
+supportiveCare:
+  - g-csf-support
+  - febrile-neutropenia
+
+doseModifications:
+  - Modify treatment according to hematologic toxicity and applicable protocol.
+  - Consider anthracycline dose modification or discontinuation according to cardiac function and cumulative exposure.
+  - Refer to the applicable protocol and product information for drug-specific dose modification guidance.
+
+references:
+  - eviq-breast-ac-paclitaxel-4113
+
+review:
+  lastReviewed: 2026-08-12
+  reviewedBy: farshid

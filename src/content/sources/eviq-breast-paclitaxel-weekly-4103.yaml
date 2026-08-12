@@ -1,0 +1,69 @@
+# ============================================================================
+# eviQ — Breast Weekly Paclitaxel
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# Identity
+# ----------------------------------------------------------------------------
+
+id: eviq-breast-paclitaxel-weekly-4103
+
+title: Breast adjuvant/neoadjuvant paclitaxel weekly
+
+aliases:
+  - eviQ Protocol 4103
+
+# ----------------------------------------------------------------------------
+# Publication
+# ----------------------------------------------------------------------------
+
+publication:
+
+  type: guideline
+
+  publisher: eviQ
+
+  year: 2025
+
+  version: "3"
+
+  previousVersions: []
+
+  citation: >
+    eviQ. Breast adjuvant/neoadjuvant PACLitaxel weekly.
+    Protocol ID 4103.
+
+# ----------------------------------------------------------------------------
+# Access
+# ----------------------------------------------------------------------------
+
+access:
+
+  url: https://www.eviq.org.au/medical-oncology/breast/neoadjuvant-adjuvant/4103-breast-neoadjuvant-adjuvant-paclitaxel-weekly
+
+  requiresSubscription: false
+
+  notes: >
+    Publicly accessible eviQ clinical protocol.
+
+# ----------------------------------------------------------------------------
+# Discovery
+# ----------------------------------------------------------------------------
+
+keywords:
+  - breast-cancer
+  - paclitaxel
+  - taxane
+  - weekly-paclitaxel
+  - neoadjuvant
+  - adjuvant
+
+# ----------------------------------------------------------------------------
+# Review
+# ----------------------------------------------------------------------------
+
+review:
+
+  lastReviewed: 2026-08-12
+
+  reviewedBy: farshid-fardad

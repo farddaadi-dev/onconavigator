@@ -1,0 +1,71 @@
+# ============================================================================
+# eviQ — Breast AC followed by weekly Paclitaxel
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# Identity
+# ----------------------------------------------------------------------------
+
+id: eviq-breast-ac-paclitaxel-4113
+
+title: Breast neoadjuvant/adjuvant AC followed by weekly paclitaxel
+
+aliases:
+  - eviQ Protocol 4113
+
+# ----------------------------------------------------------------------------
+# Publication
+# ----------------------------------------------------------------------------
+
+publication:
+
+  type: guideline
+
+  publisher: eviQ
+
+  year: 2025
+
+  version: "2"
+
+  previousVersions: []
+
+  citation: >
+    eviQ. Breast neoadjuvant/adjuvant AC (DOXOrubicin and CYCLOPHOSPHamide)
+    three weekly followed by PACLitaxel weekly. Protocol ID 4113,
+    version 2.
+
+# ----------------------------------------------------------------------------
+# Access
+# ----------------------------------------------------------------------------
+
+access:
+
+  url: https://www.eviq.org.au/medical-oncology/breast/neoadjuvant-adjuvant/4113-breast-neoadjuvant-adjuvant-ac-followed-by-pa
+
+  requiresSubscription: false
+
+  notes: >
+    Publicly accessible eviQ clinical protocol.
+
+# ----------------------------------------------------------------------------
+# Discovery
+# ----------------------------------------------------------------------------
+
+keywords:
+  - breast-cancer
+  - ac-t
+  - doxorubicin
+  - cyclophosphamide
+  - paclitaxel
+  - neoadjuvant
+  - adjuvant
+
+# ----------------------------------------------------------------------------
+# Review
+# ----------------------------------------------------------------------------
+
+review:
+
+  lastReviewed: 2026-08-12
+
+  reviewedBy: farshid-fardad

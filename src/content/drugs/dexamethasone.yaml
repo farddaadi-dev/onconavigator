@@ -1,21 +1,27 @@
 # ============================================================================
-# Palonosetron
+# Dexamethasone
 # ============================================================================
 
-id: palonosetron
+# ----------------------------------------------------------------------------
+# Identity
+# ----------------------------------------------------------------------------
 
-title: Palonosetron
+id: dexamethasone
 
-aliases:
-  - Aloxi
+title: Dexamethasone
+
+aliases: []
 
 # ----------------------------------------------------------------------------
 # Classification
 # ----------------------------------------------------------------------------
 
 classification:
+
   class: supportive-care
-  subclass: 5-HT3 receptor antagonist
+
+  subclass: corticosteroid
+
   molecularTargets: []
 
 # ----------------------------------------------------------------------------
@@ -23,30 +29,40 @@ classification:
 # ----------------------------------------------------------------------------
 
 indications:
+
   diseases: []
+
   usedInRegimens:
-    - r-chop
+    - ac-t
 
 # ----------------------------------------------------------------------------
 # Dosage Forms
 # ----------------------------------------------------------------------------
 
 dosageForms:
-  - formulation: solution for intravenous injection
-    strengths:
-      - 0.25 mg / 5 mL
-      - 0.075 mg / 1.5 mL
+
+  - formulation: tablet
+    strengths: []
+
+  - formulation: solution for injection
+    strengths: []
 
 # ----------------------------------------------------------------------------
 # Administration
 # ----------------------------------------------------------------------------
 
 administration:
+
   routes:
+    - PO
     - IV
+
   preparation: []
+
   infusion: []
+
   premedications: []
+
   specialInstructions: []
 
 # ----------------------------------------------------------------------------
@@ -54,8 +70,11 @@ administration:
 # ----------------------------------------------------------------------------
 
 monitoring:
+
   baseline: []
+
   duringTreatment: []
+
   longTerm: []
 
 # ----------------------------------------------------------------------------
@@ -63,12 +82,19 @@ monitoring:
 # ----------------------------------------------------------------------------
 
 doseModifications:
+
   renalImpairment: []
+
   hepaticImpairment: []
+
   hematologicToxicity: []
+
   neurologicToxicity: []
+
   cardiacToxicity: []
+
   infusionReaction: []
+
   other: []
 
 # ----------------------------------------------------------------------------
@@ -76,9 +102,13 @@ doseModifications:
 # ----------------------------------------------------------------------------
 
 safety:
+
   contraindications: []
+
   warnings: []
+
   commonAdverseEffects: []
+
   seriousAdverseEffects: []
 
 # ----------------------------------------------------------------------------
@@ -86,6 +116,7 @@ safety:
 # ----------------------------------------------------------------------------
 
 supportiveCare:
+
   topics: []
 
 # ----------------------------------------------------------------------------
@@ -99,5 +130,7 @@ references: []
 # ----------------------------------------------------------------------------
 
 review:
+
   lastReviewed: 2026-08-12
+
   reviewedBy: farshid-fardad

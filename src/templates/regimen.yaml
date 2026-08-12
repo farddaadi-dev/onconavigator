@@ -8,7 +8,7 @@
 # - Use identifiers for linked entities.
 # - Keep clinical statements traceable to references.
 # - Empty lists are preferred over unsupported assumptions.
-#
+# - A regimen may be standalone or composite.
 # ============================================================================
 
 # ----------------------------------------------------------------------------
@@ -19,35 +19,61 @@ id:
 
 title:
 
+description:
+
 aliases: []
+
+# Regimen type:
+#
+# standalone = independently administered regimen/protocol
+# composite  = regimen composed of two or more reusable regimens
+#
+# Examples:
+# - AC: standalone
+# - Weekly Paclitaxel: standalone
+# - AC-T: composite
+
+type: standalone
 
 # ----------------------------------------------------------------------------
 # Clinical Context
 # ----------------------------------------------------------------------------
 
 # Related disease identifiers.
+
 diseases: []
 
 # Treatment intent:
+#
 # curative
+# palliative
+
+treatmentIntent: []
+
+# Clinical setting:
+#
 # adjuvant
 # neoadjuvant
-# definitive
+# metastatic
+# induction
+# consolidation
 # maintenance
-# palliative
-intent:
+# definitive
+# other
 
-# Clinical setting.
-setting:
+setting: []
 
 # Line of therapy:
+#
 # first-line
 # second-line
 # third-line
 # later-line
-lineOfTherapy:
+
+lineOfTherapy: []
 
 # Biomarkers relevant to treatment selection.
+
 biomarkers: []
 
 # ----------------------------------------------------------------------------
@@ -70,13 +96,15 @@ schedule:
   stopCondition:
     plannedCycles:
 
-    duration:
-      value:
-      unit: weeks
+  # Optional alternatives for regimens without a fixed number of cycles.
 
-    untilProgression:
+  # duration:
+  #   value:
+  #   unit: weeks
 
-    untilUnacceptableToxicity:
+  # untilProgression:
+
+  # untilUnacceptableToxicity:
 
   treatmentPhases: []
 
@@ -87,27 +115,35 @@ schedule:
 preTreatmentAssessment:
 
   # Confirm diagnosis and required disease characteristics.
+
   diagnosis: []
 
   # Clinical evaluation before starting treatment.
+
   clinical: []
 
   # Baseline laboratory investigations.
+
   laboratory: []
 
   # Infection screening required before treatment.
+
   infectionScreening: []
 
   # Baseline imaging or functional studies.
+
   imaging: []
 
   # Required calculations (e.g., BSA).
+
   calculations: []
 
   # Patient education and consent.
+
   counselling: []
 
   # Other pre-treatment assessments.
+
   other: []
 
 # ----------------------------------------------------------------------------
@@ -116,49 +152,59 @@ preTreatmentAssessment:
 
 treatmentPreparation:
 
-# Medications administered immediately before treatment.
-premedications: []
+  # Medications administered immediately before treatment.
 
-# Antiemetic prophylaxis.
-antiemetics:
+  premedications: []
 
-  # Expected chemotherapy-induced nausea/vomiting risk.
-  #
-  # Options:
-  # minimal
-  # low
-  # moderate
-  # high
-  risk:
+  # Antiemetic prophylaxis.
 
-  # Specific antiemetic medications used for this regimen.
-  medications:
+  antiemetics:
 
-  - drug:
+    # Expected chemotherapy-induced nausea/vomiting risk.
+    #
+    # Options:
+    # minimal
+    # low
+    # moderate
+    # high
 
-    dose:
-      value:
-      unit:
-      type:
+    risk:
 
-    administration:
-      route:
-      timing:
-      notes:
+    # Specific antiemetic medications used for this regimen.
 
-# Hydration before or during treatment.
-hydration: []
+    medications:
 
-# Prophylactic measures (e.g., antiviral, TLS prophylaxis).
-prophylaxis: []
+      - drug:
 
-# Other preparation steps.
-other: []
+        dose:
+          value:
+          unit:
+          type:
+
+        administration:
+          route:
+          timing:
+          notes:
+
+  # Hydration before or during treatment.
+
+  hydration: []
+
+  # Prophylactic measures
+  # (e.g., antiviral, TLS prophylaxis).
+
+  prophylaxis: []
+
+  # Other preparation steps.
+
+  other: []
 
 # ----------------------------------------------------------------------------
-# Medications
+# Standalone Regimen: Medications
 # ----------------------------------------------------------------------------
-
+#
+# Used only when type: standalone
+#
 # Medications should follow administration order.
 #
 # Each medication contains:
@@ -184,6 +230,7 @@ other: []
 # - infusionNotes
 # - monitoringNotes
 # - comments
+# - references
 
 medications:
 
@@ -192,6 +239,7 @@ medications:
     rules:
 
       - condition:
+
           cycleRange:
             start:
             end:
@@ -225,6 +273,39 @@ medications:
     references: []
 
 # ----------------------------------------------------------------------------
+# Composite Regimen: Components
+# ----------------------------------------------------------------------------
+#
+# Used only when type: composite.
+#
+# Components reference reusable regimen entities.
+#
+# Example:
+#
+# components:
+#   - regimen: ac
+#     cycleRange:
+#       start: 1
+#       end: 4
+#     notes: Doxorubicin and cyclophosphamide every 21 days.
+#
+#   - regimen: paclitaxel-weekly
+#     cycleRange:
+#       start: 5
+#       end: 16
+#     notes: Paclitaxel 80 mg/m² weekly for 12 cycles.
+
+components:
+
+  - regimen:
+
+    cycleRange:
+      start:
+      end:
+
+    notes:
+
+# ----------------------------------------------------------------------------
 # Monitoring
 # ----------------------------------------------------------------------------
 
@@ -239,6 +320,7 @@ monitoring:
 # ----------------------------------------------------------------------------
 
 # Use supportive-care identifiers when available.
+
 supportiveCare: []
 
 # ----------------------------------------------------------------------------
@@ -254,15 +336,19 @@ doseModifications: []
 followUp:
 
   # Assessment of treatment response.
+
   responseAssessment: []
 
   # Evaluation after completion of treatment.
+
   postTreatmentEvaluation: []
 
   # Long-term surveillance plan.
+
   surveillance: []
 
   # Other follow-up considerations.
+
   other: []
 
 # ----------------------------------------------------------------------------
@@ -282,5 +368,5 @@ review:
   reviewedBy:
 
   # Optional.
-  nextReview:
 
+  nextReview:

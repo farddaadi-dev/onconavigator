@@ -1,0 +1,192 @@
+# ============================================================================
+# Weekly Paclitaxel
+#
+# Paclitaxel 80 mg/m² weekly
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# Identity
+# ----------------------------------------------------------------------------
+
+id: paclitaxel-weekly
+
+title: Weekly Paclitaxel
+
+description: Paclitaxel 80 mg/m² weekly
+
+
+aliases: []
+
+type: standalone
+
+# ----------------------------------------------------------------------------
+# Clinical Context
+# ----------------------------------------------------------------------------
+
+diseases:
+  - breast-cancer
+
+treatmentIntent: 
+  - curative
+setting:
+  - adjuvant
+  - neoadjuvant
+lineOfTherapy: 
+  - first-line
+
+biomarkers: []
+
+# ----------------------------------------------------------------------------
+# Eligibility
+# ----------------------------------------------------------------------------
+
+eligibility:
+  - Breast cancer for which weekly paclitaxel therapy is indicated.
+  - Adequate hematologic and hepatic function according to protocol requirements.
+  - No contraindication to paclitaxel therapy.
+
+# ----------------------------------------------------------------------------
+# Schedule
+# ----------------------------------------------------------------------------
+
+schedule:
+  cycle:
+    length:
+      value: 7
+      unit: days
+
+  stopCondition:
+    plannedCycles: 12
+
+  treatmentPhases: []
+
+# ----------------------------------------------------------------------------
+# Pre-treatment Assessment
+# ----------------------------------------------------------------------------
+
+preTreatmentAssessment:
+  diagnosis:
+    - Confirm breast cancer diagnosis and treatment indication.
+
+  clinical:
+    - Document ECOG performance status.
+    - Assess treatment-related toxicities.
+    - Assess baseline peripheral neuropathy.
+
+  laboratory:
+    - Complete blood count (CBC).
+    - Assess hepatic function before treatment.
+
+  infectionScreening: []
+
+  imaging: []
+
+  calculations:
+    - Calculate body surface area (BSA).
+
+  counselling:
+    - Discuss treatment goals and potential adverse effects.
+    - Obtain informed consent.
+
+  other: []
+
+# ----------------------------------------------------------------------------
+# Treatment Preparation
+# ----------------------------------------------------------------------------
+
+treatmentPreparation:
+
+  premedications:
+    - Follow the protocol-specific paclitaxel premedication strategy and institutional protocol.
+
+  antiemetics:
+    risk: low
+    medications: []
+
+  hydration: []
+
+  prophylaxis: []
+
+  other: []
+
+# ----------------------------------------------------------------------------
+# Medications
+# ----------------------------------------------------------------------------
+
+medications:
+
+  - drug: paclitaxel
+
+    rules:
+      - dose:
+          value: 80
+          unit: mg/m²
+          type: bsa
+
+        administration:
+          route: IV
+          administrationDays:
+            - 1
+          diluent: NS
+          volume:
+            value: 250
+            unit: mL
+          infusionDuration: 60 minutes
+          notes: Administer in a non-PVC container according to protocol and institutional requirements.
+
+        condition:
+          cycleRange:
+            start: 1
+            end: 12
+
+        references:
+          - eviq-breast-paclitaxel-weekly-4103
+          - health-canada-paclitaxel
+
+# ----------------------------------------------------------------------------
+# Monitoring
+# ----------------------------------------------------------------------------
+
+monitoring:
+
+  beforeEachCycle:
+    - Complete blood count (CBC).
+    - Assess treatment-related toxicities.
+    - Assess hepatic function as clinically indicated.
+    - Assess peripheral neuropathy before paclitaxel treatment.
+
+  duringTreatment:
+    - Monitor for paclitaxel hypersensitivity or infusion reactions.
+    - Monitor for peripheral neuropathy.
+    - Monitor for myelosuppression.
+
+# ----------------------------------------------------------------------------
+# Supportive Care
+# ----------------------------------------------------------------------------
+
+supportiveCare:
+  - febrile-neutropenia
+
+# ----------------------------------------------------------------------------
+# Dose Modifications
+# ----------------------------------------------------------------------------
+
+doseModifications:
+  - Modify paclitaxel according to treatment-related peripheral neuropathy or other significant toxicity.
+  - Refer to the applicable protocol and product information for drug-specific dose modification guidance.
+
+# ----------------------------------------------------------------------------
+# References
+# ----------------------------------------------------------------------------
+
+references:
+  - eviq-breast-paclitaxel-weekly-4103
+  - health-canada-paclitaxel
+
+# ----------------------------------------------------------------------------
+# Review
+# ----------------------------------------------------------------------------
+
+review:
+  lastReviewed: 2026-08-12
+  reviewedBy: farshid-fardad

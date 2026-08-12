@@ -1,21 +1,28 @@
 # ============================================================================
-# Palonosetron
+# Paclitaxel
 # ============================================================================
 
-id: palonosetron
+# ----------------------------------------------------------------------------
+# Identity
+# ----------------------------------------------------------------------------
 
-title: Palonosetron
+id: paclitaxel
+
+title: Paclitaxel
 
 aliases:
-  - Aloxi
+  - Taxol
 
 # ----------------------------------------------------------------------------
 # Classification
 # ----------------------------------------------------------------------------
 
 classification:
-  class: supportive-care
-  subclass: 5-HT3 receptor antagonist
+
+  class: chemotherapy
+
+  subclass: taxane
+
   molecularTargets: []
 
 # ----------------------------------------------------------------------------
@@ -23,30 +30,39 @@ classification:
 # ----------------------------------------------------------------------------
 
 indications:
-  diseases: []
+
+  diseases:
+    - breast-cancer
+
   usedInRegimens:
-    - r-chop
+    - ac-t
 
 # ----------------------------------------------------------------------------
 # Dosage Forms
 # ----------------------------------------------------------------------------
 
 dosageForms:
-  - formulation: solution for intravenous injection
+
+  - formulation: concentrate for intravenous infusion
+
     strengths:
-      - 0.25 mg / 5 mL
-      - 0.075 mg / 1.5 mL
+      - 6 mg/mL
 
 # ----------------------------------------------------------------------------
 # Administration
 # ----------------------------------------------------------------------------
 
 administration:
+
   routes:
     - IV
+
   preparation: []
+
   infusion: []
+
   premedications: []
+
   specialInstructions: []
 
 # ----------------------------------------------------------------------------
@@ -54,8 +70,11 @@ administration:
 # ----------------------------------------------------------------------------
 
 monitoring:
+
   baseline: []
+
   duringTreatment: []
+
   longTerm: []
 
 # ----------------------------------------------------------------------------
@@ -63,12 +82,19 @@ monitoring:
 # ----------------------------------------------------------------------------
 
 doseModifications:
+
   renalImpairment: []
+
   hepaticImpairment: []
+
   hematologicToxicity: []
+
   neurologicToxicity: []
+
   cardiacToxicity: []
+
   infusionReaction: []
+
   other: []
 
 # ----------------------------------------------------------------------------
@@ -76,9 +102,13 @@ doseModifications:
 # ----------------------------------------------------------------------------
 
 safety:
+
   contraindications: []
+
   warnings: []
+
   commonAdverseEffects: []
+
   seriousAdverseEffects: []
 
 # ----------------------------------------------------------------------------
@@ -86,18 +116,24 @@ safety:
 # ----------------------------------------------------------------------------
 
 supportiveCare:
+
   topics: []
 
 # ----------------------------------------------------------------------------
 # References
 # ----------------------------------------------------------------------------
 
-references: []
+references:
+
+  - eviq-breast-ac-paclitaxel-4113
+  - health-canada-paclitaxel
 
 # ----------------------------------------------------------------------------
 # Review
 # ----------------------------------------------------------------------------
 
 review:
+
   lastReviewed: 2026-08-12
+
   reviewedBy: farshid-fardad
