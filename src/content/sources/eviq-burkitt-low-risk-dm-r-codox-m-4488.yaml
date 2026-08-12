@@ -1,0 +1,36 @@
+# ============================================================================
+# eviQ — Burkitt lymphoma low-risk dose-modified R-CODOX-M
+# ============================================================================
+
+id: eviq-burkitt-low-risk-dm-r-codox-m-4488
+
+title: Burkitt lymphoma low-risk dose-modified R-CODOX-M
+
+aliases: []
+
+publication:
+  type: guideline
+  publisher: eviQ
+  year: 2026
+  version: "1"
+  previousVersions: []
+  citation: >-
+    eviQ. Burkitt lymphoma low-risk dose-modified R-CODOX-M.
+    Protocol ID 4488, version 1.
+
+access:
+  url: https://www.eviq.org.au/haematology/lymphoma/burkitt-lymphoma/4488-burkitt-lymphoma-low-risk-dm-r-codox-m
+  requiresSubscription: false
+
+keywords:
+  - burkitt-lymphoma
+  - r-codox-m
+  - codox-m
+  - low-risk
+  - dose-modified
+  - rituximab
+  - methotrexate
+
+review:
+  lastReviewed: 2026-08-12
+  reviewedBy: farshid-fardad
