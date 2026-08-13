@@ -1,0 +1,123 @@
+---
+import "@/styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = "Oncology clinical reference",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta
+      name="viewport"
+      content="width=device-width"
+    />
+
+    <meta
+      name="description"
+      content={description}
+    />
+
+    <title>{title} | OncoNavigator</title>
+  </head>
+
+  <body>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a
+          href="/"
+          class="site-logo"
+          aria-label="OncoNavigator home"
+        >
+          OncoNavigator
+        </a>
+    
+        <button
+          class="menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="site-navigation"
+          aria-label="Open navigation"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+    
+        <nav
+          id="site-navigation"
+          class="site-nav"
+          aria-label="Primary navigation"
+        >
+          <a href="/diseases">Diseases</a>
+          <a href="/regimens">Regimens</a>
+          <a href="/drugs">Drugs</a>
+          <a href="/supportive-care">Supportive Care</a>
+          <a href="/sources">Sources</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="site-main">
+      <div class="site-container">
+        <slot />
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-container">
+        <p>
+          OncoNavigator · Oncology Clinical Reference
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<script>
+  const menuToggle =
+    document.querySelector<HTMLButtonElement>(".menu-toggle");
+
+  const siteNav =
+    document.querySelector<HTMLElement>(".site-nav");
+
+  if (menuToggle && siteNav) {
+    menuToggle.addEventListener("click", () => {
+      const isOpen =
+        menuToggle.getAttribute("aria-expanded") === "true";
+
+      menuToggle.setAttribute(
+        "aria-expanded",
+        String(!isOpen),
+      );
+
+      menuToggle.setAttribute(
+        "aria-label",
+        isOpen ? "Open navigation" : "Close navigation",
+      );
+
+      siteNav.classList.toggle("site-nav--open", !isOpen);
+    });
+
+    siteNav.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuToggle.setAttribute(
+          "aria-label",
+          "Open navigation",
+        );
+
+        siteNav.classList.remove("site-nav--open");
+      });
+    });
+  }
+</script>

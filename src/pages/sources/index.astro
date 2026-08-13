@@ -1,0 +1,185 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import { formatLabel } from "@/utils/formatText";
+
+const sources = await getCollection("sources");
+---
+
+<Layout
+  title="Sources"
+  description="Browse authoritative sources used by OncoNavigator."
+>
+  <header class="page-header">
+    <p class="page-eyebrow">SOURCE TRACEABILITY</p>
+
+    <h1>Sources</h1>
+
+    <p>
+      Browse the guidelines, protocols, publications, and other sources
+      supporting the clinical information in OncoNavigator.
+    </p>
+  </header>
+
+  <section aria-labelledby="sources-heading">
+    <h2 id="sources-heading">All Sources</h2>
+
+    {
+      sources.length > 0 ? (
+        <div class="source-list">
+          {sources.map((source) => (
+            <a
+              class="source-card"
+              href={`/sources/${source.data.id}`}
+            >
+              <div class="source-card__content">
+                <h3>{source.data.title}</h3>
+
+                <p class="source-citation">
+                  {source.data.publication.citation}
+                </p>
+
+                <div class="source-meta">
+                  <span>
+                    {formatLabel(source.data.publication.type)}
+                  </span>
+
+                  <span>
+                    {source.data.publication.publisher}
+                  </span>
+
+                  <span>
+                    {source.data.publication.year}
+                  </span>
+
+                  {
+                    source.data.publication.version && (
+                      <span>
+                        Version {source.data.publication.version}
+                      </span>
+                    )
+                  }
+                </div>
+              </div>
+
+              <span class="source-card__arrow" aria-hidden="true">
+                →
+              </span>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p>No sources are currently listed.</p>
+      )
+    }
+  </section>
+</Layout>
+
+<style>
+  .page-header {
+    max-width: 760px;
+    margin-bottom: 2.5rem;
+  }
+
+  .page-eyebrow {
+    margin: 0 0 0.5rem;
+    color: var(--color-primary);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .page-header h1 {
+    margin: 0 0 0.75rem;
+  }
+
+  .page-header > p:last-child {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+
+  .source-list {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .source-card {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+
+    padding: 1.25rem 1.5rem;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+
+    background: var(--color-surface);
+    color: var(--color-text);
+
+    box-shadow: var(--shadow-sm);
+
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  .source-card:hover {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-md);
+    color: var(--color-text);
+    transform: translateY(-1px);
+  }
+
+  .source-card__content {
+    min-width: 0;
+  }
+
+  .source-card h3 {
+    margin: 0 0 0.4rem;
+    font-size: 1.05rem;
+  }
+
+  .source-citation {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+  }
+
+  .source-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.9rem;
+  }
+
+  .source-meta span {
+    padding: 0.25rem 0.55rem;
+    border-radius: var(--radius-sm);
+    background: var(--color-background);
+    color: var(--color-text-muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .source-card__arrow {
+    flex-shrink: 0;
+    color: var(--color-primary);
+    font-size: 1.25rem;
+  }
+
+  @media (max-width: 600px) {
+    .source-card {
+      padding: 1rem;
+    }
+
+    .source-card__arrow {
+      display: none;
+    }
+
+    .source-meta {
+      gap: 0.35rem;
+    }
+  }
+</style>

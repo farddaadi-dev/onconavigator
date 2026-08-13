@@ -1,0 +1,183 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import { formatLabel } from "@/utils/formatText";
+
+const regimens = await getCollection("regimens");
+---
+
+<Layout
+  title="Regimens"
+  description="Browse oncology treatment regimens and protocols."
+>
+  <header class="page-header">
+    <p class="page-eyebrow">CLINICAL KNOWLEDGE</p>
+
+    <h1>Regimens</h1>
+
+    <p>
+      Browse oncology treatment regimens and explore their medications,
+      schedules, monitoring, supportive care, and references.
+    </p>
+  </header>
+
+  <section aria-labelledby="regimens-heading">
+    <h2 id="regimens-heading">All Regimens</h2>
+
+    {
+      regimens.length > 0 ? (
+        <div class="regimen-list">
+          {regimens.map((regimen) => (
+            <a
+              class="regimen-card"
+              href={`/regimens/${regimen.data.id}`}
+            >
+              <div class="regimen-card__content">
+                <h3>{regimen.data.title}</h3>
+
+                <p class="regimen-description">
+                  {regimen.data.description}
+                </p>
+
+                <div class="regimen-meta">
+                  <span>
+                    {regimen.data.setting
+                      .map((setting) => formatLabel(setting))
+                      .join(" / ")}
+                  </span>
+
+                  <span>
+                    {regimen.data.treatmentIntent
+                      .map((intent) => formatLabel(intent))
+                      .join(" / ")}
+                  </span>
+
+                  <span>
+                    {regimen.data.lineOfTherapy
+                      .map((line) => formatLabel(line))
+                      .join(" / ")}
+                  </span>
+                </div>
+              </div>
+
+              <span class="regimen-card__arrow" aria-hidden="true">
+                →
+              </span>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p>No regimens are currently listed.</p>
+      )
+    }
+  </section>
+</Layout>
+
+<style>
+  .page-header {
+    max-width: 760px;
+    margin-bottom: 2.5rem;
+  }
+
+  .page-eyebrow {
+    margin: 0 0 0.5rem;
+    color: var(--color-primary);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .page-header h1 {
+    margin: 0 0 0.75rem;
+  }
+
+  .page-header > p:last-child {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+
+  .regimen-list {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .regimen-card {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+
+    padding: 1.25rem 1.5rem;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+
+    background: var(--color-surface);
+    color: var(--color-text);
+
+    box-shadow: var(--shadow-sm);
+
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  .regimen-card:hover {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-md);
+    color: var(--color-text);
+    transform: translateY(-1px);
+  }
+
+  .regimen-card__content {
+    min-width: 0;
+  }
+
+  .regimen-card h3 {
+    margin: 0 0 0.4rem;
+    font-size: 1.05rem;
+  }
+
+  .regimen-description {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+  }
+
+  .regimen-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.9rem;
+  }
+
+  .regimen-meta span {
+    padding: 0.25rem 0.55rem;
+    border-radius: var(--radius-sm);
+    background: var(--color-background);
+    color: var(--color-text-muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .regimen-card__arrow {
+    flex-shrink: 0;
+    color: var(--color-primary);
+    font-size: 1.25rem;
+  }
+
+  @media (max-width: 600px) {
+    .regimen-card {
+      padding: 1rem;
+    }
+
+    .regimen-card__arrow {
+      display: none;
+    }
+
+    .regimen-meta {
+      gap: 0.35rem;
+    }
+  }
+</style>

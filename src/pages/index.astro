@@ -1,18 +1,487 @@
 ---
+import Layout from "@/layouts/Layout.astro";
+import { getCollection } from "astro:content";
 
+const diseases = await getCollection("diseases");
+const regimens = await getCollection("regimens");
+const drugs = await getCollection("drugs");
+const supportiveCare = await getCollection("supportiveCare");
+const sources = await getCollection("sources");
+
+const searchItems = [
+  ...diseases.map((item) => ({
+    type: "Disease",
+    title: item.data.title,
+    aliases: item.data.aliases,
+    url: `/diseases/${item.data.id}`,
+  })),
+
+  ...regimens.map((item) => ({
+    type: "Regimen",
+    title: item.data.title,
+    aliases: [],
+    url: `/regimens/${item.data.id}`,
+  })),
+
+  ...drugs.map((item) => ({
+    type: "Medication",
+    title: item.data.title,
+    aliases: item.data.aliases,
+    url: `/drugs/${item.data.id}`,
+  })),
+
+  ...supportiveCare.map((item) => ({
+    type: "Supportive Care",
+    title: item.data.title,
+    aliases: [],
+    url: `/supportive-care/${item.data.id}`,
+  })),
+
+  ...sources.map((item) => ({
+    type: "Source",
+    title: item.data.title,
+    aliases: item.data.aliases,
+    url: `/sources/${item.data.id}`,
+  })),
+];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-		<p><a href="/diseases/dlbcl">DLBCL</a></p>
-	</body>
-</html>
+<Layout
+  title="Oncology Clinical Reference"
+  description="A structured oncology clinical reference for rapid navigation of diseases, regimens, medications, supportive care, and references."
+>
+  <section class="home-hero">
+    <p class="home-eyebrow">ONCOLOGY CLINICAL REFERENCE</p>
+
+    <h1>OncoNavigator</h1>
+
+    <p class="home-introduction">
+      A structured clinical reference designed for rapid navigation
+      through oncology diseases, treatment regimens, medications,
+      supportive care, and source-traceable references.
+    </p>
+    <form class="search-form" id="clinical-search">
+      <label class="search-label" for="search-input">
+        Search OncoNavigator
+      </label>
+    
+      <div class="search-input-wrapper">
+        <input
+          id="search-input"
+          name="q"
+          type="search"
+          placeholder="Search diseases, regimens, medications..."
+          autocomplete="off"
+        />
+    
+        <button type="submit">
+          Search
+        </button>
+      </div>
+    </form>
+    
+    <div
+      id="search-results"
+      class="search-results"
+      aria-live="polite"
+    ></div>
+  </section>
+
+  <section aria-labelledby="clinical-navigation-heading">
+    <div class="section-heading">
+      <h2 id="clinical-navigation-heading">
+        Clinical Navigation
+      </h2>
+
+      <p>
+        Navigate from a clinical condition to treatment and
+        supporting clinical information.
+      </p>
+    </div>
+
+    <div class="navigation-grid">
+      <a class="navigation-card" href="/diseases">
+        <span class="navigation-card__title">Diseases</span>
+        <span class="navigation-card__description">
+          Browse diseases and their treatment pathways.
+        </span>
+        <span class="navigation-card__count">
+          {diseases.length} {diseases.length === 1 ? "disease" : "diseases"}
+        </span>
+      </a>
+
+      <a class="navigation-card" href="/regimens">
+        <span class="navigation-card__title">Regimens</span>
+        <span class="navigation-card__description">
+          Explore treatment protocols, schedules, medications,
+          monitoring, and supportive care.
+        </span>
+        <span class="navigation-card__count">
+          {regimens.length} {regimens.length === 1 ? "regimen" : "regimens"}
+        </span>
+      </a>
+
+      <a class="navigation-card" href="/drugs">
+        <span class="navigation-card__title">Medications</span>
+        <span class="navigation-card__description">
+          Find medication information and connections to treatment
+          regimens.
+        </span>
+        <span class="navigation-card__count">
+          {drugs.length} {drugs.length === 1 ? "medication" : "medications"}
+        </span>
+      </a>
+
+      <a class="navigation-card" href="/supportive-care">
+        <span class="navigation-card__title">Supportive Care</span>
+        <span class="navigation-card__description">
+          Access supportive-care topics relevant to oncology
+          treatment.
+        </span>
+        <span class="navigation-card__count">
+          {supportiveCare.length} topics
+        </span>
+      </a>
+
+      <a class="navigation-card" href="/sources">
+        <span class="navigation-card__title">Sources</span>
+        <span class="navigation-card__description">
+          Review the authoritative sources supporting the clinical
+          content.
+        </span>
+        <span class="navigation-card__count">
+          {sources.length} {sources.length === 1 ? "source" : "sources"}
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <section class="navigation-path" aria-labelledby="navigation-path-heading">
+    <h2 id="navigation-path-heading">Clinical Knowledge Path</h2>
+
+    <p>
+      Clinical scenario → Disease → Regimen → Medication →
+      Schedule / Protocol → Monitoring / Supportive Care →
+      References
+    </p>
+  </section>
+
+  <section class="home-notice" aria-labelledby="notice-heading">
+    <h2 id="notice-heading">Clinical Reference</h2>
+
+    <p>
+      OncoNavigator is intended as a clinical reference tool.
+      It does not replace clinical judgment, institutional protocols,
+      current prescribing information, or individualized patient
+      assessment.
+    </p>
+  </section>
+</Layout>
+
+<style>
+  .home-hero {
+    max-width: 760px;
+    margin-bottom: 3.5rem;
+  }
+
+  .home-eyebrow {
+    margin: 0 0 0.75rem;
+    color: var(--color-primary);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .home-hero h1 {
+    margin: 0 0 1rem;
+    font-size: clamp(2.25rem, 5vw, 3.5rem);
+    line-height: 1.1;
+  }
+
+  .home-introduction {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 1.125rem;
+    line-height: 1.7;
+  }
+
+  .section-heading {
+    margin-bottom: 1.5rem;
+  }
+
+  .section-heading h2 {
+    margin: 0 0 0.35rem;
+  }
+
+  .section-heading p {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+
+  .navigation-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .navigation-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 170px;
+    padding: 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-sm);
+    color: var(--color-text);
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  .navigation-card:hover {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-md);
+    color: var(--color-text);
+    transform: translateY(-2px);
+  }
+
+  .navigation-card__title {
+    margin-bottom: 0.5rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+  }
+
+  .navigation-card__description {
+    color: var(--color-text-muted);
+    line-height: 1.6;
+  }
+
+  .navigation-card__count {
+    margin-top: auto;
+    padding-top: 1rem;
+    color: var(--color-primary);
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .navigation-path {
+    margin-top: 3.5rem;
+    padding: 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+  }
+
+  .navigation-path h2 {
+    margin: 0 0 0.75rem;
+    font-size: 1.125rem;
+  }
+
+  .navigation-path p {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+
+  .home-notice {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    border-left: 4px solid var(--color-primary);
+    background: var(--color-surface);
+  }
+
+  .home-notice h2 {
+    margin: 0 0 0.5rem;
+    font-size: 1rem;
+  }
+
+  .home-notice p {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+
+  .search-form {
+  margin-top: 2rem;
+  max-width: 760px;
+}
+
+.search-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.search-input-wrapper {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.search-input-wrapper input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  outline: none;
+}
+
+.search-input-wrapper input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgb(37 99 235 / 10%);
+}
+
+.search-input-wrapper button {
+  padding: 0.8rem 1.25rem;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--color-primary);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.search-input-wrapper button:hover {
+  background: var(--color-primary-dark);
+}
+
+.search-results {
+  margin-top: 0.75rem;
+  max-width: 760px;
+}
+
+.search-results__list {
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.search-result {
+  display: block;
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
+}
+
+.search-result:last-child {
+  border-bottom: 0;
+}
+
+.search-result:hover {
+  background: var(--color-background);
+  color: var(--color-text);
+}
+
+.search-result__type {
+  display: block;
+  margin-bottom: 0.15rem;
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.search-result__title {
+  font-weight: 600;
+}
+
+.search-no-results {
+  margin: 0;
+  padding: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 500px) {
+  .search-input-wrapper {
+    flex-direction: column;
+  }
+
+  .search-input-wrapper button {
+    width: 100%;
+  }
+}
+
+  @media (max-width: 700px) {
+    .navigation-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script define:vars={{ searchItems }}>
+  const form = document.querySelector("#clinical-search");
+  const input = document.querySelector("#search-input");
+  const results = document.querySelector("#search-results");
+
+  if (
+    form instanceof HTMLFormElement &&
+    input instanceof HTMLInputElement &&
+    results instanceof HTMLElement
+  ) {
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const query = input.value.trim().toLowerCase();
+
+      if (!query) {
+        results.innerHTML = "";
+        return;
+      }
+
+      const matches = searchItems
+        .filter((item) => {
+          const text = [
+            item.title,
+            ...item.aliases,
+            item.type,
+          ]
+            .join(" ")
+            .toLowerCase();
+
+          return text.includes(query);
+        })
+        .slice(0, 10);
+
+      if (matches.length === 0) {
+        results.innerHTML = `
+          <p class="search-no-results">
+            No matching clinical information was found.
+          </p>
+        `;
+        return;
+      }
+
+      results.innerHTML = `
+        <div class="search-results__list">
+          ${matches
+            .map(
+              (item) => `
+                <a
+                  class="search-result"
+                  href="${item.url}"
+                >
+                  <span class="search-result__type">
+                    ${item.type}
+                  </span>
+
+                  <span class="search-result__title">
+                    ${item.title}
+                  </span>
+                </a>
+              `,
+            )
+            .join("")}
+        </div>
+      `;
+    });
+  }
+</script>

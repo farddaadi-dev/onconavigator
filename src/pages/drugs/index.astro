@@ -1,0 +1,181 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import { formatLabel } from "@/utils/formatText";
+
+const drugs = await getCollection("drugs");
+---
+
+<Layout
+  title="Medications"
+  description="Browse oncology medications and their clinical information."
+>
+  <header class="page-header">
+    <p class="page-eyebrow">CLINICAL KNOWLEDGE</p>
+
+    <h1>Medications</h1>
+
+    <p>
+      Browse medications and explore their indications, administration,
+      precautions, monitoring, and references.
+    </p>
+  </header>
+
+  <section aria-labelledby="drugs-heading">
+    <h2 id="drugs-heading">All Medications</h2>
+
+    {
+      drugs.length > 0 ? (
+        <div class="drug-list">
+          {drugs.map((drug) => (
+            <a
+              class="drug-card"
+              href={`/drugs/${drug.data.id}`}
+            >
+              <div class="drug-card__content">
+                <h3>{drug.data.title}</h3>
+
+                {
+                  drug.data.aliases.length > 0 && (
+                    <p class="drug-aliases">
+                      {drug.data.aliases.join(", ")}
+                    </p>
+                  )
+                }
+
+<div class="drug-meta">
+  <span>
+    {formatLabel(drug.data.classification.class)}
+  </span>
+
+  {
+    drug.data.classification.subclass && (
+      <span>
+        {formatLabel(drug.data.classification.subclass)}
+      </span>
+    )
+  }
+</div>
+              </div>
+
+              <span class="drug-card__arrow" aria-hidden="true">
+                →
+              </span>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p>No medications are currently listed.</p>
+      )
+    }
+  </section>
+</Layout>
+
+<style>
+  .page-header {
+    max-width: 760px;
+    margin-bottom: 2.5rem;
+  }
+
+  .page-eyebrow {
+    margin: 0 0 0.5rem;
+    color: var(--color-primary);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .page-header h1 {
+    margin: 0 0 0.75rem;
+  }
+
+  .page-header > p:last-child {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+
+  .drug-list {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .drug-card {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+
+    padding: 1.25rem 1.5rem;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+
+    background: var(--color-surface);
+    color: var(--color-text);
+
+    box-shadow: var(--shadow-sm);
+
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  .drug-card:hover {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-md);
+    color: var(--color-text);
+    transform: translateY(-1px);
+  }
+
+  .drug-card__content {
+    min-width: 0;
+  }
+
+  .drug-card h3 {
+    margin: 0;
+    font-size: 1.05rem;
+  }
+
+  .drug-aliases {
+    margin: 0.25rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+  }
+
+  .drug-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.9rem;
+  }
+
+  .drug-meta span {
+    padding: 0.25rem 0.55rem;
+    border-radius: var(--radius-sm);
+    background: var(--color-background);
+    color: var(--color-text-muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .drug-card__arrow {
+    flex-shrink: 0;
+    color: var(--color-primary);
+    font-size: 1.25rem;
+  }
+
+  @media (max-width: 600px) {
+    .drug-card {
+      padding: 1rem;
+    }
+
+    .drug-card__arrow {
+      display: none;
+    }
+
+    .drug-meta {
+      gap: 0.35rem;
+    }
+  }
+</style>

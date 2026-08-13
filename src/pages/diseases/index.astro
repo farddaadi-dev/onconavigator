@@ -1,0 +1,126 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+
+const diseases = await getCollection("diseases");
+---
+
+<Layout
+  title="Diseases"
+  description="Browse oncology diseases and their treatment pathways."
+>
+  <header class="page-header">
+    <p class="page-eyebrow">CLINICAL KNOWLEDGE</p>
+
+    <h1>Diseases</h1>
+
+    <p>
+      Browse diseases and explore their associated treatment pathways.
+    </p>
+  </header>
+
+  <section aria-labelledby="diseases-heading">
+    <h2 id="diseases-heading">All Diseases</h2>
+
+    {
+      diseases.length > 0 ? (
+        <div class="disease-list">
+          {diseases.map((disease) => (
+            <a
+              class="disease-card"
+              href={`/diseases/${disease.data.id}`}
+            >
+              <div>
+                <h3>{disease.data.title}</h3>
+
+                {
+                  disease.data.aliases.length > 0 && (
+                    <p>{disease.data.aliases.join(", ")}</p>
+                  )
+                }
+              </div>
+
+              <span aria-hidden="true">→</span>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p>No diseases are currently listed.</p>
+      )
+    }
+  </section>
+</Layout>
+
+<style>
+  .page-header {
+    max-width: 720px;
+    margin-bottom: 2.5rem;
+  }
+
+  .page-eyebrow {
+    margin: 0 0 0.5rem;
+    color: var(--color-primary);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .page-header h1 {
+    margin: 0 0 0.75rem;
+  }
+
+  .page-header > p:last-child {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+
+  .disease-list {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .disease-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+
+    padding: 1.25rem 1.5rem;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+
+    background: var(--color-surface);
+    color: var(--color-text);
+
+    box-shadow: var(--shadow-sm);
+
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  .disease-card:hover {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-md);
+    color: var(--color-text);
+    transform: translateY(-1px);
+  }
+
+  .disease-card h3 {
+    margin: 0;
+    font-size: 1.05rem;
+  }
+
+  .disease-card p {
+    margin: 0.25rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+  }
+
+  .disease-card > span {
+    color: var(--color-primary);
+    font-size: 1.25rem;
+  }
+</style>

@@ -1,0 +1,167 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+
+const supportiveCare = await getCollection("supportiveCare");
+---
+
+<Layout
+  title="Supportive Care"
+  description="Browse supportive care guidance for oncology treatment."
+>
+  <header class="page-header">
+    <p class="page-eyebrow">CLINICAL KNOWLEDGE</p>
+
+    <h1>Supportive Care</h1>
+
+    <p>
+      Browse supportive care topics related to the prevention and management
+      of complications associated with cancer and its treatment.
+    </p>
+  </header>
+
+  <section aria-labelledby="supportive-care-heading">
+    <h2 id="supportive-care-heading">All Supportive Care</h2>
+
+    {
+      supportiveCare.length > 0 ? (
+        <div class="supportive-care-list">
+          {supportiveCare.map((item) => (
+            <a
+              class="supportive-care-card"
+              href={`/supportive-care/${item.data.id}`}
+            >
+              <div class="supportive-care-card__content">
+  <h3>{item.data.title}</h3>
+
+  {
+    item.data.aliases.length > 0 && (
+      <p>{item.data.aliases.join(", ")}</p>
+    )
+  }
+
+  <div class="supportive-care-meta">
+    <span>{item.data.category}</span>
+  </div>
+</div>
+
+              <span
+                class="supportive-care-card__arrow"
+                aria-hidden="true"
+              >
+                →
+              </span>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p>No supportive care topics are currently listed.</p>
+      )
+    }
+  </section>
+</Layout>
+
+<style>
+  .page-header {
+    max-width: 760px;
+    margin-bottom: 2.5rem;
+  }
+
+  .page-eyebrow {
+    margin: 0 0 0.5rem;
+    color: var(--color-primary);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .page-header h1 {
+    margin: 0 0 0.75rem;
+  }
+
+  .page-header > p:last-child {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+
+  .supportive-care-list {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .supportive-care-card {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+
+    padding: 1.25rem 1.5rem;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+
+    background: var(--color-surface);
+    color: var(--color-text);
+
+    box-shadow: var(--shadow-sm);
+
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  .supportive-care-card:hover {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-md);
+    color: var(--color-text);
+    transform: translateY(-1px);
+  }
+
+  .supportive-care-card__content {
+    min-width: 0;
+  }
+
+  .supportive-care-card h3 {
+    margin: 0;
+    font-size: 1.05rem;
+  }
+
+  .supportive-care-card p {
+    margin: 0.4rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+  }
+
+  .supportive-care-card__arrow {
+    flex-shrink: 0;
+    color: var(--color-primary);
+    font-size: 1.25rem;
+  }
+
+  .supportive-care-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.9rem;
+}
+
+.supportive-care-meta span {
+  padding: 0.25rem 0.55rem;
+  border-radius: var(--radius-sm);
+  background: var(--color-background);
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+  @media (max-width: 600px) {
+    .supportive-care-card {
+      padding: 1rem;
+    }
+
+    .supportive-care-card__arrow {
+      display: none;
+    }
+  }
+</style>

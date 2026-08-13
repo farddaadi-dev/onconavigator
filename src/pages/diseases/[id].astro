@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
-import { getClinicalLabel } from '@/utils/clinicalTerms';
-import { formatLabel } from '@/utils/formatText';
+import Layout from "@/layouts/Layout.astro";
+import { formatLabel } from "@/utils/formatText";
 import {
   getRegimenById,
   getSourceById,
@@ -87,144 +87,426 @@ const references = (
 );
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>{disease.data.title} | OncoNavigator</title>
-  </head>
+<Layout
+  title={disease.data.title}
+  description={`Clinical information and treatment pathways for ${disease.data.title}.`}
+>
+  <article class="disease-page">
 
-  <body>
-    <main>
-      <a href="/">OncoNavigator</a>
+    <!-- Disease Header -->
+    <header class="disease-header">
+      <p class="page-eyebrow">DISEASE</p>
 
-      <header>
-        <h1>{disease.data.title}</h1>
-
-        {
-          disease.data.aliases.length > 0 && (
-            <p>{disease.data.aliases.join(", ")}</p>
-          )
-        }
-      </header>
+      <h1>{disease.data.title}</h1>
 
       {
-        categoryGroups.length > 0 && (
-          <section aria-labelledby="categories-heading">
-            <h2 id="categories-heading">Categories</h2>
-
-            {
-              categoryGroups.map((category) => (
-                <div>
-                  <h3>{category.title}</h3>
-
-                  {
-                    category.treatments.map((treatment) => (
-                      <div>
-                        <h4>{formatLabel(treatment.setting)}</h4>
-                        <h5>{formatLabel(treatment.lineOfTherapy)}</h5>
-
-                        {
-                          treatment.regimens.length > 0 ? (
-                            <ul>
-                              {treatment.regimens.map((regimen) => (
-                                <li>
-                                  <a
-                                    href={`/regimens/${regimen.data.id}`}
-                                  >
-                                    {regimen.data.title}
-                                  </a>
-                                </li>
-                              ))}
-                            </ul>
-                          ) : (
-                            <p>No regimens are currently listed.</p>
-                          )
-                        }
-                      </div>
-                    ))
-                  }
-                </div>
-              ))
-            }
-          </section>
+        disease.data.aliases.length > 0 && (
+          <p class="disease-aliases">
+            {disease.data.aliases.join(", ")}
+          </p>
         )
       }
+    </header>
 
-      {
-        treatmentGroups.length > 0 && (
-          <section aria-labelledby="treatment-heading">
+    <!-- Treatment Categories -->
+    {
+      categoryGroups.length > 0 && (
+        <section
+          class="clinical-section"
+          aria-labelledby="categories-heading"
+        >
+          <div class="section-heading">
+            <h2 id="categories-heading">Treatment Categories</h2>
+            <p>
+              Treatment pathways organized by clinical disease category.
+            </p>
+          </div>
+
+          <div class="category-list">
+            {
+              categoryGroups.map((category) => (
+                <article class="category-card">
+                  <h3>{category.title}</h3>
+
+                  <div class="treatment-list">
+                    {
+                      category.treatments.map((treatment) => (
+                        <div class="treatment-group">
+                          <div class="treatment-meta">
+  <span class="treatment-badge">
+    {formatLabel(treatment.setting)}
+  </span>
+
+  <span class="treatment-badge">
+    {formatLabel(treatment.lineOfTherapy)}
+  </span>
+</div>
+
+                          {
+                            treatment.regimens.length > 0 ? (
+                              <div class="regimen-list">
+                                {
+                                  treatment.regimens.map((regimen) => (
+                                    <a
+                                      class="regimen-card"
+                                      href={`/regimens/${regimen.data.id}`}
+                                    >
+                                      <span class="regimen-card__title">
+                                        {regimen.data.title}
+                                      </span>
+
+                                      <span class="regimen-card__arrow">
+                                        →
+                                      </span>
+                                    </a>
+                                  ))
+                                }
+                              </div>
+                            ) : (
+                              <p class="empty-state">
+                                No regimens are currently listed.
+                              </p>
+                            )
+                          }
+                        </div>
+                      ))
+                    }
+                  </div>
+                </article>
+              ))
+            }
+          </div>
+        </section>
+      )
+    }
+
+    <!-- General Treatment -->
+    {
+      treatmentGroups.length > 0 && (
+        <section
+          class="clinical-section"
+          aria-labelledby="treatment-heading"
+        >
+          <div class="section-heading">
             <h2 id="treatment-heading">Treatment</h2>
+            <p>
+              Treatment regimens currently associated with this disease.
+            </p>
+          </div>
 
+          <div class="treatment-list">
             {
               treatmentGroups.map((treatment) => (
-                <div>
-                  <h3>{formatLabel(treatment.setting)}</h3>
-                  <h4>{formatLabel(treatment.lineOfTherapy)}</h4>
+                <article class="treatment-card">
+                  <div class="treatment-card__header">
+                    <div>
+                      <h3>{formatLabel(treatment.setting)}</h3>
+
+                      <span class="treatment-line">
+                        {formatLabel(treatment.lineOfTherapy)}
+                      </span>
+                    </div>
+                  </div>
 
                   {
                     treatment.regimens.length > 0 ? (
-                      <ul>
-                        {treatment.regimens.map((regimen) => (
-                          <li>
-                            <a href={`/regimens/${regimen.data.id}`}>
-                              {regimen.data.title}
+                      <div class="regimen-list">
+                        {
+                          treatment.regimens.map((regimen) => (
+                            <a
+                              class="regimen-card"
+                              href={`/regimens/${regimen.data.id}`}
+                            >
+                              <span class="regimen-card__title">
+                                {regimen.data.title}
+                              </span>
+
+                              <span class="regimen-card__arrow">
+                                →
+                              </span>
                             </a>
-                          </li>
-                        ))}
-                      </ul>
+                          ))
+                        }
+                      </div>
                     ) : (
-                      <p>No regimens are currently listed.</p>
+                      <p class="empty-state">
+                        No regimens are currently listed.
+                      </p>
                     )
                   }
-                </div>
+                </article>
               ))
             }
-          </section>
+          </div>
+        </section>
+      )
+    }
+
+    <!-- Supportive Care -->
+    {
+      supportiveCareItems.length > 0 && (
+        <section
+          class="clinical-section"
+          aria-labelledby="supportive-care-heading"
+        >
+          <div class="section-heading">
+            <h2 id="supportive-care-heading">Supportive Care</h2>
+            <p>
+              Supportive-care topics relevant to this disease.
+            </p>
+          </div>
+
+          <div class="supportive-care-list">
+            {
+              supportiveCareItems.map((item) => (
+                <a
+                  class="supportive-care-card"
+                  href={`/supportive-care/${item.data.id}`}
+                >
+                  <span>{item.data.title}</span>
+                  <span>→</span>
+                </a>
+              ))
+            }
+          </div>
+        </section>
+      )
+    }
+
+    <!-- References -->
+    <section
+      class="clinical-section"
+      aria-labelledby="references-heading"
+    >
+      <div class="section-heading">
+        <h2 id="references-heading">References</h2>
+        <p>
+          Sources supporting the clinical information on this page.
+        </p>
+      </div>
+
+      {
+        references.length > 0 ? (
+          <ol class="reference-list">
+            {
+              references.map((source) => (
+                <li>
+                  <a href={`/sources/${source.data.id}`}>
+                    {source.data.publication.citation}
+                  </a>
+                </li>
+              ))
+            }
+          </ol>
+        ) : (
+          <p class="empty-state">
+            No references are currently listed.
+          </p>
         )
       }
-
-{
-  supportiveCareItems.length > 0 && (
-    <section aria-labelledby="supportive-care-heading">
-      <h2 id="supportive-care-heading">Supportive Care</h2>
-
-      <ul>
-        {
-          supportiveCareItems.map((item) => (
-            <li>
-              <a href={`/supportive-care/${item.data.id}`}>
-                {item.data.title}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
     </section>
-  )
+
+  </article>
+</Layout>
+
+<style>
+  .disease-page {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .disease-header {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .page-eyebrow {
+    margin: 0 0 0.5rem;
+    color: var(--color-primary);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .disease-header h1 {
+    margin: 0;
+    font-size: clamp(2rem, 5vw, 3rem);
+    line-height: 1.15;
+  }
+
+  .disease-aliases {
+    margin: 0.75rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 1rem;
+  }
+
+  .clinical-section {
+    margin-top: 3rem;
+  }
+
+  .section-heading {
+    margin-bottom: 1.25rem;
+  }
+
+  .section-heading h2 {
+    margin: 0 0 0.35rem;
+    font-size: 1.5rem;
+  }
+
+  .section-heading p {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+
+  .category-list,
+  .treatment-list {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .category-card,
+  .treatment-card {
+    padding: 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .category-card h3,
+  .treatment-card h3 {
+    margin: 0;
+    font-size: 1.125rem;
+  }
+
+  .treatment-list {
+    margin-top: 1.25rem;
+  }
+
+  .treatment-group {
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .treatment-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
 }
 
-      <section aria-labelledby="references-heading">
-        <h2 id="references-heading">References</h2>
+.treatment-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-background);
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+  .treatment-setting,
+  .treatment-line {
+    display: inline-block;
+    padding: 0.2rem 0.55rem;
+    border-radius: var(--radius-sm);
+    background: var(--color-background);
+    color: var(--color-text-muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
 
-        {
-          references.length > 0 ? (
-            <ul>
-              {
-                references.map((source) => (
-                  <li>
-                    <a href={`/sources/${source.data.id}`}>
-                      {source.data.publication.citation}
-                    </a>
-                  </li>
-                ))
-              }
-            </ul>
-          ) : (
-            <p>No references are currently listed.</p>
-          )
-        }
-      </section>
-    </main>
-  </body>
-</html>
+  .regimen-list {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .regimen-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+    color: var(--color-text);
+    transition:
+      border-color 0.15s ease,
+      background 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  .regimen-card:hover {
+    border-color: var(--color-primary);
+    background: var(--color-background);
+    color: var(--color-text);
+    transform: translateX(2px);
+  }
+
+  .regimen-card__title {
+    font-weight: 600;
+  }
+
+  .regimen-card__arrow {
+    flex-shrink: 0;
+    color: var(--color-primary);
+    font-size: 1.1rem;
+  }
+
+  .supportive-care-list {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .supportive-care-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+    color: var(--color-text);
+  }
+
+  .supportive-care-card:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  .reference-list {
+    margin: 0;
+    padding-left: 1.5rem;
+  }
+
+  .reference-list li {
+    margin-bottom: 0.75rem;
+    padding-left: 0.25rem;
+  }
+
+  .empty-state {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 600px) {
+    .disease-header {
+      margin-bottom: 2rem;
+    }
+
+    .clinical-section {
+      margin-top: 2rem;
+    }
+
+    .category-card,
+    .treatment-card {
+      padding: 1rem;
+    }
+  }
+</style>
