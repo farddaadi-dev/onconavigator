@@ -1,8 +1,8 @@
 ---
-import { getCollection } from "astro:content";
-import Layout from "@/layouts/Layout.astro";
+import { getCollection } from 'astro:content';
+import Layout from '@/layouts/Layout.astro';
 
-const diseases = await getCollection("diseases");
+const diseases = await getCollection('diseases');
 ---
 
 <Layout
@@ -14,9 +14,7 @@ const diseases = await getCollection("diseases");
 
     <h1>Diseases</h1>
 
-    <p>
-      Browse diseases and explore their associated treatment pathways.
-    </p>
+    <p>Browse diseases and explore their associated treatment pathways.</p>
   </header>
 
   <section aria-labelledby="diseases-heading">
@@ -26,18 +24,13 @@ const diseases = await getCollection("diseases");
       diseases.length > 0 ? (
         <div class="disease-list">
           {diseases.map((disease) => (
-            <a
-              class="disease-card"
-              href={`/diseases/${disease.data.id}`}
-            >
+            <a class="disease-card" href={`/diseases/${disease.data.id}`}>
               <div>
                 <h3>{disease.data.title}</h3>
 
-                {
-                  disease.data.aliases.length > 0 && (
-                    <p>{disease.data.aliases.join(", ")}</p>
-                  )
-                }
+                {disease.data.aliases.length > 0 && (
+                  <p>{disease.data.aliases.join(', ')}</p>
+                )}
               </div>
 
               <span aria-hidden="true">→</span>

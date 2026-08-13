@@ -1,9 +1,9 @@
 ---
-import { getCollection } from "astro:content";
-import Layout from "@/layouts/Layout.astro";
-import { formatLabel } from "@/utils/formatText";
+import { getCollection } from 'astro:content';
+import Layout from '@/layouts/Layout.astro';
+import { formatLabel } from '@/utils/formatText';
 
-const regimens = await getCollection("regimens");
+const regimens = await getCollection('regimens');
 ---
 
 <Layout
@@ -28,34 +28,29 @@ const regimens = await getCollection("regimens");
       regimens.length > 0 ? (
         <div class="regimen-list">
           {regimens.map((regimen) => (
-            <a
-              class="regimen-card"
-              href={`/regimens/${regimen.data.id}`}
-            >
+            <a class="regimen-card" href={`/regimens/${regimen.data.id}`}>
               <div class="regimen-card__content">
                 <h3>{regimen.data.title}</h3>
 
-                <p class="regimen-description">
-                  {regimen.data.description}
-                </p>
+                <p class="regimen-description">{regimen.data.description}</p>
 
                 <div class="regimen-meta">
                   <span>
                     {regimen.data.setting
                       .map((setting) => formatLabel(setting))
-                      .join(" / ")}
+                      .join(' / ')}
                   </span>
 
                   <span>
                     {regimen.data.treatmentIntent
                       .map((intent) => formatLabel(intent))
-                      .join(" / ")}
+                      .join(' / ')}
                   </span>
 
                   <span>
                     {regimen.data.lineOfTherapy
                       .map((line) => formatLabel(line))
-                      .join(" / ")}
+                      .join(' / ')}
                   </span>
                 </div>
               </div>

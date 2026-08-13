@@ -1,15 +1,15 @@
 ---
-import { getCollection } from "astro:content";
-import Layout from "@/layouts/Layout.astro";
-import { formatLabel } from "@/utils/formatText";
+import { getCollection } from 'astro:content';
+import Layout from '@/layouts/Layout.astro';
+import { formatLabel } from '@/utils/formatText';
 import {
   getRegimenById,
   getSourceById,
   getSupportiveCareById,
-} from "@/utils/content";
+} from '@/utils/content';
 
 export async function getStaticPaths() {
-  const diseases = await getCollection("diseases");
+  const diseases = await getCollection('diseases');
 
   return diseases.map((disease) => ({
     params: { id: disease.data.id },
@@ -22,9 +22,7 @@ const { disease } = Astro.props;
 const treatmentGroups = await Promise.all(
   disease.data.treatment.map(async (treatment) => {
     const regimens = (
-      await Promise.all(
-        treatment.regimens.map((id) => getRegimenById(id)),
-      )
+      await Promise.all(treatment.regimens.map((id) => getRegimenById(id)))
     ).filter(
       (regimen): regimen is NonNullable<typeof regimen> =>
         regimen !== undefined,
@@ -43,9 +41,7 @@ const categoryGroups = await Promise.all(
     const treatments = await Promise.all(
       category.treatment.map(async (treatment) => {
         const regimens = (
-          await Promise.all(
-            treatment.regimens.map((id) => getRegimenById(id)),
-          )
+          await Promise.all(treatment.regimens.map((id) => getRegimenById(id)))
         ).filter(
           (regimen): regimen is NonNullable<typeof regimen> =>
             regimen !== undefined,
@@ -68,22 +64,14 @@ const categoryGroups = await Promise.all(
 
 const supportiveCareItems = (
   await Promise.all(
-    disease.data.supportiveCare.map((id) =>
-      getSupportiveCareById(id),
-    ),
+    disease.data.supportiveCare.map((id) => getSupportiveCareById(id)),
   )
-).filter(
-  (item): item is NonNullable<typeof item> =>
-    item !== undefined,
-);
+).filter((item): item is NonNullable<typeof item> => item !== undefined);
 
 const references = (
-  await Promise.all(
-    disease.data.references.map((id) => getSourceById(id)),
-  )
+  await Promise.all(disease.data.references.map((id) => getSourceById(id)))
 ).filter(
-  (source): source is NonNullable<typeof source> =>
-    source !== undefined,
+  (source): source is NonNullable<typeof source> => source !== undefined,
 );
 ---
 
@@ -92,7 +80,6 @@ const references = (
   description={`Clinical information and treatment pathways for ${disease.data.title}.`}
 >
   <article class="disease-page">
-
     <!-- Disease Header -->
     <header class="disease-header">
       <p class="page-eyebrow">DISEASE</p>
@@ -101,9 +88,7 @@ const references = (
 
       {
         disease.data.aliases.length > 0 && (
-          <p class="disease-aliases">
-            {disease.data.aliases.join(", ")}
-          </p>
+          <p class="disease-aliases">{disease.data.aliases.join(', ')}</p>
         )
       }
     </header>
@@ -111,108 +96,33 @@ const references = (
     <!-- Treatment Categories -->
     {
       categoryGroups.length > 0 && (
-        <section
-          class="clinical-section"
-          aria-labelledby="categories-heading"
-        >
+        <section class="clinical-section" aria-labelledby="categories-heading">
           <div class="section-heading">
             <h2 id="categories-heading">Treatment Categories</h2>
-            <p>
-              Treatment pathways organized by clinical disease category.
-            </p>
+            <p>Treatment pathways organized by clinical disease category.</p>
           </div>
 
           <div class="category-list">
-            {
-              categoryGroups.map((category) => (
-                <article class="category-card">
-                  <h3>{category.title}</h3>
+            {categoryGroups.map((category) => (
+              <article class="category-card">
+                <h3>{category.title}</h3>
 
-                  <div class="treatment-list">
-                    {
-                      category.treatments.map((treatment) => (
-                        <div class="treatment-group">
-                          <div class="treatment-meta">
-  <span class="treatment-badge">
-    {formatLabel(treatment.setting)}
-  </span>
+                <div class="treatment-list">
+                  {category.treatments.map((treatment) => (
+                    <div class="treatment-group">
+                      <div class="treatment-meta">
+                        <span class="treatment-badge">
+                          {formatLabel(treatment.setting)}
+                        </span>
 
-  <span class="treatment-badge">
-    {formatLabel(treatment.lineOfTherapy)}
-  </span>
-</div>
+                        <span class="treatment-badge">
+                          {formatLabel(treatment.lineOfTherapy)}
+                        </span>
+                      </div>
 
-                          {
-                            treatment.regimens.length > 0 ? (
-                              <div class="regimen-list">
-                                {
-                                  treatment.regimens.map((regimen) => (
-                                    <a
-                                      class="regimen-card"
-                                      href={`/regimens/${regimen.data.id}`}
-                                    >
-                                      <span class="regimen-card__title">
-                                        {regimen.data.title}
-                                      </span>
-
-                                      <span class="regimen-card__arrow">
-                                        →
-                                      </span>
-                                    </a>
-                                  ))
-                                }
-                              </div>
-                            ) : (
-                              <p class="empty-state">
-                                No regimens are currently listed.
-                              </p>
-                            )
-                          }
-                        </div>
-                      ))
-                    }
-                  </div>
-                </article>
-              ))
-            }
-          </div>
-        </section>
-      )
-    }
-
-    <!-- General Treatment -->
-    {
-      treatmentGroups.length > 0 && (
-        <section
-          class="clinical-section"
-          aria-labelledby="treatment-heading"
-        >
-          <div class="section-heading">
-            <h2 id="treatment-heading">Treatment</h2>
-            <p>
-              Treatment regimens currently associated with this disease.
-            </p>
-          </div>
-
-          <div class="treatment-list">
-            {
-              treatmentGroups.map((treatment) => (
-                <article class="treatment-card">
-                  <div class="treatment-card__header">
-                    <div>
-                      <h3>{formatLabel(treatment.setting)}</h3>
-
-                      <span class="treatment-line">
-                        {formatLabel(treatment.lineOfTherapy)}
-                      </span>
-                    </div>
-                  </div>
-
-                  {
-                    treatment.regimens.length > 0 ? (
-                      <div class="regimen-list">
-                        {
-                          treatment.regimens.map((regimen) => (
+                      {treatment.regimens.length > 0 ? (
+                        <div class="regimen-list">
+                          {treatment.regimens.map((regimen) => (
                             <a
                               class="regimen-card"
                               href={`/regimens/${regimen.data.id}`}
@@ -221,22 +131,67 @@ const references = (
                                 {regimen.data.title}
                               </span>
 
-                              <span class="regimen-card__arrow">
-                                →
-                              </span>
+                              <span class="regimen-card__arrow">→</span>
                             </a>
-                          ))
-                        }
-                      </div>
-                    ) : (
-                      <p class="empty-state">
-                        No regimens are currently listed.
-                      </p>
-                    )
-                  }
-                </article>
-              ))
-            }
+                          ))}
+                        </div>
+                      ) : (
+                        <p class="empty-state">
+                          No regimens are currently listed.
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    <!-- General Treatment -->
+    {
+      treatmentGroups.length > 0 && (
+        <section class="clinical-section" aria-labelledby="treatment-heading">
+          <div class="section-heading">
+            <h2 id="treatment-heading">Treatment</h2>
+            <p>Treatment regimens currently associated with this disease.</p>
+          </div>
+
+          <div class="treatment-list">
+            {treatmentGroups.map((treatment) => (
+              <article class="treatment-card">
+                <div class="treatment-card__header">
+                  <div>
+                    <h3>{formatLabel(treatment.setting)}</h3>
+
+                    <span class="treatment-line">
+                      {formatLabel(treatment.lineOfTherapy)}
+                    </span>
+                  </div>
+                </div>
+
+                {treatment.regimens.length > 0 ? (
+                  <div class="regimen-list">
+                    {treatment.regimens.map((regimen) => (
+                      <a
+                        class="regimen-card"
+                        href={`/regimens/${regimen.data.id}`}
+                      >
+                        <span class="regimen-card__title">
+                          {regimen.data.title}
+                        </span>
+
+                        <span class="regimen-card__arrow">→</span>
+                      </a>
+                    ))}
+                  </div>
+                ) : (
+                  <p class="empty-state">No regimens are currently listed.</p>
+                )}
+              </article>
+            ))}
           </div>
         </section>
       )
@@ -251,61 +206,47 @@ const references = (
         >
           <div class="section-heading">
             <h2 id="supportive-care-heading">Supportive Care</h2>
-            <p>
-              Supportive-care topics relevant to this disease.
-            </p>
+            <p>Supportive-care topics relevant to this disease.</p>
           </div>
 
           <div class="supportive-care-list">
-            {
-              supportiveCareItems.map((item) => (
-                <a
-                  class="supportive-care-card"
-                  href={`/supportive-care/${item.data.id}`}
-                >
-                  <span>{item.data.title}</span>
-                  <span>→</span>
-                </a>
-              ))
-            }
+            {supportiveCareItems.map((item) => (
+              <a
+                class="supportive-care-card"
+                href={`/supportive-care/${item.data.id}`}
+              >
+                <span>{item.data.title}</span>
+                <span>→</span>
+              </a>
+            ))}
           </div>
         </section>
       )
     }
 
     <!-- References -->
-    <section
-      class="clinical-section"
-      aria-labelledby="references-heading"
-    >
+    <section class="clinical-section" aria-labelledby="references-heading">
       <div class="section-heading">
         <h2 id="references-heading">References</h2>
-        <p>
-          Sources supporting the clinical information on this page.
-        </p>
+        <p>Sources supporting the clinical information on this page.</p>
       </div>
 
       {
         references.length > 0 ? (
           <ol class="reference-list">
-            {
-              references.map((source) => (
-                <li>
-                  <a href={`/sources/${source.data.id}`}>
-                    {source.data.publication.citation}
-                  </a>
-                </li>
-              ))
-            }
+            {references.map((source) => (
+              <li>
+                <a href={`/sources/${source.data.id}`}>
+                  {source.data.publication.citation}
+                </a>
+              </li>
+            ))}
           </ol>
         ) : (
-          <p class="empty-state">
-            No references are currently listed.
-          </p>
+          <p class="empty-state">No references are currently listed.</p>
         )
       }
     </section>
-
   </article>
 </Layout>
 
@@ -391,24 +332,24 @@ const references = (
   }
 
   .treatment-meta {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  margin-bottom: 0.75rem;
-}
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+  }
 
-.treatment-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.25rem 0.6rem;
-  border: 1px solid var(--color-border);
-  border-radius: 999px;
-  background: var(--color-background);
-  color: var(--color-text-muted);
-  font-size: 0.8rem;
-  font-weight: 600;
-}
+  .treatment-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.6rem;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    background: var(--color-background);
+    color: var(--color-text-muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
   .treatment-setting,
   .treatment-line {
     display: inline-block;

@@ -1,15 +1,12 @@
 ---
-import "@/styles/global.css";
+import '@/styles/global.css';
 
 interface Props {
   title: string;
   description?: string;
 }
 
-const {
-  title,
-  description = "Oncology clinical reference",
-} = Astro.props;
+const { title, description = 'Oncology clinical reference' } = Astro.props;
 ---
 
 <!doctype html>
@@ -17,15 +14,9 @@ const {
   <head>
     <meta charset="UTF-8" />
 
-    <meta
-      name="viewport"
-      content="width=device-width"
-    />
+    <meta name="viewport" content="width=device-width" />
 
-    <meta
-      name="description"
-      content={description}
-    />
+    <meta name="description" content={description} />
 
     <title>{title} | OncoNavigator</title>
   </head>
@@ -33,14 +24,10 @@ const {
   <body>
     <header class="site-header">
       <div class="site-header__inner">
-        <a
-          href="/"
-          class="site-logo"
-          aria-label="OncoNavigator home"
-        >
+        <a href="/" class="site-logo" aria-label="OncoNavigator home">
           OncoNavigator
         </a>
-    
+
         <button
           class="menu-toggle"
           type="button"
@@ -52,7 +39,7 @@ const {
           <span></span>
           <span></span>
         </button>
-    
+
         <nav
           id="site-navigation"
           class="site-nav"
@@ -75,48 +62,37 @@ const {
 
     <footer class="site-footer">
       <div class="site-container">
-        <p>
-          OncoNavigator · Oncology Clinical Reference
-        </p>
+        <p>OncoNavigator · Oncology Clinical Reference</p>
       </div>
     </footer>
   </body>
 </html>
 
 <script>
-  const menuToggle =
-    document.querySelector<HTMLButtonElement>(".menu-toggle");
+  const menuToggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
 
-  const siteNav =
-    document.querySelector<HTMLElement>(".site-nav");
+  const siteNav = document.querySelector<HTMLElement>('.site-nav');
 
   if (menuToggle && siteNav) {
-    menuToggle.addEventListener("click", () => {
-      const isOpen =
-        menuToggle.getAttribute("aria-expanded") === "true";
+    menuToggle.addEventListener('click', () => {
+      const isOpen = menuToggle.getAttribute('aria-expanded') === 'true';
+
+      menuToggle.setAttribute('aria-expanded', String(!isOpen));
 
       menuToggle.setAttribute(
-        "aria-expanded",
-        String(!isOpen),
+        'aria-label',
+        isOpen ? 'Open navigation' : 'Close navigation',
       );
 
-      menuToggle.setAttribute(
-        "aria-label",
-        isOpen ? "Open navigation" : "Close navigation",
-      );
-
-      siteNav.classList.toggle("site-nav--open", !isOpen);
+      siteNav.classList.toggle('site-nav--open', !isOpen);
     });
 
-    siteNav.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", () => {
-        menuToggle.setAttribute("aria-expanded", "false");
-        menuToggle.setAttribute(
-          "aria-label",
-          "Open navigation",
-        );
+    siteNav.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.setAttribute('aria-label', 'Open navigation');
 
-        siteNav.classList.remove("site-nav--open");
+        siteNav.classList.remove('site-nav--open');
       });
     });
   }

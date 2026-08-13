@@ -1,9 +1,9 @@
 ---
-import { getCollection } from "astro:content";
-import Layout from "@/layouts/Layout.astro";
-import { formatLabel } from "@/utils/formatText";
+import { getCollection } from 'astro:content';
+import Layout from '@/layouts/Layout.astro';
+import { formatLabel } from '@/utils/formatText';
 
-const drugs = await getCollection("drugs");
+const drugs = await getCollection('drugs');
 ---
 
 <Layout
@@ -28,34 +28,23 @@ const drugs = await getCollection("drugs");
       drugs.length > 0 ? (
         <div class="drug-list">
           {drugs.map((drug) => (
-            <a
-              class="drug-card"
-              href={`/drugs/${drug.data.id}`}
-            >
+            <a class="drug-card" href={`/drugs/${drug.data.id}`}>
               <div class="drug-card__content">
                 <h3>{drug.data.title}</h3>
 
-                {
-                  drug.data.aliases.length > 0 && (
-                    <p class="drug-aliases">
-                      {drug.data.aliases.join(", ")}
-                    </p>
-                  )
-                }
+                {drug.data.aliases.length > 0 && (
+                  <p class="drug-aliases">{drug.data.aliases.join(', ')}</p>
+                )}
 
-<div class="drug-meta">
-  <span>
-    {formatLabel(drug.data.classification.class)}
-  </span>
+                <div class="drug-meta">
+                  <span>{formatLabel(drug.data.classification.class)}</span>
 
-  {
-    drug.data.classification.subclass && (
-      <span>
-        {formatLabel(drug.data.classification.subclass)}
-      </span>
-    )
-  }
-</div>
+                  {drug.data.classification.subclass && (
+                    <span>
+                      {formatLabel(drug.data.classification.subclass)}
+                    </span>
+                  )}
+                </div>
               </div>
 
               <span class="drug-card__arrow" aria-hidden="true">
