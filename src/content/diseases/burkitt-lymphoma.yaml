@@ -1,0 +1,73 @@
+# ============================================================================
+# Burkitt Lymphoma
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# Identity
+# ----------------------------------------------------------------------------
+
+id: burkitt-lymphoma
+
+title: Burkitt Lymphoma
+
+aliases:
+  - BL
+
+# ----------------------------------------------------------------------------
+# Categories
+# ----------------------------------------------------------------------------
+
+categories:
+
+  - id: low-risk
+    title: Low-Risk
+    treatment:
+      - setting: newly-diagnosed
+        lineOfTherapy: first-line
+        regimens:
+          - dm-r-codox-m-low-risk
+
+  - id: high-risk
+    title: High-Risk
+    treatment:
+    - setting: newly-diagnosed
+      lineOfTherapy: first-line
+      regimens:
+        - r-codox-m-r-ivac-high-risk
+
+  - id: high-risk-proven-cns-disease
+    title: High-Risk with Proven CNS Disease
+    treatment:
+      - setting: newly-diagnosed
+        lineOfTherapy: first-line
+        regimens:
+          - high-risk-proven-cns-r-codox-m-r-ivac
+
+# ----------------------------------------------------------------------------
+# Treatment
+# ----------------------------------------------------------------------------
+
+treatment: []
+
+# ----------------------------------------------------------------------------
+# Supportive Care
+# ----------------------------------------------------------------------------
+
+supportiveCare:
+  - tumor-lysis-syndrome
+  - febrile-neutropenia
+
+# ----------------------------------------------------------------------------
+# References
+# ----------------------------------------------------------------------------
+
+references:
+  - eviq-burkitt-low-risk-dm-r-codox-m-4488
+
+# ----------------------------------------------------------------------------
+# Review
+# ----------------------------------------------------------------------------
+
+review:
+  lastReviewed: 2026-08-13
+  reviewedBy: farshid-fardad

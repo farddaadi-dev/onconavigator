@@ -1,24 +1,21 @@
 # ============================================================================
-# Low-risk dose-modified R-CODOX-M
-#
-# Rituximab + CODOX-M
+# Burkitt Lymphoma — High-Risk with Proven CNS Disease
+# Dose-Modified R-CODOX-M
 # ============================================================================
 
-# ----------------------------------------------------------------------------
-# Identity
-# ----------------------------------------------------------------------------
+id: dm-r-codox-m-high-risk-cns
 
-id: dm-r-codox-m-low-risk
 title: DM-R-CODOX-M
 
-aliases:
-  - Rituximab-CODOX-M
-  - Dose-modified R-CODOX-M
+description: >
+  High-risk dose-modified R-CODOX-M regimen for Burkitt lymphoma
+  with proven CNS disease, consisting of rituximab, cyclophosphamide,
+  vincristine, doxorubicin, methotrexate, and intensified intrathecal
+  therapy.
 
-description: >-
-  A dose-modified R-CODOX-M regimen for the treatment of low-risk Burkitt
-  lymphoma, incorporating rituximab with cyclophosphamide, vincristine,
-  doxorubicin, high-dose methotrexate, and intrathecal chemotherapy.
+aliases:
+  - High-Risk CNS DM-R-CODOX-M
+  - R-CODOX-M
 
 type: standalone
 
@@ -45,24 +42,20 @@ biomarkers: []
 # ----------------------------------------------------------------------------
 
 eligibility:
-  - Low-risk Burkitt lymphoma according to applicable clinical criteria.
-  - Age 75 years or younger according to the eviQ protocol.
+  - Burkitt lymphoma with high-risk disease.
+  - Proven CNS disease.
+  - Treatment according to the applicable clinical protocol.
 
 # ----------------------------------------------------------------------------
 # Schedule
 # ----------------------------------------------------------------------------
 
 schedule:
+  cycleLength:
+    value: 21
+    unit: days
 
-  cycle:
-    length:
-      value: 21
-      unit: days
-
-  stopCondition:
-    plannedCycles: 3
-
-treatmentPhases: []
+  plannedCycles: 2
 
 # ----------------------------------------------------------------------------
 # Pre-treatment Assessment
@@ -72,12 +65,14 @@ preTreatmentAssessment:
 
   diagnosis:
     - Confirm diagnosis of Burkitt lymphoma.
-    - Confirm low-risk disease according to applicable clinical criteria.
+    - Confirm high-risk disease according to applicable clinical criteria.
+    - Confirm proven CNS disease.
 
   clinical:
     - Assess baseline performance status.
     - Assess for clinically significant infection before treatment.
-    - Assess baseline neurological status before vincristine and intrathecal therapy.
+    - Assess baseline neurological status.
+    - Assess baseline ocular status before high-dose cytarabine.
 
   laboratory:
     - Complete blood count (CBC).
@@ -91,21 +86,21 @@ preTreatmentAssessment:
     - Screen for hepatitis B infection before rituximab-containing therapy.
 
   imaging:
-    - Perform baseline disease assessment according to the applicable Burkitt lymphoma protocol.
+    - Perform disease assessment according to the applicable Burkitt lymphoma protocol.
+    - Assess CNS disease according to the applicable protocol.
 
   calculations:
     - Calculate body surface area (BSA).
-    - Calculate creatinine clearance or other renal function estimate required for methotrexate assessment.
+    - Assess renal function before high-dose methotrexate.
 
   counselling:
     - Discuss treatment goals and intensive chemotherapy schedule.
+    - Discuss CNS-directed intrathecal treatment.
     - Discuss potential treatment-related toxicities.
     - Discuss the need for frequent laboratory monitoring and supportive care.
     - Obtain informed consent.
 
-  other:
-    - Assess suitability for intensive multi-agent chemotherapy.
-    - Assess suitability for intrathecal chemotherapy.
+  other: []
 
 # ----------------------------------------------------------------------------
 # Treatment Preparation
@@ -117,11 +112,14 @@ treatmentPreparation:
     - Paracetamol 1000 mg PO 60 minutes before rituximab.
     - Loratadine 10 mg PO 60 minutes before rituximab.
     - Hydrocortisone 100 mg IV 30 minutes before rituximab.
+
   antiemetics:
     risk: high
     medications: []
 
-  hydration: []
+  hydration:
+    - Provide protocol-appropriate hydration for high-dose methotrexate.
+    - Provide appropriate hydration with cyclophosphamide according to institutional protocol.
 
   prophylaxis: []
 
@@ -134,67 +132,73 @@ treatmentPreparation:
 medications:
 
   # --------------------------------------------------------------------------
-  # Rituximab — Day 1
+  # Rituximab
   # --------------------------------------------------------------------------
 
   - drug: rituximab
-    rules:
-      - condition:
-          cycleRange:
-            start: 1
-            end: 3
 
-        dose:
+    rules:
+
+      - dose:
           value: 375
-          unit: mg/m²
+          unit: mg/m2
           type: bsa
 
         administration:
           route: IV
           administrationDays:
             - 1
-          diluent: NS
           volume:
             value: 500
             unit: mL
-          notes: Administer according to the graded administration rate specified by the protocol.
+          diluent: sodium chloride 0.9%
+          infusionDuration: graded administration rate
+
+      - dose:
+          value: 375
+          unit: mg/m2
+          type: bsa
+
+        administration:
+          route: IV
+          administrationDays:
+            - 11
+          volume:
+            value: 500
+            unit: mL
+          diluent: sodium chloride 0.9%
+          infusionDuration: graded administration rate
 
   # --------------------------------------------------------------------------
-  # Doxorubicin — Day 1
+  # Doxorubicin
   # --------------------------------------------------------------------------
 
   - drug: doxorubicin
-    rules:
-      - condition:
-          cycleRange:
-            start: 1
-            end: 3
 
-        dose:
+    rules:
+
+      - dose:
           value: 40
-          unit: mg/m²
+          unit: mg/m2
           type: bsa
 
         administration:
           route: IV
           administrationDays:
             - 1
-          infusionDuration: 5–15 minutes
+          infusionDuration: 5 to 15 minutes
 
   # --------------------------------------------------------------------------
-  # Vincristine — Days 1 and 8
+  # Vincristine
   # --------------------------------------------------------------------------
 
   - drug: vincristine
-    rules:
-      - condition:
-          cycleRange:
-            start: 1
-            end: 3
 
-        dose:
+    rules:
+
+      - dose:
           value: 1.5
-          unit: mg/m²
+          unit: mg/m2
           type: bsa
 
         administration:
@@ -202,53 +206,39 @@ medications:
           administrationDays:
             - 1
             - 8
-          diluent: NS
           volume:
             value: 50
             unit: mL
-          infusionDuration: 5–10 minutes
-          notes: Cap dose at 2 mg. Administer via minibag.
+          diluent: sodium chloride 0.9%
+          infusionDuration: 5 to 10 minutes
+          notes: Cap dose at 2 mg; administer via minibag.
 
   # --------------------------------------------------------------------------
-  # Cyclophosphamide — Day 1
+  # Cyclophosphamide
   # --------------------------------------------------------------------------
 
   - drug: cyclophosphamide
-    rules:
-      - condition:
-          cycleRange:
-            start: 1
-            end: 3
 
-        dose:
+    rules:
+
+      - dose:
           value: 800
-          unit: mg/m²
+          unit: mg/m2
           type: bsa
 
         administration:
           route: IV
           administrationDays:
             - 1
-          diluent: NS
           volume:
             value: 500
             unit: mL
-          infusionDuration: 30–60 minutes
+          diluent: sodium chloride 0.9%
+          infusionDuration: 30 to 60 minutes
 
-  # --------------------------------------------------------------------------
-  # Cyclophosphamide — Days 2–5
-  # --------------------------------------------------------------------------
-
-  - drug: cyclophosphamide
-    rules:
-      - condition:
-          cycleRange:
-            start: 1
-            end: 3
-
-        dose:
+      - dose:
           value: 200
-          unit: mg/m²
+          unit: mg/m2
           type: bsa
 
         administration:
@@ -258,50 +248,21 @@ medications:
             - 3
             - 4
             - 5
-          diluent: NS
           volume:
             value: 500
             unit: mL
-          infusionDuration: 30–60 minutes
-
-    # --------------------------------------------------------------------------
-  # Rituximab — Day 11
-  # --------------------------------------------------------------------------
-
-  - drug: rituximab
-    rules:
-      - condition:
-          cycleRange:
-            start: 1
-            end: 3
-
-        dose:
-          value: 375
-          unit: mg/m²
-          type: bsa
-
-        administration:
-          route: IV
-          administrationDays:
-            - 11
-          diluent: NS
-          volume:
-            value: 500
-            unit: mL
-          notes: Administer according to the graded administration rate specified by the protocol.
+          diluent: sodium chloride 0.9%
+          infusionDuration: 30 to 60 minutes
 
   # --------------------------------------------------------------------------
-  # Intrathecal Cytarabine — Days 1 and 3
+  # Cytarabine — Intrathecal
   # --------------------------------------------------------------------------
 
   - drug: cytarabine
-    rules:
-      - condition:
-          cycleRange:
-            start: 1
-            end: 3
 
-        dose:
+    rules:
+
+      - dose:
           value: 70
           unit: mg
           type: flat
@@ -311,96 +272,52 @@ medications:
           administrationDays:
             - 1
             - 3
-          notes: Administer according to local institutional intrathecal policy.
+            - 5
+          notes: Adhere to local institutional intrathecal policy.
 
   # --------------------------------------------------------------------------
-  # Methotrexate — Day 10 — Initial infusion
+  # Methotrexate — High Dose IV
   # --------------------------------------------------------------------------
 
   - drug: methotrexate
-    rules:
-      - condition:
-          cycleRange:
-            start: 1
-            end: 3
 
-        dose:
+    rules:
+
+      - dose:
           value: 300
-          unit: mg/m²
+          unit: mg/m2
           type: bsa
 
         administration:
           route: IV
           administrationDays:
             - 10
-          diluent: NS
           volume:
             value: 500
             unit: mL
+          diluent: sodium chloride 0.9%
           infusionDuration: 60 minutes
-          notes: Initial methotrexate infusion.
 
-  # --------------------------------------------------------------------------
-  # Methotrexate — Day 10 — 23-hour infusion
-  # --------------------------------------------------------------------------
-
-  - drug: methotrexate
-    rules:
-      - condition:
-          cycleRange:
-            start: 1
-            end: 3
-
-        dose:
+      - dose:
           value: 2700
-          unit: mg/m²
+          unit: mg/m2
           type: bsa
 
         administration:
           route: IV
           administrationDays:
             - 10
-          diluent: NS
           volume:
             value: 1000
             unit: mL
+          diluent: sodium chloride 0.9%
           infusionDuration: 23 hours
-          notes: Continuous infusion following the initial methotrexate infusion.
 
-  # --------------------------------------------------------------------------
-  # Leucovorin — Day 11 onward
-  # --------------------------------------------------------------------------
+      # ----------------------------------------------------------------------
+      # Methotrexate — Intrathecal
+      # ----------------------------------------------------------------------
 
-  - drug: leucovorin
-    rules:
-      - condition:
-          cycleRange:
-            start: 1
-            end: 3
-
-        dose:
-          value: 15
-          unit: mg/m²
-          type: bsa
-
-        administration:
-          route: IV
-          administrationDays:
-            - 11
-          notes: Start 36 hours after commencement of the methotrexate infusion. Administer every 3 hours from hours 36–48, then every 6 hours until serum methotrexate level is less than 0.1 micromol/L.
-
-  # --------------------------------------------------------------------------
-  # Intrathecal Methotrexate — Day 15
-  # --------------------------------------------------------------------------
-
-  - drug: methotrexate
-    rules:
-      - condition:
-          cycleRange:
-            start: 1
-            end: 3
-
-        dose:
+      - dose:
           value: 12
           unit: mg
           type: flat
@@ -409,20 +326,32 @@ medications:
           route: IT
           administrationDays:
             - 15
-          notes: Administer according to local institutional intrathecal policy.
+            - 17
+          notes: Adhere to local institutional intrathecal policy.
 
   # --------------------------------------------------------------------------
-  # Leucovorin — Day 16
+  # Leucovorin
   # --------------------------------------------------------------------------
 
   - drug: leucovorin
-    rules:
-      - condition:
-          cycleRange:
-            start: 1
-            end: 3
 
-        dose:
+    rules:
+
+      - dose:
+          value: 15
+          unit: mg/m2
+          type: bsa
+
+        administration:
+          route: IV
+          administrationDays:
+            - 11
+          notes: >
+            Start 36 hours after commencement of methotrexate infusion.
+            Repeat every 3 hours for the next 12 hours, then every 6 hours
+            until methotrexate level is less than 0.1 micromol/L.
+
+      - dose:
           value: 15
           unit: mg
           type: flat
@@ -431,20 +360,28 @@ medications:
           route: PO
           administrationDays:
             - 16
-          notes: Administer once, 24 hours after intrathecal methotrexate.
+          notes: Once only, 24 hours after intrathecal methotrexate.
+
+      - dose:
+          value: 15
+          unit: mg
+          type: flat
+
+        administration:
+          route: PO
+          administrationDays:
+            - 18
+          notes: Once only, 24 hours after intrathecal methotrexate.
 
   # --------------------------------------------------------------------------
-  # Filgrastim — Day 13 onward
+  # Filgrastim
   # --------------------------------------------------------------------------
 
   - drug: filgrastim
-    rules:
-      - condition:
-          cycleRange:
-            start: 1
-            end: 3
 
-        dose:
+    rules:
+
+      - dose:
           value: 5
           unit: micrograms/kg
           type: weight
@@ -453,35 +390,9 @@ medications:
           route: SC
           administrationDays:
             - 13
-          notes: Administer once daily starting on Day 13 and continue until ANC is greater than 1.0 × 10^9/L.
-
-# ----------------------------------------------------------------------------
-# Monitoring
-# ----------------------------------------------------------------------------
-
-monitoring:
-
-  beforeEachCycle:
-    - Complete blood count (CBC).
-    - Ensure ANC is greater than 1.0 × 10⁹/L before commencing the next cycle.
-    - Ensure platelet count is greater than 75 × 10⁹/L before commencing the next cycle.
-    - Assess renal function before each cycle.
-    - Assess hepatic function before each cycle.
-    - Assess treatment-related toxicities.
-    - Assess performance status and clinical fitness for intensive chemotherapy.
-    - Assess for signs or symptoms of infection.
-    - Assess neurological toxicity before vincristine and intrathecal chemotherapy.
-
-  duringTreatment:
-    - Monitor for rituximab infusion-related reactions.
-    - Monitor for myelosuppression and febrile neutropenia.
-    - Monitor renal function during high-dose methotrexate therapy.
-    - Monitor serum methotrexate concentration according to protocol.
-    - Continue leucovorin rescue according to methotrexate levels and protocol requirements.
-    - Monitor for mucositis and gastrointestinal toxicity.
-    - Monitor for hepatotoxicity.
-    - Monitor for neurotoxicity.
-    - Monitor for complications related to intrathecal chemotherapy.
+          notes: >
+            Administer once daily starting on day 13 and continue until
+            ANC is greater than 1.0 x 10^9/L.
 
 # ----------------------------------------------------------------------------
 # Supportive Care
@@ -490,46 +401,61 @@ monitoring:
 supportiveCare:
   - g-csf-support
   - tumor-lysis-syndrome
-  - antimicrobial-prophylaxis
+  - febrile-neutropenia
+
+# ----------------------------------------------------------------------------
+# Monitoring
+# ----------------------------------------------------------------------------
+
+monitoring:
+
+  beforeEachCycle:
+    - Complete blood count.
+    - Renal function.
+    - Hepatic function.
+    - Assess treatment-related toxicities.
+    - Confirm unsupported ANC is greater than 1.0 x 10^9/L.
+    - Confirm unsupported platelet count is greater than 75 x 10^9/L.
+    - Assess performance status and clinical fitness for intensive chemotherapy.
+    - Assess for signs or symptoms of infection.
+    - Assess neurological status.
+    - Assess ocular toxicity from previous cytarabine exposure.
+    - Confirm CNS disease management according to the applicable protocol.
+
+  duringTreatment:
+    - Monitor for rituximab infusion-related reactions.
+    - Monitor for myelosuppression and febrile neutropenia.
+    - Monitor for vincristine-related peripheral neuropathy.
+    - Monitor for cyclophosphamide toxicity and hemorrhagic cystitis.
+    - Monitor renal function and fluid balance.
+    - Monitor high-dose methotrexate levels and renal clearance.
+    - Monitor for methotrexate toxicity.
+    - Monitor for complications related to intrathecal chemotherapy.
+    - Monitor neurological status.
+    - Monitor for mucositis and gastrointestinal toxicity.
+    - Monitor for hepatotoxicity.
 
 # ----------------------------------------------------------------------------
 # Dose Modifications
 # ----------------------------------------------------------------------------
 
 doseModifications:
-  - Modify treatment according to hematologic toxicity and applicable protocol.
-  - Adjust or withhold methotrexate according to renal function, methotrexate clearance, and protocol requirements.
-  - Modify vincristine according to treatment-related neurotoxicity.
-  - Modify treatment according to significant hepatic or other organ toxicity.
+  - Refer to the applicable protocol for dose modification in patients older than 65 years.
+  - Modify treatment according to hematologic and clinically significant organ toxicity.
+  - Follow protocol-specific high-dose methotrexate dose modification and leucovorin rescue guidance.
   - Refer to the applicable protocol and product information for drug-specific dose modification guidance.
-
-# ----------------------------------------------------------------------------
-# Follow-up
-# ----------------------------------------------------------------------------
-
-followUp:
-
-  responseAssessment: []
-
-  postTreatmentEvaluation: []
-
-  surveillance: []
-
-  other: []
 
 # ----------------------------------------------------------------------------
 # References
 # ----------------------------------------------------------------------------
 
 references:
-  - eviq-burkitt-low-risk-dm-r-codox-m-4488
+  - eviq-burkitt-high-risk-proven-cns-dm-r-codox-m-4492
 
 # ----------------------------------------------------------------------------
 # Review
 # ----------------------------------------------------------------------------
 
 review:
-
-  lastReviewed: 2026-08-12
-
+  lastReviewed: 2026-08-13
   reviewedBy: farshid-fardad

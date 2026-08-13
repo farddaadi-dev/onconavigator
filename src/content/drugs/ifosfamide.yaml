@@ -1,0 +1,183 @@
+# ============================================================================
+# Ifosfamide
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# Identity
+# ----------------------------------------------------------------------------
+
+id: ifosfamide
+
+title: Ifosfamide
+
+aliases: []
+
+# ----------------------------------------------------------------------------
+# Classification
+# ----------------------------------------------------------------------------
+
+classification:
+
+  class: chemotherapy
+
+  subclass: alkylating-agent
+
+  molecularTargets: []
+
+# ----------------------------------------------------------------------------
+# Indications
+# ----------------------------------------------------------------------------
+
+indications:
+
+  diseases:
+    - burkitt-lymphoma
+
+  usedInRegimens:
+    - r-ivac-high-risk
+
+# ----------------------------------------------------------------------------
+# Dosage Forms
+# ----------------------------------------------------------------------------
+
+dosageForms:
+
+  - formulation: solution for injection or infusion
+
+    strengths: []
+
+# ----------------------------------------------------------------------------
+# Administration
+# ----------------------------------------------------------------------------
+
+administration:
+
+  routes:
+    - IV
+
+  preparation:
+    - Prepare and administer according to the applicable product monograph and institutional protocol.
+    - Ifosfamide must be administered with appropriate uroprotective therapy.
+
+  infusion:
+    - Administer intravenously according to the applicable treatment protocol.
+    - Ensure adequate hydration and appropriate mesna administration according to protocol.
+
+  premedications: []
+
+  specialInstructions:
+    - Mesna prophylaxis is required to reduce the risk of ifosfamide-induced urotoxicity.
+    - Maintain adequate hydration according to the treatment protocol.
+    - Monitor for signs and symptoms of ifosfamide-induced encephalopathy.
+    - Monitor for hematuria and other evidence of urinary tract toxicity.
+
+# ----------------------------------------------------------------------------
+# Monitoring
+# ----------------------------------------------------------------------------
+
+monitoring:
+
+  baseline:
+    - Complete blood count
+    - Renal function
+    - Hepatic function
+    - Serum electrolytes
+    - Assessment of neurological status
+    - Assessment for active infection
+
+  duringTreatment:
+    - Complete blood count
+    - Renal function
+    - Serum electrolytes
+    - Fluid balance
+    - Urinalysis or assessment for hematuria according to protocol
+    - Neurological status
+    - Signs and symptoms of infection
+    - Evidence of hemorrhagic cystitis
+
+  longTerm:
+    - Renal function when clinically indicated
+    - Treatment-related secondary malignancy risk
+    - Gonadal toxicity when clinically relevant
+
+# ----------------------------------------------------------------------------
+# Dose Modifications
+# ----------------------------------------------------------------------------
+
+doseModifications:
+
+  renalImpairment:
+    - Dose modification may be required according to renal function and the applicable treatment protocol.
+
+  hepaticImpairment:
+    - Dose modification may be required according to hepatic function and the applicable treatment protocol.
+
+  hematologicToxicity:
+    - Delay or modify treatment according to the applicable treatment protocol and severity of hematologic toxicity.
+
+  neurologicToxicity:
+    - Consider withholding or discontinuing ifosfamide in clinically significant ifosfamide-induced encephalopathy.
+    - Follow the applicable treatment protocol for management and rechallenge.
+
+  cardiacToxicity: []
+
+  infusionReaction: []
+
+  other:
+    - Dose modification may be required for significant renal, neurologic, or other organ toxicity.
+
+# ----------------------------------------------------------------------------
+# Safety
+# ----------------------------------------------------------------------------
+
+safety:
+
+  contraindications: []
+
+  warnings:
+    - Hemorrhagic cystitis and other urotoxicity may occur.
+    - Ifosfamide-induced encephalopathy may occur.
+    - Myelosuppression may be severe.
+    - Nephrotoxicity may occur.
+    - Adequate hydration and mesna uroprotection are required.
+    - Secondary malignancies may occur.
+
+  commonAdverseEffects:
+    - Myelosuppression
+    - Nausea and vomiting
+    - Fatigue
+    - Alopecia
+    - Hematuria
+
+  seriousAdverseEffects:
+    - Ifosfamide-induced encephalopathy
+    - Hemorrhagic cystitis
+    - Severe myelosuppression
+    - Severe nephrotoxicity
+    - Secondary malignancy
+
+# ----------------------------------------------------------------------------
+# Supportive Care
+# ----------------------------------------------------------------------------
+
+supportiveCare:
+
+  topics:
+    - febrile-neutropenia
+    - tumor-lysis-syndrome
+
+# ----------------------------------------------------------------------------
+# References
+# ----------------------------------------------------------------------------
+
+references: []
+
+# ----------------------------------------------------------------------------
+# Review
+# ----------------------------------------------------------------------------
+
+review:
+
+  lastReviewed: 2026-08-13
+
+  reviewedBy: farshid-fardad

@@ -1,0 +1,435 @@
+# ============================================================================
+# Burkitt Lymphoma — High-Risk Proven CNS Disease R-IVAC
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# Identity
+# ----------------------------------------------------------------------------
+
+id: r-ivac-high-risk-cns
+
+title: R-IVAC
+
+description: >
+  High-risk R-IVAC regimen for Burkitt lymphoma with proven CNS disease,
+  consisting of rituximab, ifosfamide, etoposide, high-dose cytarabine,
+  intrathecal methotrexate and cytarabine, with mesna, leucovorin and
+  filgrastim support.
+
+aliases: []
+
+type: standalone
+
+# ----------------------------------------------------------------------------
+# Clinical Context
+# ----------------------------------------------------------------------------
+
+diseases:
+  - burkitt-lymphoma
+
+treatmentIntent:
+  - curative
+
+setting:
+  - newly-diagnosed
+
+lineOfTherapy:
+  - first-line
+
+biomarkers: []
+
+# ----------------------------------------------------------------------------
+# Eligibility
+# ----------------------------------------------------------------------------
+
+eligibility:
+  - Confirmed Burkitt lymphoma.
+  - High-risk disease with proven CNS involvement.
+  - Adequate hematologic recovery before treatment according to protocol.
+  - Unsupported ANC greater than 1.0 x 10^9/L before commencing the next cycle.
+  - Unsupported platelet count greater than 75 x 10^9/L before commencing the next cycle.
+
+# ----------------------------------------------------------------------------
+# Schedule
+# ----------------------------------------------------------------------------
+
+schedule:
+  cycleLength:
+    value: 21
+    unit: days
+
+  stopCondition:
+    plannedCycles: 2
+
+# ----------------------------------------------------------------------------
+# Medications
+# ----------------------------------------------------------------------------
+
+medications:
+
+  # --------------------------------------------------------------------------
+  # Cytarabine
+  # --------------------------------------------------------------------------
+
+  - drug: cytarabine
+
+    rules:
+
+      - dose:
+          value: 2000
+          unit: mg/m2
+          type: bsa
+
+        administration:
+          route: IV
+          administrationDays:
+            - 1
+            - 2
+          infusionDuration: "3 hours twice daily, 12 hours apart"
+          diluent: "sodium chloride 0.9%"
+          volume:
+            value: 500
+            unit: mL
+
+        notes: >
+          Administer twice daily 12 hours apart for a total of four doses.
+
+      - dose:
+          value: 70
+          unit: mg
+          type: flat
+
+        administration:
+          route: IT
+          administrationDays:
+            - 7
+            - 9
+          notes: >
+            Intrathecal administration according to local institutional policy.
+            Intrathecal treatment may be given on another day at the discretion
+            of the treating clinician.
+
+# ----------------------------------------------------------------------------
+# Etoposide
+# ----------------------------------------------------------------------------
+
+  - drug: etoposide
+
+    rules:
+
+      - dose:
+          value: 60
+          unit: mg/m2
+          type: bsa
+
+        administration:
+          route: IV
+          administrationDays:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+          infusionDuration: "30 to 60 minutes"
+          diluent: "sodium chloride 0.9%"
+          volume:
+            value: 500
+            unit: mL
+
+        notes: >
+          Etopophos (etoposide phosphate) 113.6 mg is equivalent to
+          etoposide 100 mg. Doses in this protocol are expressed as etoposide.
+
+# ----------------------------------------------------------------------------
+# Ifosfamide
+# ----------------------------------------------------------------------------
+
+  - drug: ifosfamide
+
+    rules:
+
+      - dose:
+          value: 1500
+          unit: mg/m2
+          type: bsa
+
+        administration:
+          route: IV
+          administrationDays:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+          infusionDuration: "2 hours"
+          diluent: "sodium chloride 0.9%"
+          volume:
+            value: 1000
+            unit: mL
+
+# ----------------------------------------------------------------------------
+# Mesna
+# ----------------------------------------------------------------------------
+
+  - drug: mesna
+
+    rules:
+
+      - dose:
+          value: 360
+          unit: mg/m2
+          type: bsa
+
+        administration:
+          route: IV
+          administrationDays:
+            - 1
+          infusionDuration: "15 minutes"
+          diluent: "sodium chloride 0.9%"
+          volume:
+            value: 250
+            unit: mL
+
+        notes: >
+          Administer as a loading dose before the first dose of ifosfamide.
+
+      - dose:
+          value: 1500
+          unit: mg/m2
+          type: bsa
+
+        administration:
+          route: IV
+          administrationDays:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+          infusionDuration: "24 hours"
+          diluent: "sodium chloride 0.9%"
+          volume:
+            value: 1000
+            unit: mL
+
+# ----------------------------------------------------------------------------
+# Rituximab
+# ----------------------------------------------------------------------------
+
+  - drug: rituximab
+
+    rules:
+
+      - dose:
+          value: 375
+          unit: mg/m2
+          type: bsa
+
+        administration:
+          route: IV
+          administrationDays:
+            - 3
+            - 7
+          diluent: "sodium chloride 0.9%"
+          volume:
+            value: 500
+            unit: mL
+          infusionDuration: "graded administration rate"
+
+        notes: >
+          Rituximab dosing is based on the HOVON/SAKK study. The eviQ protocol
+          notes that administration on Days 1, 21 and 42 may also be appropriate
+          based on McMillan et al. (2020).
+
+# ----------------------------------------------------------------------------
+# Methotrexate
+# ----------------------------------------------------------------------------
+
+  - drug: methotrexate
+
+    rules:
+
+      - dose:
+          value: 12
+          unit: mg
+          type: flat
+
+        administration:
+          route: IT
+          administrationDays:
+            - 5
+          notes: >
+            Intrathecal administration according to local institutional policy.
+            Intrathecal treatment may be given on another day at the discretion
+            of the treating clinician.
+
+# ----------------------------------------------------------------------------
+# Leucovorin
+# ----------------------------------------------------------------------------
+
+  - drug: leucovorin
+
+    rules:
+
+      - dose:
+          value: 15
+          unit: mg
+          type: flat
+
+        administration:
+          route: PO
+          administrationDays:
+            - 6
+          notes: >
+            Administer 24 hours after intrathecal methotrexate.
+
+# ----------------------------------------------------------------------------
+# Filgrastim
+# ----------------------------------------------------------------------------
+
+  - drug: filgrastim
+
+    rules:
+
+      - dose:
+          value: 5
+          unit: micrograms/kg
+          type: weight
+
+        administration:
+          route: SC
+          administrationDays:
+            - 7
+          notes: >
+            Continue once daily until neutrophil recovery.
+
+# ----------------------------------------------------------------------------
+# Pre-treatment Assessment
+# ----------------------------------------------------------------------------
+
+preTreatmentAssessment:
+
+  diagnosis:
+    - Confirm diagnosis of Burkitt lymphoma.
+    - Confirm high-risk disease with proven CNS involvement.
+
+  clinical:
+    - Assess baseline performance status.
+    - Assess for clinically significant infection.
+    - Assess baseline neurological status before intensive chemotherapy and intrathecal therapy.
+    - Assess baseline ocular status before high-dose cytarabine.
+
+  laboratory:
+    - Complete blood count (CBC).
+    - Renal function.
+    - Hepatic function.
+    - Serum electrolytes.
+    - Serum uric acid.
+    - LDH.
+
+  infectionScreening:
+    - Screen for hepatitis B infection before rituximab-containing therapy.
+
+  imaging:
+    - Perform disease assessment according to the applicable Burkitt lymphoma protocol.
+    - Document proven CNS disease according to the applicable diagnostic criteria.
+
+  calculations:
+    - Calculate body surface area (BSA).
+    - Assess renal function before ifosfamide and high-dose cytarabine.
+
+  counselling:
+    - Discuss treatment goals and intensive chemotherapy schedule.
+    - Discuss potential treatment-related toxicities.
+    - Discuss risks associated with intrathecal chemotherapy.
+    - Discuss the need for frequent laboratory monitoring and supportive care.
+    - Obtain informed consent.
+
+  other: []
+
+# ----------------------------------------------------------------------------
+# Treatment Preparation
+# ----------------------------------------------------------------------------
+
+treatmentPreparation:
+
+  premedications:
+    - Paracetamol 1000 mg PO 60 minutes before rituximab.
+    - Loratadine 10 mg PO 60 minutes before rituximab.
+    - Hydrocortisone 100 mg IV 30 minutes before rituximab.
+
+  antiemetics:
+    risk: high
+    medications: []
+
+  hydration: []
+
+  prophylaxis: []
+
+  other: []
+
+# ----------------------------------------------------------------------------
+# Monitoring
+# ----------------------------------------------------------------------------
+
+monitoring:
+
+  beforeEachCycle:
+    - Complete blood count.
+    - Renal function.
+    - Hepatic function.
+    - Assess treatment-related toxicities.
+    - Confirm unsupported ANC is greater than 1.0 x 10^9/L.
+    - Confirm unsupported platelet count is greater than 75 x 10^9/L.
+    - Assess performance status and clinical fitness for intensive chemotherapy.
+    - Assess for signs or symptoms of infection.
+    - Assess neurological status.
+    - Assess ocular toxicity from previous cytarabine exposure.
+
+  duringTreatment:
+    - Monitor for rituximab infusion-related reactions.
+    - Monitor for myelosuppression and febrile neutropenia.
+    - Monitor for high-dose cytarabine neurotoxicity.
+    - Monitor for high-dose cytarabine ocular toxicity.
+    - Monitor for ifosfamide neurotoxicity.
+    - Monitor for hemorrhagic cystitis.
+    - Monitor renal function and fluid balance.
+    - Monitor for complications related to intrathecal chemotherapy.
+    - Monitor for mucositis and gastrointestinal toxicity.
+    - Monitor for hepatotoxicity.
+    - Monitor for neurological complications related to CNS-directed therapy.
+
+# ----------------------------------------------------------------------------
+# Supportive Care
+# ----------------------------------------------------------------------------
+
+supportiveCare:
+  - g-csf-support
+  - tumor-lysis-syndrome
+  - febrile-neutropenia
+
+# ----------------------------------------------------------------------------
+# Dose Modifications
+# ----------------------------------------------------------------------------
+
+doseModifications:
+  - Refer to the applicable protocol for dose modification in patients older than 65 years.
+  - Modify cytarabine according to hematologic, renal, neurologic, and other clinically significant toxicity.
+  - Modify ifosfamide according to renal function and treatment-related neurotoxicity.
+  - Modify treatment according to significant hepatic or other organ toxicity.
+  - Refer to the applicable protocol and product information for drug-specific dose modification guidance.
+
+# ----------------------------------------------------------------------------
+# References
+# ----------------------------------------------------------------------------
+
+references:
+  - eviq-burkitt-high-risk-cns-r-ivac-4493
+
+# ----------------------------------------------------------------------------
+# Review
+# ----------------------------------------------------------------------------
+
+review:
+  lastReviewed: 2026-08-13
+  reviewedBy: farshid-fardad

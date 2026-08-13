@@ -1,0 +1,162 @@
+# ----------------------------------------------------------------------------
+# Identity
+# ----------------------------------------------------------------------------
+
+id: filgrastim
+
+title: Filgrastim
+
+aliases:
+  - G-CSF
+  - Granulocyte colony-stimulating factor
+
+
+# ----------------------------------------------------------------------------
+# Classification
+# ----------------------------------------------------------------------------
+
+classification:
+
+  class: supportive-care
+
+  subclass: granulocyte-colony-stimulating-factor
+
+  molecularTargets: []
+
+
+# ----------------------------------------------------------------------------
+# Indications
+# ----------------------------------------------------------------------------
+
+indications:
+
+  diseases: []
+
+  usedInRegimens:
+    - dm-r-codox-m-low-risk
+
+
+# ----------------------------------------------------------------------------
+# Dosage Forms
+# ----------------------------------------------------------------------------
+
+dosageForms:
+
+  - formulation: solution for injection
+
+    strengths: []
+
+
+# ----------------------------------------------------------------------------
+# Administration
+# ----------------------------------------------------------------------------
+
+administration:
+
+  routes:
+    - SC
+
+  preparation:
+    - Prepare and administer according to the applicable product monograph and treatment protocol.
+
+  infusion: []
+
+  premedications: []
+
+  specialInstructions:
+    - Administer according to the applicable chemotherapy protocol.
+    - Avoid administration within the protocol-specified interval before or after cytotoxic chemotherapy when applicable.
+
+
+# ----------------------------------------------------------------------------
+# Monitoring
+# ----------------------------------------------------------------------------
+
+monitoring:
+
+  baseline:
+    - Complete blood count
+    - Absolute neutrophil count
+
+  duringTreatment:
+    - Complete blood count
+    - Absolute neutrophil count
+    - Signs and symptoms of infection
+    - Bone pain and other treatment-related adverse effects
+
+  longTerm: []
+
+
+# ----------------------------------------------------------------------------
+# Dose Modifications
+# ----------------------------------------------------------------------------
+
+doseModifications:
+
+  renalImpairment: []
+
+  hepaticImpairment: []
+
+  hematologicToxicity: []
+
+  neurologicToxicity: []
+
+  cardiacToxicity: []
+
+  infusionReaction: []
+
+  other:
+    - Modify or discontinue according to the applicable treatment protocol and clinical response.
+
+
+# ----------------------------------------------------------------------------
+# Safety
+# ----------------------------------------------------------------------------
+
+safety:
+
+  contraindications: []
+
+  warnings:
+    - Monitor for clinically significant leukocytosis.
+    - Use caution in patients with conditions associated with splenic enlargement or rupture.
+    - Rare serious adverse effects may occur and require clinical assessment.
+
+  commonAdverseEffects:
+    - Bone pain.
+    - Musculoskeletal pain.
+    - Injection-site reactions.
+
+  seriousAdverseEffects:
+    - Splenic rupture.
+    - Serious allergic reactions.
+    - Acute respiratory distress syndrome.
+    - Aortitis.
+
+
+# ----------------------------------------------------------------------------
+# Supportive Care
+# ----------------------------------------------------------------------------
+
+supportiveCare:
+
+  topics:
+    - g-csf-support
+
+
+# ----------------------------------------------------------------------------
+# References
+# ----------------------------------------------------------------------------
+
+references: []
+
+
+# ----------------------------------------------------------------------------
+# Review
+# ----------------------------------------------------------------------------
+
+review:
+
+  lastReviewed: 2026-08-13
+
+  reviewedBy: farshid-fardad

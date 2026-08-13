@@ -1,0 +1,157 @@
+# ----------------------------------------------------------------------------
+# Identity
+# ----------------------------------------------------------------------------
+
+id: leucovorin
+
+title: Leucovorin
+
+aliases:
+  - Calcium folinate
+  - Folinic acid
+
+
+# ----------------------------------------------------------------------------
+# Classification
+# ----------------------------------------------------------------------------
+
+classification:
+
+  class: supportive-care
+
+  subclass: folinic-acid
+
+  molecularTargets: []
+
+
+# ----------------------------------------------------------------------------
+# Indications
+# ----------------------------------------------------------------------------
+
+indications:
+
+  diseases: []
+
+  usedInRegimens:
+    - dm-r-codox-m-low-risk
+
+
+# ----------------------------------------------------------------------------
+# Dosage Forms
+# ----------------------------------------------------------------------------
+
+dosageForms:
+
+  - formulation: solution for injection or infusion
+
+    strengths: []
+
+  - formulation: tablet
+
+    strengths: []
+
+
+# ----------------------------------------------------------------------------
+# Administration
+# ----------------------------------------------------------------------------
+
+administration:
+
+  routes:
+    - IV
+    - PO
+
+  preparation:
+    - Prepare and administer according to the applicable product monograph and treatment protocol.
+
+  infusion:
+    - Administer intravenously according to the applicable treatment protocol.
+
+  premedications: []
+
+  specialInstructions:
+    - Administer folinic acid rescue according to the high-dose methotrexate protocol.
+    - Timing of rescue should be calculated from the start of methotrexate infusion.
+    - Continue rescue according to serum methotrexate concentration and protocol requirements.
+
+
+# ----------------------------------------------------------------------------
+# Monitoring
+# ----------------------------------------------------------------------------
+
+monitoring:
+
+  baseline: []
+
+  duringTreatment:
+    - Serum methotrexate concentration when used for high-dose methotrexate rescue.
+    - Renal function during high-dose methotrexate therapy.
+    - Clinical evidence of methotrexate toxicity.
+
+  longTerm: []
+
+
+# ----------------------------------------------------------------------------
+# Dose Modifications
+# ----------------------------------------------------------------------------
+
+doseModifications:
+
+  renalImpairment: []
+
+  hepaticImpairment: []
+
+  hematologicToxicity: []
+
+  neurologicToxicity: []
+
+  cardiacToxicity: []
+
+  infusionReaction: []
+
+  other:
+    - Adjust rescue according to methotrexate concentration, methotrexate clearance, and the applicable treatment protocol.
+
+
+# ----------------------------------------------------------------------------
+# Safety
+# ----------------------------------------------------------------------------
+
+safety:
+
+  contraindications: []
+
+  warnings:
+    - Leucovorin rescue must be administered according to the timing and dosing requirements of the high-dose methotrexate protocol.
+    - Leucovorin does not replace appropriate monitoring of methotrexate clearance and toxicity.
+
+  commonAdverseEffects: []
+
+  seriousAdverseEffects: []
+
+
+# ----------------------------------------------------------------------------
+# Supportive Care
+# ----------------------------------------------------------------------------
+
+supportiveCare:
+
+  topics: []
+
+
+# ----------------------------------------------------------------------------
+# References
+# ----------------------------------------------------------------------------
+
+references: []
+
+
+# ----------------------------------------------------------------------------
+# Review
+# ----------------------------------------------------------------------------
+
+review:
+
+  lastReviewed: 2026-08-13
+
+  reviewedBy: farshid-fardad

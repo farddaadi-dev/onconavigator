@@ -1,0 +1,178 @@
+# ============================================================================
+# Etoposide
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# Identity
+# ----------------------------------------------------------------------------
+
+id: etoposide
+
+title: Etoposide
+
+aliases:
+  - VP-16
+ 
+
+# ----------------------------------------------------------------------------
+# Classification
+# ----------------------------------------------------------------------------
+
+classification:
+
+  class: chemotherapy
+
+  subclass: topoisomerase-inhibitor
+
+  molecularTargets:
+    - topoisomerase-ii
+
+# ----------------------------------------------------------------------------
+# Indications
+# ----------------------------------------------------------------------------
+
+indications:
+
+  diseases:
+    - burkitt-lymphoma
+
+  usedInRegimens:
+    - r-ivac-high-risk
+
+# ----------------------------------------------------------------------------
+# Dosage Forms
+# ----------------------------------------------------------------------------
+
+dosageForms:
+
+  - formulation: solution for injection or infusion
+
+    strengths:
+      - 20 mg/mL
+
+# ----------------------------------------------------------------------------
+# Administration
+# ----------------------------------------------------------------------------
+
+administration:
+
+  routes:
+    - IV
+
+  preparation:
+    - Dilute and administer according to the applicable product monograph and institutional protocol.
+
+  infusion:
+    - Administer by intravenous infusion according to the applicable treatment protocol.
+    - Do not administer as an intravenous bolus.
+
+  premedications: []
+
+  specialInstructions:
+    - Monitor during administration for hypersensitivity or infusion-related reactions.
+    - Avoid extravasation and follow institutional precautions for vesicant or irritant chemotherapy administration.
+
+# ----------------------------------------------------------------------------
+# Monitoring
+# ----------------------------------------------------------------------------
+
+monitoring:
+
+  baseline:
+    - Complete blood count
+    - Renal function
+    - Hepatic function
+    - Assessment for active infection
+    - Review of previous chemotherapy-related toxicity
+
+  duringTreatment:
+    - Complete blood count
+    - Signs and symptoms of infection
+    - Bleeding
+    - Hypersensitivity or infusion-related reactions
+    - Hepatic function when clinically indicated
+    - Renal function when clinically indicated
+
+  longTerm:
+    - Secondary malignancy risk
+    - Treatment-related hematologic toxicity
+
+# ----------------------------------------------------------------------------
+# Dose Modifications
+# ----------------------------------------------------------------------------
+
+doseModifications:
+
+  renalImpairment:
+    - Dose modification may be required according to renal function and the applicable treatment protocol.
+
+  hepaticImpairment:
+    - Dose modification may be required according to hepatic function and the applicable treatment protocol.
+
+  hematologicToxicity:
+    - Delay or modify treatment according to the applicable treatment protocol and severity of hematologic toxicity.
+
+  neurologicToxicity: []
+
+  cardiacToxicity: []
+
+  infusionReaction:
+    - Manage clinically significant hypersensitivity or infusion reactions according to institutional protocol.
+
+  other:
+    - Refer to the applicable product monograph and treatment protocol for drug-specific dose modification guidance.
+
+# ----------------------------------------------------------------------------
+# Safety
+# ----------------------------------------------------------------------------
+
+safety:
+
+  contraindications: []
+
+  warnings:
+    - Severe myelosuppression may occur.
+    - Serious infections may occur secondary to myelosuppression.
+    - Bleeding may occur secondary to thrombocytopenia.
+    - Hypersensitivity reactions, including anaphylactic reactions, may occur.
+    - Secondary acute myeloid leukemia has been reported.
+
+  commonAdverseEffects:
+    - Myelosuppression
+    - Nausea and vomiting
+    - Alopecia
+    - Fatigue
+    - Mucositis
+
+  seriousAdverseEffects:
+    - Severe myelosuppression
+    - Serious infection
+    - Severe hypersensitivity reaction
+    - Anaphylaxis
+    - Secondary acute myeloid leukemia
+
+# ----------------------------------------------------------------------------
+# Supportive Care
+# ----------------------------------------------------------------------------
+
+supportiveCare:
+
+  topics:
+    - febrile-neutropenia
+    - antiemetic-prophylaxis
+
+# ----------------------------------------------------------------------------
+# References
+# ----------------------------------------------------------------------------
+
+references: []
+
+# ----------------------------------------------------------------------------
+# Review
+# ----------------------------------------------------------------------------
+
+review:
+
+  lastReviewed: 2026-08-13
+
+  reviewedBy: farshid-fardad

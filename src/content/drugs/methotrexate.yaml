@@ -1,0 +1,184 @@
+# ----------------------------------------------------------------------------
+# Identity
+# ----------------------------------------------------------------------------
+
+id: methotrexate
+
+title: Methotrexate
+
+aliases:
+  - MTX
+
+
+# ----------------------------------------------------------------------------
+# Classification
+# ----------------------------------------------------------------------------
+
+classification:
+
+  class: chemotherapy
+
+  subclass: antimetabolite
+
+  molecularTargets:
+    - dihydrofolate-reductase
+
+
+# ----------------------------------------------------------------------------
+# Indications
+# ----------------------------------------------------------------------------
+
+indications:
+
+  diseases: []
+
+  usedInRegimens:
+    - dm-r-codox-m-low-risk
+
+
+# ----------------------------------------------------------------------------
+# Dosage Forms
+# ----------------------------------------------------------------------------
+
+dosageForms:
+
+  - formulation: solution for injection or infusion
+
+    strengths: []
+
+
+# ----------------------------------------------------------------------------
+# Administration
+# ----------------------------------------------------------------------------
+
+administration:
+
+  routes:
+    - IV
+    - IT
+
+  preparation:
+    - Prepare and administer according to the applicable product monograph and institutional protocol.
+    - High-dose intravenous methotrexate requires protocol-specific hydration, monitoring, and folinic acid rescue.
+
+  infusion:
+    - Administer intravenously according to the applicable treatment protocol.
+    - High-dose intravenous methotrexate may require a loading dose followed by a prolonged infusion according to protocol.
+
+  premedications: []
+
+  specialInstructions:
+    - Monitor methotrexate clearance according to the applicable high-dose methotrexate protocol.
+    - Folinic acid rescue is required following high-dose methotrexate according to protocol.
+    - Intrathecal administration must follow institutional policies for intrathecal chemotherapy.
+
+
+# ----------------------------------------------------------------------------
+# Monitoring
+# ----------------------------------------------------------------------------
+
+monitoring:
+
+  baseline:
+    - Complete blood count
+    - Renal function
+    - Hepatic function
+    - Serum electrolytes
+    - Assessment for factors that may impair methotrexate clearance
+
+  duringTreatment:
+    - Renal function
+    - Hepatic function
+    - Serum methotrexate concentration following high-dose intravenous administration
+    - Fluid balance and clinical status according to high-dose methotrexate protocol
+    - Signs and symptoms of mucositis
+    - Signs and symptoms of infection
+    - Neurologic toxicity
+
+  longTerm:
+    - Renal function when clinically indicated
+    - Hepatic function when clinically indicated
+    - Neurologic toxicity when clinically indicated
+
+
+# ----------------------------------------------------------------------------
+# Dose Modifications
+# ----------------------------------------------------------------------------
+
+doseModifications:
+
+  renalImpairment:
+    - Modify, delay, or withhold methotrexate according to renal function and the applicable treatment protocol.
+
+  hepaticImpairment:
+    - Consider dose modification according to hepatic function and the applicable treatment protocol.
+
+  hematologicToxicity:
+    - Delay or modify treatment according to the treatment protocol and severity of hematologic toxicity.
+
+  neurologicToxicity:
+    - Consider treatment modification or discontinuation in clinically significant neurotoxicity.
+
+  cardiacToxicity: []
+
+  infusionReaction: []
+
+  other:
+    - Modify treatment according to methotrexate clearance and protocol-specific toxicity criteria.
+
+
+# ----------------------------------------------------------------------------
+# Safety
+# ----------------------------------------------------------------------------
+
+safety:
+
+  contraindications: []
+
+  warnings:
+    - High-dose methotrexate can cause severe toxicity if clearance is delayed.
+    - Nephrotoxicity can impair methotrexate clearance and increase systemic toxicity.
+    - Significant mucositis and myelosuppression may occur.
+    - Drug interactions can significantly alter methotrexate clearance.
+    - Intrathecal methotrexate must be administered only by appropriately trained personnel according to institutional policy.
+
+  commonAdverseEffects:
+    - Myelosuppression.
+    - Mucositis.
+    - Nausea and vomiting.
+    - Fatigue.
+    - Hepatotoxicity.
+
+  seriousAdverseEffects:
+    - Severe myelosuppression.
+    - Severe mucositis.
+    - Acute kidney injury.
+    - Delayed methotrexate clearance and systemic toxicity.
+    - Neurotoxicity.
+
+
+# ----------------------------------------------------------------------------
+# Supportive Care
+# ----------------------------------------------------------------------------
+
+supportiveCare:
+
+  topics: []
+
+
+# ----------------------------------------------------------------------------
+# References
+# ----------------------------------------------------------------------------
+
+references: []
+
+
+# ----------------------------------------------------------------------------
+# Review
+# ----------------------------------------------------------------------------
+
+review:
+
+  lastReviewed: 2026-08-13
+
+  reviewedBy: farshid-fardad

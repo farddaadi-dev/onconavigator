@@ -1,0 +1,181 @@
+# ============================================================================
+# High-Risk R-CODOX-M / R-IVAC
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# Identity
+# ----------------------------------------------------------------------------
+
+id: r-codox-m-r-ivac-high-risk
+
+title: High-Risk R-CODOX-M/R-IVAC
+
+description: >
+  A four-cycle alternating treatment program for high-risk Burkitt lymphoma,
+  consisting of two cycles of high-risk dose-modified R-CODOX-M alternating
+  with two cycles of high-risk R-IVAC.
+
+aliases: []
+
+# ----------------------------------------------------------------------------
+# Type
+# ----------------------------------------------------------------------------
+
+type: composite
+
+# ----------------------------------------------------------------------------
+# Clinical Context
+# ----------------------------------------------------------------------------
+
+diseases:
+  - burkitt-lymphoma
+
+treatmentIntent:
+  - curative
+
+setting:
+  - newly-diagnosed
+
+lineOfTherapy:
+  - first-line
+
+biomarkers: []
+
+# ----------------------------------------------------------------------------
+# Eligibility
+# ----------------------------------------------------------------------------
+
+eligibility:
+  - High-risk Burkitt lymphoma according to applicable clinical criteria.
+
+# ----------------------------------------------------------------------------
+# Schedule
+# ----------------------------------------------------------------------------
+
+schedule:
+
+  cycle:
+    length:
+      value: 21
+      unit: days
+
+  stopCondition:
+    plannedCycles: 4
+
+  notes: >
+    Four cycles in total, alternating high-risk dose-modified R-CODOX-M in
+    cycles 1 and 3 with high-risk R-IVAC in cycles 2 and 4.
+
+  treatmentPhases: []
+
+# ----------------------------------------------------------------------------
+# Components
+# ----------------------------------------------------------------------------
+
+components:
+
+  - regimen: dm-r-codox-m-high-risk
+    cycleRange:
+      start: 1
+      end: 1
+    notes: Cycle 1.
+
+  - regimen: r-ivac-high-risk
+    cycleRange:
+      start: 2
+      end: 2
+    notes: Cycle 2.
+
+  - regimen: dm-r-codox-m-high-risk
+    cycleRange:
+      start: 3
+      end: 3
+    notes: Cycle 3.
+
+  - regimen: r-ivac-high-risk
+    cycleRange:
+      start: 4
+      end: 4
+    notes: Cycle 4.
+
+# ----------------------------------------------------------------------------
+# Pre-treatment Assessment
+# ----------------------------------------------------------------------------
+
+preTreatmentAssessment:
+
+  diagnosis: []
+
+  clinical: []
+
+  laboratory: []
+
+  infectionScreening: []
+
+  imaging: []
+
+  calculations: []
+
+  counselling: []
+
+  other: []
+
+# ----------------------------------------------------------------------------
+# Treatment Preparation
+# ----------------------------------------------------------------------------
+
+treatmentPreparation:
+
+  premedications: []
+
+  antiemetics:
+    risk: high
+    medications: []
+
+  hydration: []
+
+  prophylaxis: []
+
+  other: []
+
+# ----------------------------------------------------------------------------
+# Monitoring
+# ----------------------------------------------------------------------------
+
+monitoring:
+
+  beforeEachCycle: []
+
+  duringTreatment: []
+
+# ----------------------------------------------------------------------------
+# Supportive Care
+# ----------------------------------------------------------------------------
+
+supportiveCare:
+  - tumor-lysis-syndrome
+  - febrile-neutropenia
+  - g-csf-support
+
+# ----------------------------------------------------------------------------
+# Dose Modifications
+# ----------------------------------------------------------------------------
+
+doseModifications: []
+
+# ----------------------------------------------------------------------------
+# References
+# ----------------------------------------------------------------------------
+
+references:
+  - eviq-burkitt-dm-r-codox-m-r-ivac-overview-3727
+
+# ----------------------------------------------------------------------------
+# Review
+# ----------------------------------------------------------------------------
+
+review:
+
+  lastReviewed: 2026-08-13
+
+  reviewedBy: farshid-fardad

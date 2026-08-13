@@ -1,0 +1,608 @@
+# ============================================================================
+# High-Risk Dose-Modified R-CODOX-M
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# Identity
+# ----------------------------------------------------------------------------
+
+id: dm-r-codox-m-high-risk
+
+title: DM-R-CODOX-M
+
+description: >
+  High-risk dose-modified R-CODOX-M regimen for the treatment of Burkitt
+  lymphoma, consisting of rituximab, cyclophosphamide, vincristine,
+  doxorubicin, high-dose methotrexate, and intrathecal chemotherapy.
+
+aliases:
+  - Dose-Modified R-CODOX-M
+  - High-Risk DM-R-CODOX-M
+
+# ----------------------------------------------------------------------------
+# Type
+# ----------------------------------------------------------------------------
+
+type: standalone
+
+# ----------------------------------------------------------------------------
+# Clinical Context
+# ----------------------------------------------------------------------------
+
+diseases:
+  - burkitt-lymphoma
+
+treatmentIntent:
+  - curative
+
+setting:
+  - newly-diagnosed
+
+lineOfTherapy:
+  - first-line
+
+biomarkers: []
+
+# ----------------------------------------------------------------------------
+# Eligibility
+# ----------------------------------------------------------------------------
+
+eligibility:
+  - High-risk Burkitt lymphoma according to applicable clinical criteria.
+
+# ----------------------------------------------------------------------------
+# Schedule
+# ----------------------------------------------------------------------------
+
+schedule:
+
+  cycle:
+    length:
+      value: 21
+      unit: days
+
+  stopCondition:
+    plannedCycles: 2
+
+  notes: >
+    This regimen corresponds to cycles 1 and 3 of the high-risk Burkitt
+    lymphoma treatment pathway and alternates with high-risk R-IVAC.
+    The next cycle should not commence until unsupported ANC is greater than
+    1.0 x 10^9/L and unsupported platelets are greater than 75 x 10^9/L.
+
+# ----------------------------------------------------------------------------
+# Medications
+# ----------------------------------------------------------------------------
+
+medications:
+
+  # --------------------------------------------------------------------------
+  # Rituximab
+  # --------------------------------------------------------------------------
+
+  - drug: rituximab
+
+    rules:
+
+      - dose:
+          value: 375
+          unit: mg/m2
+          type: bsa
+
+        administration:
+          route: IV
+          administrationDays:
+            - 1
+          diluent: sodium chloride 0.9%
+          volume:
+            value: 500
+            unit: mL
+          infusionDuration: graded administration rate
+          notes: >
+            Administer according to the graded administration rate specified
+            by the protocol.
+
+        condition:
+          cycleRange:
+            start: 1
+            end: 2
+
+      - dose:
+          value: 375
+          unit: mg/m2
+          type: bsa
+
+        administration:
+          route: IV
+          administrationDays:
+            - 9
+          diluent: sodium chloride 0.9%
+          volume:
+            value: 500
+            unit: mL
+          infusionDuration: graded administration rate
+          notes: >
+            Administer according to the graded administration rate specified
+            by the protocol.
+
+        condition:
+          cycleRange:
+            start: 1
+            end: 2
+
+    comments: >
+      Rituximab is administered on Days 1 and 9 in the high-risk
+      dose-modified R-CODOX-M protocol.
+
+    references:
+      - eviq-burkitt-high-risk-dm-r-codox-m-4489
+
+  # --------------------------------------------------------------------------
+  # Doxorubicin
+  # --------------------------------------------------------------------------
+
+  - drug: doxorubicin
+
+    rules:
+
+      - dose:
+          value: 40
+          unit: mg/m2
+          type: bsa
+
+        administration:
+          route: IV
+          administrationDays:
+            - 1
+          infusionDuration: 5-15 minutes
+
+        condition:
+          cycleRange:
+            start: 1
+            end: 2
+
+    references:
+      - eviq-burkitt-high-risk-dm-r-codox-m-4489
+
+  # --------------------------------------------------------------------------
+  # Vincristine
+  # --------------------------------------------------------------------------
+
+  - drug: vincristine
+
+    rules:
+
+      - dose:
+          value: 1.5
+          unit: mg/m2
+          type: bsa
+
+        administration:
+          route: IV
+          administrationDays:
+            - 1
+          diluent: sodium chloride 0.9%
+          volume:
+            value: 50
+            unit: mL
+          infusionDuration: 5-10 minutes
+          notes: >
+            Administer via minibag. Cap dose at 2 mg.
+
+        condition:
+          cycleRange:
+            start: 1
+            end: 2
+
+      - dose:
+          value: 1.5
+          unit: mg/m2
+          type: bsa
+
+        administration:
+          route: IV
+          administrationDays:
+            - 8
+          diluent: sodium chloride 0.9%
+          volume:
+            value: 50
+            unit: mL
+          infusionDuration: 5-10 minutes
+          notes: >
+            Administer via minibag. Cap dose at 2 mg.
+
+        condition:
+          cycleRange:
+            start: 1
+            end: 2
+
+    references:
+      - eviq-burkitt-high-risk-dm-r-codox-m-4489
+
+  # --------------------------------------------------------------------------
+  # Cyclophosphamide
+  # --------------------------------------------------------------------------
+
+  - drug: cyclophosphamide
+
+    rules:
+
+      - dose:
+          value: 800
+          unit: mg/m2
+          type: bsa
+
+        administration:
+          route: IV
+          administrationDays:
+            - 1
+          diluent: sodium chloride 0.9%
+          volume:
+            value: 500
+            unit: mL
+          infusionDuration: 30-60 minutes
+
+        condition:
+          cycleRange:
+            start: 1
+            end: 2
+
+      - dose:
+          value: 200
+          unit: mg/m2
+          type: bsa
+
+        administration:
+          route: IV
+          administrationDays:
+            - 2
+            - 3
+            - 4
+            - 5
+          diluent: sodium chloride 0.9%
+          volume:
+            value: 500
+            unit: mL
+          infusionDuration: 30-60 minutes
+
+        condition:
+          cycleRange:
+            start: 1
+            end: 2
+
+    references:
+      - eviq-burkitt-high-risk-dm-r-codox-m-4489
+
+  # --------------------------------------------------------------------------
+  # Cytarabine
+  # --------------------------------------------------------------------------
+
+  - drug: cytarabine
+
+    rules:
+
+      - dose:
+          value: 70
+          unit: mg
+          type: flat
+
+        administration:
+          route: IT
+          administrationDays:
+            - 1
+
+        condition:
+          cycleRange:
+            start: 1
+            end: 2
+
+        notes: >
+          Administer according to local institutional intrathecal policy.
+
+      - dose:
+          value: 70
+          unit: mg
+          type: flat
+
+        administration:
+          route: IT
+          administrationDays:
+            - 3
+
+        condition:
+          cycleRange:
+            start: 1
+            end: 2
+
+        notes: >
+          Administer according to local institutional intrathecal policy.
+
+    references:
+      - eviq-burkitt-high-risk-dm-r-codox-m-4489
+
+  # --------------------------------------------------------------------------
+  # Methotrexate
+  # --------------------------------------------------------------------------
+
+  - drug: methotrexate
+
+    rules:
+
+      - dose:
+          value: 300
+          unit: mg/m2
+          type: bsa
+
+        administration:
+          route: IV
+          administrationDays:
+            - 10
+          diluent: sodium chloride 0.9%
+          volume:
+            value: 500
+            unit: mL
+          infusionDuration: 60 minutes
+
+        condition:
+          cycleRange:
+            start: 1
+            end: 2
+
+        notes: >
+          Initial methotrexate infusion.
+
+      - dose:
+          value: 2700
+          unit: mg/m2
+          type: bsa
+
+        administration:
+          route: IV
+          administrationDays:
+            - 10
+          diluent: sodium chloride 0.9%
+          volume:
+            value: 1000
+            unit: mL
+          infusionDuration: 23 hours
+
+        condition:
+          cycleRange:
+            start: 1
+            end: 2
+
+        notes: >
+          Continuous infusion following the initial methotrexate infusion.
+
+      - dose:
+          value: 12
+          unit: mg
+          type: flat
+
+        administration:
+          route: IT
+          administrationDays:
+            - 15
+          notes: >
+            Administer according to local institutional intrathecal policy.
+            Intrathecal treatment may be administered on another day at the
+            discretion of the treating clinician.
+
+        condition:
+          cycleRange:
+            start: 1
+            end: 2
+
+    monitoringNotes: >
+      Monitor renal function and serum methotrexate concentration during
+      high-dose methotrexate therapy and continue leucovorin rescue according
+      to methotrexate levels and protocol requirements.
+
+    references:
+      - eviq-burkitt-high-risk-dm-r-codox-m-4489
+
+  # --------------------------------------------------------------------------
+  # Leucovorin
+  # --------------------------------------------------------------------------
+
+  - drug: leucovorin
+
+    rules:
+
+      - dose:
+          value: 15
+          unit: mg/m2
+          type: bsa
+
+        administration:
+          route: IV
+          administrationDays:
+            - 11
+
+        condition:
+          cycleRange:
+            start: 1
+            end: 2
+
+        notes: >
+          Start 36 hours after commencement of methotrexate infusion.
+          Administer every 3 hours from hours 36 to 48, then continue every
+          6 hours until serum methotrexate level is less than 0.1 micromol/L.
+
+      - dose:
+          value: 15
+          unit: mg
+          type: flat
+
+        administration:
+          route: PO
+          administrationDays:
+            - 16
+
+        condition:
+          cycleRange:
+            start: 1
+            end: 2
+
+        notes: >
+          Administer once, 24 hours after intrathecal methotrexate.
+
+    references:
+      - eviq-burkitt-high-risk-dm-r-codox-m-4489
+
+  # --------------------------------------------------------------------------
+  # Filgrastim
+  # --------------------------------------------------------------------------
+
+  - drug: filgrastim
+
+    rules:
+
+      - dose:
+          value: 5
+          unit: micrograms/kg
+          type: weight
+
+        administration:
+          route: SC
+          administrationDays:
+            - 13
+
+        condition:
+          cycleRange:
+            start: 1
+            end: 2
+
+        notes: >
+          Administer once daily starting on Day 13 and continue until ANC is
+          greater than 1.0 x 10^9/L.
+
+    references:
+      - eviq-burkitt-high-risk-dm-r-codox-m-4489
+
+# ----------------------------------------------------------------------------
+# Pre-treatment Assessment
+# ----------------------------------------------------------------------------
+
+preTreatmentAssessment:
+
+  diagnosis:
+    - Confirm diagnosis of Burkitt lymphoma.
+    - Confirm high-risk disease according to applicable clinical criteria.
+
+  clinical:
+    - Assess baseline performance status.
+    - Assess for clinically significant infection before treatment.
+    - Assess baseline neurological status before vincristine and intrathecal therapy.
+
+  laboratory:
+    - Complete blood count (CBC).
+    - Renal function.
+    - Hepatic function.
+    - Serum electrolytes.
+    - Serum uric acid.
+    - LDH.
+
+  infectionScreening:
+    - Screen for hepatitis B infection before rituximab-containing therapy.
+
+  imaging:
+    - Perform baseline disease assessment according to the applicable Burkitt lymphoma protocol.
+
+  calculations:
+    - Calculate body surface area (BSA).
+    - Calculate creatinine clearance or other renal function estimate required for methotrexate assessment.
+
+  counselling:
+    - Discuss treatment goals and intensive chemotherapy schedule.
+    - Discuss potential treatment-related toxicities.
+    - Discuss the need for frequent laboratory monitoring and supportive care.
+    - Obtain informed consent.
+
+  other: []
+
+# ----------------------------------------------------------------------------
+# Treatment Preparation
+# ----------------------------------------------------------------------------
+
+treatmentPreparation:
+
+  premedications:
+    - Paracetamol 1000 mg PO 60 minutes before rituximab.
+    - Loratadine 10 mg PO 60 minutes before rituximab.
+    - Hydrocortisone 100 mg IV 30 minutes before rituximab.
+
+  antiemetics:
+    risk: high
+    medications: []
+
+  hydration: []
+
+  prophylaxis: []
+
+  other: []
+
+# ----------------------------------------------------------------------------
+# Monitoring
+# ----------------------------------------------------------------------------
+
+monitoring:
+
+  beforeEachCycle:
+    - Complete blood count.
+    - Renal function.
+    - Hepatic function.
+    - Assess treatment-related toxicities.
+    - Confirm unsupported ANC is greater than 1.0 x 10^9/L.
+    - Confirm unsupported platelet count is greater than 75 x 10^9/L.
+    - Assess performance status and clinical fitness for intensive chemotherapy.
+    - Assess for signs or symptoms of infection.
+    - Assess neurological toxicity before vincristine and intrathecal chemotherapy.
+
+  duringTreatment:
+    - Monitor for rituximab infusion-related reactions.
+    - Monitor for myelosuppression and febrile neutropenia.
+    - Monitor renal function during high-dose methotrexate therapy.
+    - Monitor serum methotrexate concentration according to protocol.
+    - Continue leucovorin rescue according to methotrexate levels and protocol requirements.
+    - Monitor for mucositis and gastrointestinal toxicity.
+    - Monitor for hepatotoxicity.
+    - Monitor for neurotoxicity.
+    - Monitor for complications related to intrathecal chemotherapy.
+
+# ----------------------------------------------------------------------------
+# Supportive Care
+# ----------------------------------------------------------------------------
+
+supportiveCare:
+  - g-csf-support
+  - tumor-lysis-syndrome
+  - febrile-neutropenia
+
+# ----------------------------------------------------------------------------
+# Dose Modifications
+# ----------------------------------------------------------------------------
+
+doseModifications:
+  - Refer to the applicable protocol for methotrexate dose modification, including modification for patients older than 65 years.
+  - Adjust methotrexate according to renal function and methotrexate clearance.
+  - Modify vincristine according to treatment-related neurotoxicity.
+  - Modify treatment according to significant hepatic or other organ toxicity.
+  - Refer to the applicable protocol and product information for drug-specific dose modification guidance.
+
+# ----------------------------------------------------------------------------
+# References
+# ----------------------------------------------------------------------------
+
+references:
+  - eviq-burkitt-high-risk-dm-r-codox-m-4489
+
+# ----------------------------------------------------------------------------
+# Review
+# ----------------------------------------------------------------------------
+
+review:
+
+  lastReviewed: 2026-08-13
+
+  reviewedBy: farshid-fardad

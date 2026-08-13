@@ -1,0 +1,34 @@
+# ============================================================================
+# eviQ — Burkitt lymphoma dose-modified R-CODOX-M and R-IVAC overview
+# ============================================================================
+
+id: eviq-burkitt-dm-r-codox-m-r-ivac-overview-3727
+
+title: eviQ. Burkitt lymphoma dose-modified R-CODOX-M and R-IVAC overview
+
+aliases: []
+
+publication:
+  type: website
+  publisher: eviQ
+  year: 2025
+  version: "2"
+  previousVersions:
+    - "1"
+  citation: eviQ. Burkitt lymphoma dose-modified R-CODOX-M and R-IVAC overview. Protocol ID 3727, version 2.
+
+access:
+  url: https://www.eviq.org.au/haematology/lymphoma/burkitt-lymphoma/3727-burkitt-lymphoma-dm-r-codox-m-r-ivac-overvi
+  requiresSubscription: false
+
+keywords:
+  - burkitt-lymphoma
+  - r-codox-m
+  - r-ivac
+  - high-risk
+  - dose-modified
+  - risk-stratification
+
+review:
+  lastReviewed: 2026-08-13
+  reviewedBy: farshid-fardad

@@ -1,0 +1,36 @@
+# ============================================================================
+# eviQ — Burkitt lymphoma high-risk dose-modified R-CODOX-M
+# ============================================================================
+
+id: eviq-burkitt-high-risk-dm-r-codox-m-4489
+
+title: eviQ. Burkitt lymphoma high-risk dose-modified R-CODOX-M
+
+aliases: []
+
+publication:
+  type: website
+  publisher: eviQ
+  year: 2025
+  version: "1"
+  previousVersions: []
+  citation: eviQ. Burkitt lymphoma high-risk dose-modified R-CODOX-M. Protocol ID 4489, version 1.
+
+access:
+  url: https://www.eviq.org.au/haematology/lymphoma/burkitt-lymphoma/4489-burkitt-lymphoma-high-risk-dm-r-codox-m
+  requiresSubscription: false
+
+keywords:
+  - burkitt-lymphoma
+  - high-risk
+  - dm-r-codox-m
+  - r-codox-m
+  - rituximab
+  - cyclophosphamide
+  - vincristine
+  - doxorubicin
+  - methotrexate
+
+review:
+  lastReviewed: 2026-08-13
+  reviewedBy: farshid-fardad

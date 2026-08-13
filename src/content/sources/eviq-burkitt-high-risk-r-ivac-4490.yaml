@@ -1,0 +1,54 @@
+# ============================================================================
+# eviQ — Burkitt lymphoma high-risk R-IVAC
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# Identity
+# ----------------------------------------------------------------------------
+
+id: eviq-burkitt-high-risk-r-ivac-4490
+
+title: eviQ. Burkitt lymphoma high-risk R-IVAC
+
+aliases: []
+
+# ----------------------------------------------------------------------------
+# Publication
+# ----------------------------------------------------------------------------
+
+publication:
+  type: website
+  publisher: eviQ
+  year: 2026
+  version: "1"
+  previousVersions: []
+  citation: eviQ. Burkitt lymphoma high-risk R-IVAC. Protocol ID 4490, version 1.
+
+# ----------------------------------------------------------------------------
+# Access
+# ----------------------------------------------------------------------------
+
+access:
+  url: https://www.eviq.org.au/haematology/lymphoma/burkitt-lymphoma/4490-burkitt-lymphoma-high-risk-r-ivac
+  requiresSubscription: false
+
+# ----------------------------------------------------------------------------
+# Discovery
+# ----------------------------------------------------------------------------
+
+keywords:
+  - burkitt-lymphoma
+  - r-ivac
+  - high-risk
+  - rituximab
+  - ifosfamide
+  - etoposide
+  - cytarabine
+
+# ----------------------------------------------------------------------------
+# Review
+# ----------------------------------------------------------------------------
+
+review:
+  lastReviewed: 2026-08-13
+  reviewedBy: farshid-fardad

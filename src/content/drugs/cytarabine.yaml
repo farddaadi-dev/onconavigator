@@ -1,0 +1,181 @@
+# ----------------------------------------------------------------------------
+# Identity
+# ----------------------------------------------------------------------------
+
+id: cytarabine
+
+title: Cytarabine
+
+aliases:
+  - Ara-C
+
+
+# ----------------------------------------------------------------------------
+# Classification
+# ----------------------------------------------------------------------------
+
+classification:
+
+  class: chemotherapy
+
+  subclass: antimetabolite
+
+  molecularTargets: []
+
+
+
+# ----------------------------------------------------------------------------
+# Indications
+# ----------------------------------------------------------------------------
+
+indications:
+
+  diseases: []
+
+  usedInRegimens:
+    - dm-r-codox-m-low-risk
+
+
+# ----------------------------------------------------------------------------
+# Dosage Forms
+# ----------------------------------------------------------------------------
+
+dosageForms:
+
+  - formulation: solution for injection or infusion
+
+    strengths: []
+
+
+# ----------------------------------------------------------------------------
+# Administration
+# ----------------------------------------------------------------------------
+
+administration:
+
+  routes:
+    - IV
+    - SC
+    - IT
+
+  preparation:
+    - Prepare and administer according to the applicable product monograph and institutional protocol.
+    - Intrathecal administration must follow institutional policies for intrathecal chemotherapy.
+
+  infusion:
+    - Administer intravenously according to the applicable treatment protocol.
+    - Route, dose, and administration schedule vary substantially according to the clinical indication and treatment protocol.
+
+  premedications: []
+
+  specialInstructions:
+    - Use appropriate precautions for intrathecal administration.
+    - Monitor for neurologic toxicity following intrathecal or high-dose administration.
+
+
+# ----------------------------------------------------------------------------
+# Monitoring
+# ----------------------------------------------------------------------------
+
+monitoring:
+
+  baseline:
+    - Complete blood count
+    - Renal function
+    - Hepatic function
+    - Assessment of baseline neurologic status when intrathecal or high-dose therapy is planned
+
+  duringTreatment:
+    - Complete blood count
+    - Hepatic function
+    - Signs and symptoms of infection
+    - Neurologic toxicity when clinically indicated
+    - Signs and symptoms of ocular toxicity with high-dose systemic therapy when applicable
+
+  longTerm:
+    - Neurologic toxicity when clinically indicated
+    - Hepatic function when clinically indicated
+    - Hematologic recovery
+
+
+# ----------------------------------------------------------------------------
+# Dose Modifications
+# ----------------------------------------------------------------------------
+
+doseModifications:
+
+  renalImpairment:
+    - Modify treatment according to renal function and the applicable treatment protocol.
+
+  hepaticImpairment:
+    - Consider dose modification according to hepatic function and the applicable treatment protocol.
+
+  hematologicToxicity:
+    - Delay or modify treatment according to the treatment protocol and severity of hematologic toxicity.
+
+  neurologicToxicity:
+    - Consider treatment modification or discontinuation in clinically significant neurotoxicity.
+
+  cardiacToxicity: []
+
+  infusionReaction: []
+
+  other:
+    - Modify treatment according to dose, route, treatment indication, and protocol-specific toxicity criteria.
+
+
+# ----------------------------------------------------------------------------
+# Safety
+# ----------------------------------------------------------------------------
+
+safety:
+
+  contraindications: []
+
+  warnings:
+    - Dose-dependent myelosuppression.
+    - Severe toxicity may occur with high-dose cytarabine.
+    - Neurotoxicity may occur, particularly with high-dose therapy.
+    - Intrathecal administration can cause serious neurologic toxicity.
+    - Ocular toxicity may occur with high-dose systemic therapy.
+
+  commonAdverseEffects:
+    - Myelosuppression.
+    - Nausea and vomiting.
+    - Mucositis.
+    - Fever.
+    - Fatigue.
+
+  seriousAdverseEffects:
+    - Severe myelosuppression.
+    - Severe infection.
+    - Neurotoxicity.
+    - Severe ocular toxicity.
+    - Severe hepatotoxicity.
+
+
+# ----------------------------------------------------------------------------
+# Supportive Care
+# ----------------------------------------------------------------------------
+
+supportiveCare:
+
+  topics: []
+
+
+# ----------------------------------------------------------------------------
+# References
+# ----------------------------------------------------------------------------
+
+references: []
+
+
+# ----------------------------------------------------------------------------
+# Review
+# ----------------------------------------------------------------------------
+
+review:
+
+  lastReviewed: 2026-08-13
+
+  reviewedBy: farshid-fardad
