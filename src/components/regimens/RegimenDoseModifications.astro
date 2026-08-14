@@ -1,0 +1,49 @@
+---
+interface Props {
+  doseModifications: string[];
+}
+
+const { doseModifications } = Astro.props;
+---
+
+<section
+  class="regimen-section"
+  aria-labelledby="dose-modifications-heading"
+>
+  <h2 id="dose-modifications-heading">
+    Dose Modifications
+  </h2>
+
+  {
+    doseModifications.length > 0 ? (
+      <ul>
+        {doseModifications.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    ) : (
+      <p>
+        No dose modification information is currently listed.
+      </p>
+    )
+  }
+</section>
+
+<style>
+  .regimen-section {
+    margin-top: 2.5rem;
+  }
+
+  .regimen-section h2 {
+    margin: 0 0 1.25rem;
+  }
+
+  .regimen-section ul {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+
+  .regimen-section li {
+    margin-bottom: 0.5rem;
+  }
+</style>

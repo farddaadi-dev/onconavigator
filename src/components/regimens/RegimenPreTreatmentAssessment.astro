@@ -1,0 +1,165 @@
+---
+interface Props {
+  assessment: {
+    diagnosis: string[];
+    clinical: string[];
+    laboratory: string[];
+    infectionScreening: string[];
+    imaging: string[];
+    calculations: string[];
+    counselling: string[];
+    other: string[];
+  };
+}
+
+const { assessment } = Astro.props;
+---
+
+<section
+  class="regimen-section"
+  aria-labelledby="assessment-heading"
+>
+  <h2 id="assessment-heading">
+    Pre-treatment Assessment
+  </h2>
+
+  {
+    assessment.diagnosis.length > 0 && (
+      <div class="assessment-group">
+        <h3>Diagnosis</h3>
+
+        <ul>
+          {assessment.diagnosis.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
+  {
+    assessment.clinical.length > 0 && (
+      <div class="assessment-group">
+        <h3>Clinical</h3>
+
+        <ul>
+          {assessment.clinical.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
+  {
+    assessment.laboratory.length > 0 && (
+      <div class="assessment-group">
+        <h3>Laboratory</h3>
+
+        <ul>
+          {assessment.laboratory.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
+  {
+    assessment.infectionScreening.length > 0 && (
+      <div class="assessment-group">
+        <h3>Infection Screening</h3>
+
+        <ul>
+          {assessment.infectionScreening.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
+  {
+    assessment.imaging.length > 0 && (
+      <div class="assessment-group">
+        <h3>Imaging</h3>
+
+        <ul>
+          {assessment.imaging.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
+  {
+    assessment.calculations.length > 0 && (
+      <div class="assessment-group">
+        <h3>Calculations</h3>
+
+        <ul>
+          {assessment.calculations.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
+  {
+    assessment.counselling.length > 0 && (
+      <div class="assessment-group">
+        <h3>Counselling</h3>
+
+        <ul>
+          {assessment.counselling.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
+  {
+    assessment.other.length > 0 && (
+      <div class="assessment-group">
+        <h3>Other</h3>
+
+        <ul>
+          {assessment.other.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+</section>
+
+<style>
+  .regimen-section {
+    margin-top: 2.5rem;
+  }
+
+  .regimen-section h2 {
+    margin: 0 0 1.25rem;
+  }
+
+  .assessment-group {
+    margin-top: 1.5rem;
+  }
+
+  .assessment-group h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1rem;
+  }
+
+  .assessment-group ul {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+
+  .assessment-group li {
+    margin-bottom: 0.35rem;
+  }
+</style>

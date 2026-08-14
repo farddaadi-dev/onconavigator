@@ -1,0 +1,89 @@
+---
+interface Props {
+  diseases: {
+    data: {
+      id: string;
+      title: string;
+    };
+  }[];
+}
+
+const { diseases } = Astro.props;
+---
+
+<section
+  class="clinical-card regimen-indications"
+  aria-labelledby="indications-heading"
+>
+  <div class="section-heading">
+    <h2 id="indications-heading">Indications</h2>
+    <p>Diseases and clinical conditions for which this regimen is used.</p>
+  </div>
+
+  {
+    diseases.length > 0 ? (
+      <ul class="indications-list">
+        {diseases.map((disease) => (
+          <li>
+            <a href={`/diseases/${disease.data.id}`}>
+              {disease.data.title}
+            </a>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p class="empty-state">
+        No indications are currently listed.
+      </p>
+    )
+  }
+</section>
+
+<style>
+  .regimen-indications {
+    margin-top: 1.25rem;
+  }
+
+  .indications-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+  }
+
+  .indications-list li {
+    margin: 0;
+  }
+
+  .indications-list a {
+    display: block;
+    padding: 0.75rem 1rem;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+
+    background: var(--color-background);
+    color: var(--color-text);
+    font-weight: 600;
+
+    transition:
+      border-color 0.15s ease,
+      background 0.15s ease,
+      color 0.15s ease;
+  }
+
+  .indications-list a:hover {
+    border-color: var(--color-primary);
+    background: var(--color-surface);
+    color: var(--color-primary);
+  }
+
+  .empty-state {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+</style>

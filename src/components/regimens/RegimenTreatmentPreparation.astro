@@ -1,0 +1,174 @@
+---
+import { formatLabel } from "@/utils/formatText";
+
+interface Props {
+  preparation: {
+    premedications: string[];
+    antiemetics: {
+      risk: string;
+    };
+    hydration: string[];
+    prophylaxis: string[];
+  };
+
+  antiemetics: Array<{
+    drug: {
+      data: {
+        id: string;
+        title: string;
+      };
+    };
+    antiemetic: {
+      dose: {
+        value: number | string;
+        unit: string;
+      };
+      administration: {
+        route: string;
+        timing?: string;
+        notes?: string;
+      };
+    };
+  }>;
+}
+
+const { preparation, antiemetics } = Astro.props;
+---
+
+<section
+  class="regimen-section"
+  aria-labelledby="preparation-heading"
+>
+  <h2 id="preparation-heading">
+    Treatment Preparation
+  </h2>
+
+  {
+    preparation.premedications.length > 0 && (
+      <div class="preparation-group">
+        <h3>Premedications</h3>
+
+        <ul>
+          {preparation.premedications.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
+  {
+    antiemetics.length > 0 && (
+      <div class="preparation-group">
+        <h3>Antiemetics</h3>
+
+        <p>
+          <strong>Emetogenic risk:</strong>{" "}
+          {formatLabel(preparation.antiemetics.risk)}
+        </p>
+
+        <ul>
+          {antiemetics.map(({ drug, antiemetic }) => (
+            <li>
+              <strong>
+                <a href={`/drugs/${drug.data.id}`}>
+                  {drug.data.title}
+                </a>
+              </strong>
+
+              {" — "}
+
+              {antiemetic.dose.value}{" "}
+              {antiemetic.dose.unit}{" "}
+              {formatLabel(
+                antiemetic.administration.route,
+              )}
+
+              {
+                antiemetic.administration.timing && (
+                  <>
+                    {" — "}
+                    {antiemetic.administration.timing}
+                  </>
+                )
+              }
+
+              {
+                antiemetic.administration.notes && (
+                  <div>
+                    {antiemetic.administration.notes}
+                  </div>
+                )
+              }
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
+  {
+    preparation.hydration.length > 0 && (
+      <div class="preparation-group">
+        <h3>Hydration</h3>
+
+        <ul>
+          {preparation.hydration.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
+  {
+    preparation.prophylaxis.length > 0 && (
+      <div class="preparation-group">
+        <h3>Prophylaxis</h3>
+
+        <ul>
+          {preparation.prophylaxis.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+</section>
+
+<style>
+  .regimen-section {
+    margin-top: 2.5rem;
+  }
+
+  .regimen-section h2 {
+    margin: 0 0 1.25rem;
+  }
+
+  .preparation-group {
+    margin-top: 1.5rem;
+  }
+
+  .preparation-group h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1rem;
+  }
+
+  .preparation-group p {
+    margin: 0 0 0.75rem;
+  }
+
+  .preparation-group ul {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+
+  .preparation-group li {
+    margin-bottom: 0.5rem;
+  }
+
+  .preparation-group li div {
+    margin-top: 0.25rem;
+    color: var(--color-text-muted);
+  }
+</style>

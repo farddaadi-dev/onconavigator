@@ -18,7 +18,7 @@ classification:
 
   class: targeted-therapy
 
-  subclass: anti-cd20 monoclonal antibody
+  subclass: anti-cd20-monoclonal-antibody
 
   molecularTargets:
     - cd20

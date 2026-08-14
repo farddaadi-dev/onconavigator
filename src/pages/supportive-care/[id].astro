@@ -1,4 +1,5 @@
 ---
+import BaseLayout from '@/layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import { formatLabel } from '@/utils/formatText';
 import { getSourceById } from '@/utils/content';
@@ -23,100 +24,127 @@ const references = (
     source !== undefined,
 );
 ---
+<BaseLayout
+  title={supportiveCare.data.title}
+  description={`Clinical reference for ${supportiveCare.data.title}.`}
+>
+    <div class="supportive-care-page">
+      
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>{supportiveCare.data.title} | OncoNavigator</title>
-  </head>
+      <header class="supportive-care-header">
+        <p class="page-label">SUPPORTIVE CARE</p>
 
-  <body>
-    <main>
-      <a href="/">OncoNavigator</a>
-
-      <header>
         <h1>{supportiveCare.data.title}</h1>
 
         {
           supportiveCare.data.aliases.length > 0 && (
-            <p>{supportiveCare.data.aliases.join(', ')}</p>
+            <p class="supportive-care-aliases">
+              {supportiveCare.data.aliases.join(" · ")}
+            </p>
           )
         }
       </header>
 
-      <section>
-        <h2>Category</h2>
-        <p>{formatLabel(supportiveCare.data.category)}</p>
+      <section class="clinical-card">
+        <div class="section-heading">
+          <h2>Category</h2>
+        </div>
+
+        <p class="category-label">
+          {formatLabel(supportiveCare.data.category)}
+        </p>
       </section>
-      <section>
-        <h2>Indications</h2>
-      
+
+      <section class="clinical-card">
+        <div class="section-heading">
+          <h2>Indications</h2>
+          <p>Clinical situations in which this supportive care is used.</p>
+        </div>
+
         {
           supportiveCare.data.indications.length > 0 ? (
-            <ul>
+            <ul class="clinical-list">
               {supportiveCare.data.indications.map((item) => (
                 <li>{item}</li>
               ))}
             </ul>
           ) : (
-            <p>No indications are currently listed.</p>
+            <p class="empty-state">
+              No indications are currently listed.
+            </p>
           )
         }
       </section>
-      <section>
-        <h2>Clinical Use</h2>
+
+      <section class="clinical-card">
+        <div class="section-heading">
+          <h2>Clinical Use</h2>
+        </div>
 
         {
           supportiveCare.data.clinicalUse.length > 0 ? (
-            <ul>
+            <ul class="clinical-list">
               {supportiveCare.data.clinicalUse.map((item) => (
                 <li>{item}</li>
               ))}
             </ul>
           ) : (
-            <p>No clinical use information listed.</p>
+            <p class="empty-state">
+              No clinical use information is currently listed.
+            </p>
           )
         }
       </section>
 
-      <section>
-        <h2>Monitoring</h2>
-      
+      <section class="clinical-card">
+        <div class="section-heading">
+          <h2>Monitoring</h2>
+        </div>
+
         {
           supportiveCare.data.monitoring.length > 0 ? (
-            <ul>
+            <ul class="clinical-list">
               {supportiveCare.data.monitoring.map((item) => (
                 <li>{item}</li>
               ))}
             </ul>
           ) : (
-            <p>No monitoring information listed.</p>
+            <p class="empty-state">
+              No monitoring information is currently listed.
+            </p>
           )
         }
       </section>
-      
-      <section>
-        <h2>Safety</h2>
-      
+
+      <section class="clinical-card">
+        <div class="section-heading">
+          <h2>Safety</h2>
+        </div>
+
         {
           supportiveCare.data.safety.length > 0 ? (
-            <ul>
+            <ul class="clinical-list">
               {supportiveCare.data.safety.map((item) => (
                 <li>{item}</li>
               ))}
             </ul>
           ) : (
-            <p>No safety information listed.</p>
+            <p class="empty-state">
+              No safety information is currently listed.
+            </p>
           )
         }
       </section>
 
-      <section aria-labelledby="references-heading">
-        <h2 id="references-heading">References</h2>
+      <section class="clinical-card" aria-labelledby="references-heading">
+        <div class="section-heading">
+          <h2 id="references-heading">References</h2>
+          <p>Sources supporting the clinical information on this page.</p>
+        </div>
+
         {
           references.length > 0 ? (
-            <ul>
+            <ol class="reference-list">
               {references.map((source) => (
                 <li>
                   <a href={`/sources/${source.data.id}`}>
@@ -124,12 +152,112 @@ const references = (
                   </a>
                 </li>
               ))}
-            </ul>
+            </ol>
           ) : (
-            <p>No references are currently listed.</p>
+            <p class="empty-state">
+              No references are currently listed.
+            </p>
           )
         }
       </section>
-    </main>
-  </body>
-</html>
+
+      
+    </div>
+  </BaseLayout>
+
+<style>
+  .supportive-care-page {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .back-link {
+    display: inline-block;
+    margin-bottom: 2rem;
+  }
+
+  .supportive-care-header {
+    margin-bottom: 2rem;
+  }
+
+  .page-label {
+    margin: 0 0 0.5rem;
+    color: var(--color-primary);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .supportive-care-header h1 {
+    margin: 0;
+  }
+
+  .supportive-care-aliases {
+    margin: 0.5rem 0 0;
+    color: var(--color-text-muted);
+  }
+
+  .clinical-card {
+    margin-bottom: 1.25rem;
+    padding: 1.5rem;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+
+    background: var(--color-surface);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .section-heading {
+    margin-bottom: 1.25rem;
+  }
+
+  .section-heading h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    line-height: 1.3;
+  }
+
+  .section-heading p {
+    margin: 0.35rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .category-label {
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .clinical-list {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+
+  .clinical-list li + li {
+    margin-top: 0.5rem;
+  }
+
+  .empty-state {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+
+  .reference-list {
+    margin: 0;
+    padding-left: 1.5rem;
+  }
+
+  .reference-list li + li {
+    margin-top: 0.75rem;
+  }
+
+  
+
+  @media (max-width: 600px) {
+    .clinical-card {
+      padding: 1.25rem;
+    }
+  }
+</style>

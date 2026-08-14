@@ -1,0 +1,309 @@
+---
+import { formatLabel } from "@/utils/formatText";
+
+interface Props {
+  drug: {
+    data: {
+      id: string;
+      title: string;
+    };
+  };
+
+  medication: {
+    rules: Array<{
+      dose: {
+        value: number | string;
+        unit: string;
+      };
+
+      administration: {
+        route: string;
+        administrationDays: number[];
+        volume?: {
+          value: number;
+          unit: string;
+        };
+        diluent?: string;
+        infusionDuration?: string;
+        notes?: string;
+      };
+
+      condition?: {
+        cycleRange?: {
+          start: number;
+          end: number;
+        };
+      };
+
+      notes?: string;
+    }>;
+
+    preparationNotes?: string;
+    infusionNotes?: string;
+    comments?: string;
+  };
+}
+
+const { drug, medication } = Astro.props;
+
+const hasAdministrationDetails =
+  Boolean(medication.preparationNotes) ||
+  Boolean(medication.infusionNotes) ||
+  Boolean(medication.comments) ||
+  medication.rules.some(
+    (rule) =>
+      Boolean(rule.administration.notes) ||
+      Boolean(rule.notes),
+  );
+---
+
+<article class="medication-card">
+
+  <header class="medication-card__header">
+    <h3>
+      <a href={`/drugs/${drug.data.id}`}>
+        {drug.data.title}
+      </a>
+    </h3>
+  </header>
+
+  <div class="medication-card__rules">
+    {
+      medication.rules.map((rule) => {
+        const administration = rule.administration;
+        const days = administration.administrationDays;
+        const cycleRange = rule.condition?.cycleRange;
+
+        return (
+          <div class="medication-rule">
+
+            <div class="medication-rule__summary">
+
+              <div class="medication-rule__dose">
+                <strong>
+                  {rule.dose.value} {rule.dose.unit}
+                </strong>
+              </div>
+
+              <div class="medication-rule__administration">
+
+                <span>
+                  {formatLabel(administration.route)}
+                </span>
+
+                {administration.volume && (
+                  <span>
+                    {administration.volume.value}{" "}
+                    {administration.volume.unit}
+                  </span>
+                )}
+
+                {administration.diluent && (
+                  <span>
+                    {administration.diluent}
+                  </span>
+                )}
+
+                {administration.infusionDuration && (
+                  <span>
+                    Over {administration.infusionDuration}
+                  </span>
+                )}
+
+              </div>
+
+              <div class="medication-rule__timing">
+
+                <span>
+                  Day{days.length > 1 ? "s" : ""}{" "}
+                  {days.join(", ")}
+                </span>
+
+                {cycleRange && (
+                  <span>
+                    Cycles {cycleRange.start}–
+                    {cycleRange.end}
+                  </span>
+                )}
+
+              </div>
+
+            </div>
+
+          </div>
+        );
+      })
+    }
+  </div>
+
+  {
+    hasAdministrationDetails && (
+      <details class="administration-details">
+
+        <summary>
+          Administration details
+        </summary>
+
+        {
+          medication.rules.map((rule) => (
+            <div class="administration-rule">
+
+              {rule.administration.notes && (
+                <p>
+                  {rule.administration.notes}
+                </p>
+              )}
+
+              {rule.notes && (
+                <p>
+                  <strong>Notes:</strong>{" "}
+                  {rule.notes}
+                </p>
+              )}
+
+            </div>
+          ))
+        }
+
+        {medication.preparationNotes && (
+          <p>
+            <strong>Preparation:</strong>{" "}
+            {medication.preparationNotes}
+          </p>
+        )}
+
+        {medication.infusionNotes && (
+          <p>
+            <strong>Infusion:</strong>{" "}
+            {medication.infusionNotes}
+          </p>
+        )}
+
+        {medication.comments && (
+          <p>
+            <strong>Notes:</strong>{" "}
+            {medication.comments}
+          </p>
+        )}
+
+      </details>
+    )
+  }
+
+</article>
+
+<style>
+  .medication-card {
+    padding: 1.25rem;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+
+    background: var(--color-surface);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .medication-card__header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+
+  .medication-card__header a {
+    color: var(--color-text);
+  }
+
+  .medication-card__header a:hover {
+    color: var(--color-primary);
+  }
+
+  .medication-card__rules {
+    margin-top: 1rem;
+  }
+
+  .medication-rule {
+    padding-top: 1rem;
+  }
+
+  .medication-rule + .medication-rule {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .medication-rule__summary {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .medication-rule__dose {
+    font-size: 1rem;
+  }
+
+  .medication-rule__administration {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.75rem;
+
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+  }
+
+  .medication-rule__administration span + span {
+    position: relative;
+    padding-left: 0.75rem;
+  }
+
+  .medication-rule__administration span + span::before {
+    content: "·";
+    position: absolute;
+    left: 0;
+  }
+
+  .medication-rule__timing {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.75rem;
+
+    margin-top: 0.15rem;
+
+    color: var(--color-text-muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .medication-rule__timing span + span {
+    position: relative;
+    padding-left: 0.75rem;
+  }
+
+  .medication-rule__timing span + span::before {
+    content: "·";
+    position: absolute;
+    left: 0;
+  }
+
+  .administration-details {
+    margin-top: 1rem;
+    padding: 0.75rem 1rem;
+
+    border-radius: var(--radius-sm);
+    background: var(--color-background);
+  }
+
+  .administration-details summary {
+    cursor: pointer;
+
+    color: var(--color-primary);
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .administration-details p {
+    margin: 0.75rem 0 0;
+
+    color: var(--color-text-muted);
+  }
+
+  .administration-rule + .administration-rule {
+    margin-top: 0.5rem;
+  }
+</style>

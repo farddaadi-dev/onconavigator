@@ -21,4 +21,5 @@ export const clinicalTerms: Record<string, string> = {
   "hematologic-malignancy": "Hematologic Malignancy",
   "lymphoma": "Lymphoma",
   "aggressive": "Aggressive",
+  "anti-cd20-monoclonal-antibody": "Anti-CD20 Monoclonal Antibody",
 };

@@ -1,0 +1,58 @@
+---
+interface Props {
+  items: Array<{
+    data: {
+      id: string;
+      title: string;
+    };
+  }>;
+}
+
+const { items } = Astro.props;
+---
+
+<section
+  class="regimen-section"
+  aria-labelledby="supportive-care-heading"
+>
+  <h2 id="supportive-care-heading">
+    Supportive Care
+  </h2>
+
+  {
+    items.length > 0 ? (
+      <ul>
+        {items.map((item) => (
+          <li>
+            <a href={`/supportive-care/${item.data.id}`}>
+              {item.data.title}
+            </a>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p>
+        No supportive care information is currently listed.
+      </p>
+    )
+  }
+</section>
+
+<style>
+  .regimen-section {
+    margin-top: 2.5rem;
+  }
+
+  .regimen-section h2 {
+    margin: 0 0 1.25rem;
+  }
+
+  .regimen-section ul {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+
+  .regimen-section li {
+    margin-bottom: 0.5rem;
+  }
+</style>

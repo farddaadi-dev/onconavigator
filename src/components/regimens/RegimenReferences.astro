@@ -1,0 +1,60 @@
+---
+interface Props {
+  references: Array<{
+    data: {
+      id: string;
+      publication: {
+        citation: string;
+      };
+    };
+  }>;
+}
+
+const { references } = Astro.props;
+---
+
+<section
+  class="regimen-section"
+  aria-labelledby="references-heading"
+>
+  <h2 id="references-heading">
+    References
+  </h2>
+
+  {
+    references.length > 0 ? (
+      <ul>
+        {references.map((source) => (
+          <li>
+            <a href={`/sources/${source.data.id}`}>
+              {source.data.publication.citation}
+            </a>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p>
+        No references are currently listed.
+      </p>
+    )
+  }
+</section>
+
+<style>
+  .regimen-section {
+    margin-top: 2.5rem;
+  }
+
+  .regimen-section h2 {
+    margin: 0 0 1.25rem;
+  }
+
+  .regimen-section ul {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+
+  .regimen-section li {
+    margin-bottom: 0.5rem;
+  }
+</style>

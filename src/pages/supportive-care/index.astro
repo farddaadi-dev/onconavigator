@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
-
+import { formatLabel } from "@/utils/formatText";
 const supportiveCare = await getCollection("supportiveCare");
 ---
 
@@ -41,7 +41,7 @@ const supportiveCare = await getCollection("supportiveCare");
   }
 
   <div class="supportive-care-meta">
-    <span>{item.data.category}</span>
+    <span>{formatLabel(item.data.category)}</span>
   </div>
 </div>
 

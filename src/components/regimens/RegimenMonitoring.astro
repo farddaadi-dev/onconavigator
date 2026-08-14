@@ -1,0 +1,75 @@
+---
+interface Props {
+  monitoring: {
+    beforeEachCycle: string[];
+    duringTreatment: string[];
+  };
+}
+
+const { monitoring } = Astro.props;
+---
+
+<section
+  class="regimen-section"
+  aria-labelledby="monitoring-heading"
+>
+  <h2 id="monitoring-heading">
+    Monitoring
+  </h2>
+
+  {
+    monitoring.beforeEachCycle.length > 0 && (
+      <div class="monitoring-group">
+        <h3>Before Each Cycle</h3>
+
+        <ul>
+          {monitoring.beforeEachCycle.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
+  {
+    monitoring.duringTreatment.length > 0 && (
+      <div class="monitoring-group">
+        <h3>During Treatment</h3>
+
+        <ul>
+          {monitoring.duringTreatment.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+</section>
+
+<style>
+  .regimen-section {
+    margin-top: 2.5rem;
+  }
+
+  .regimen-section h2 {
+    margin: 0 0 1.25rem;
+  }
+
+  .monitoring-group {
+    margin-top: 1.5rem;
+  }
+
+  .monitoring-group h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1rem;
+  }
+
+  .monitoring-group ul {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+
+  .monitoring-group li {
+    margin-bottom: 0.35rem;
+  }
+</style>

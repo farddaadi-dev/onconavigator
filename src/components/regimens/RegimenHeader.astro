@@ -1,0 +1,126 @@
+---
+import { formatLabel } from "@/utils/formatText";
+
+interface Props {
+  regimen: {
+    data: {
+      title: string;
+      description: string;
+      setting: string[];
+      treatmentIntent: string[];
+      lineOfTherapy: string[];
+    };
+  };
+}
+
+const { regimen } = Astro.props;
+---
+
+<header class="regimen-header">
+  <p class="regimen-eyebrow">TREATMENT REGIMEN</p>
+
+  <h1>{regimen.data.title}</h1>
+
+  <p class="regimen-description">
+    {regimen.data.description}
+  </p>
+
+  <div class="regimen-meta">
+    <div class="regimen-meta__item">
+      <span class="regimen-meta__label">Setting</span>
+      <span class="regimen-meta__value">
+        {regimen.data.setting
+          .map((setting) => formatLabel(setting))
+          .join(" / ")}
+      </span>
+    </div>
+
+    <div class="regimen-meta__item">
+      <span class="regimen-meta__label">Treatment intent</span>
+      <span class="regimen-meta__value">
+        {regimen.data.treatmentIntent
+          .map((intent) => formatLabel(intent))
+          .join(" / ")}
+      </span>
+    </div>
+
+    <div class="regimen-meta__item">
+      <span class="regimen-meta__label">Line of therapy</span>
+      <span class="regimen-meta__value">
+        {regimen.data.lineOfTherapy
+          .map((line) => formatLabel(line))
+          .join(" / ")}
+      </span>
+    </div>
+  </div>
+</header>
+
+<style>
+    .regimen-header {
+      margin-bottom: 3rem;
+    }
+  
+    .regimen-eyebrow {
+      margin: 0 0 0.5rem;
+      color: var(--color-primary);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+  
+    .regimen-header h1 {
+      margin: 0 0 1rem;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.15;
+    }
+  
+    .regimen-description {
+      max-width: 760px;
+      margin: 0 0 1.75rem;
+      color: var(--color-text-muted);
+      font-size: 1.05rem;
+    }
+  
+    .regimen-meta {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      background: var(--color-surface);
+      box-shadow: var(--shadow-sm);
+    }
+  
+    .regimen-meta__item {
+      padding: 1rem 1.25rem;
+    }
+  
+    .regimen-meta__item + .regimen-meta__item {
+      border-left: 1px solid var(--color-border);
+    }
+  
+    .regimen-meta__label {
+      display: block;
+      margin-bottom: 0.25rem;
+      color: var(--color-text-muted);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+  
+    .regimen-meta__value {
+      display: block;
+      font-weight: 600;
+    }
+  
+    @media (max-width: 650px) {
+      .regimen-meta {
+        grid-template-columns: 1fr;
+      }
+  
+      .regimen-meta__item + .regimen-meta__item {
+        border-top: 1px solid var(--color-border);
+        border-left: 0;
+      }
+    }
+  </style>

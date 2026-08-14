@@ -1,4 +1,5 @@
 ---
+import Layout from "@/layouts/Layout.astro";
 import { getCollection } from 'astro:content';
 
 import { getDiseaseById, getRegimenById, getSourceById } from '@/utils/content';
@@ -39,145 +40,459 @@ const references = (
 );
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>{drug.data.title} | OncoNavigator</title>
-  </head>
+<Layout
+  title={drug.data.title}
+  description={`${drug.data.title} clinical information and dosage forms`}
+>
+  <article class="drug-page">
 
-  <body>
-    <main>
-      <a href="/">OncoNavigator</a>
+    <header class="drug-header">
+      <div class="drug-header__eyebrow">
+        DRUG
+      </div>
 
-      <header>
-        <h1>{drug.data.title}</h1>
+      <h1>{drug.data.title}</h1>
 
-        {drug.data.aliases.length > 0 && <p>{drug.data.aliases.join(', ')}</p>}
-      </header>
+      {
+        drug.data.aliases.length > 0 && (
+          <p class="drug-header__aliases">
+            {drug.data.aliases.join(" · ")}
+          </p>
+        )
+      }
+    </header>
 
-      <section aria-labelledby="classification-heading">
+
+    <section
+      class="clinical-card"
+      aria-labelledby="classification-heading"
+    >
+      <div class="section-heading">
         <h2 id="classification-heading">Classification</h2>
+      </div>
 
-        <p>
-          <strong>Class:</strong>{' '}
-          {formatLabel(drug.data.classification.class)}
-        </p>
+      <div class="classification-grid">
+
+        <div class="classification-item">
+          <span class="classification-item__label">
+            Class
+          </span>
+
+          <strong>
+            {formatLabel(drug.data.classification.class)}
+          </strong>
+        </div>
 
         {
           drug.data.classification.subclass && (
-            <p>
-              <strong>Subclass:</strong> {drug.data.classification.subclass}
-            </p>
-          )
-        }
-
-        {
-          drug.data.classification.molecularTargets.length > 0 && (
-            <div>
-              <h3>Molecular Targets</h3>
-
-              <ul>
-                {drug.data.classification.molecularTargets.map((target) => (
-                  <li>{getClinicalLabel(target)}</li>
-                ))}
-              </ul>
-            </div>
-          )
-        }
-      </section>
-
-      <section aria-labelledby="indications-heading">
-        <h2 id="indications-heading">Indications</h2>
-
-        {
-          diseases.length > 0 && (
-            <div>
-              <h3>Diseases</h3>
-
-              <ul>
-                {diseases.map((disease) => (
-                  <li>
-                    <a href={`/diseases/${disease.data.id}`}>
-                      {disease.data.title}
-                    </a>
-                  </li>
-                ))}
-              </ul>
+            <div class="classification-item">
+              <span class="classification-item__label">
+                Subclass
+              </span>
+        
+              <strong>
+                {getClinicalLabel(drug.data.classification.subclass)}
+              </strong>
+              
             </div>
           )
         }
 
-        {
-          regimens.length > 0 && (
-            <div>
-              <h3>Used in Regimens</h3>
+      </div>
 
-              <ul>
-                {regimens.map((regimen) => (
-                  <li>
-                    <a href={`/regimens/${regimen.data.id}`}>
-                      {regimen.data.title}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )
-        }
+      {
+        drug.data.classification.molecularTargets.length > 0 && (
+          <div class="targets">
+            <h3>Molecular Targets</h3>
 
-        {
-          diseases.length === 0 && regimens.length === 0 && (
-            <p>No indications are currently listed.</p>
-          )
-        }
-      </section>
-
-      <section aria-labelledby="dosage-forms-heading">
-        <h2 id="dosage-forms-heading">Dosage Forms</h2>
-
-        {
-          drug.data.dosageForms.length > 0 ? (
             <ul>
-              {drug.data.dosageForms.map((dosageForm) => (
-                <li>
-                  <strong>{dosageForm.formulation}</strong>
+              {drug.data.classification.molecularTargets.map((target) => (
+                <li>{getClinicalLabel(target)}</li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
+    </section>
 
-                  {dosageForm.strengths.length > 0 && (
+
+    <section
+      class="clinical-card"
+      aria-labelledby="indications-heading"
+    >
+      <div class="section-heading">
+        <h2 id="indications-heading">Indications</h2>
+        <p>
+          Diseases and treatment regimens associated with this medication.
+        </p>
+      </div>
+
+      {
+        diseases.length > 0 && (
+          <div class="drug-links-group">
+            <h3>Diseases</h3>
+
+            <div class="drug-links-list">
+              {diseases.map((disease) => (
+                <a
+                  class="drug-link"
+                  href={`/diseases/${disease.data.id}`}
+                >
+                  <span>{disease.data.title}</span>
+                  <span class="drug-link__arrow">→</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        )
+      }
+
+      {
+        regimens.length > 0 && (
+          <div class="drug-links-group">
+            <h3>Used in Regimens</h3>
+
+            <div class="drug-links-list">
+              {regimens.map((regimen) => (
+                <a
+                  class="drug-link"
+                  href={`/regimens/${regimen.data.id}`}
+                >
+                  <span>{regimen.data.title}</span>
+                  <span class="drug-link__arrow">→</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        )
+      }
+
+      {
+        diseases.length === 0 &&
+        regimens.length === 0 && (
+          <p class="empty-state">
+            No indications are currently listed.
+          </p>
+        )
+      }
+    </section>
+
+
+    <section
+      class="clinical-card"
+      aria-labelledby="dosage-forms-heading"
+    >
+      <div class="section-heading">
+        <h2 id="dosage-forms-heading">Dosage Forms</h2>
+      </div>
+
+      {
+        drug.data.dosageForms.length > 0 ? (
+          <div class="dosage-form-list">
+            {drug.data.dosageForms.map((dosageForm) => (
+              <div class="dosage-form">
+                <h3>{dosageForm.formulation}</h3>
+
+                {
+                  dosageForm.strengths.length > 0 && (
                     <ul>
                       {dosageForm.strengths.map((strength) => (
                         <li>{strength}</li>
                       ))}
                     </ul>
-                  )}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>No dosage form information is currently listed.</p>
-          )
-        }
-      </section>
+                  )
+                }
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p class="empty-state">
+            No dosage form information is currently listed.
+          </p>
+        )
+      }
+    </section>
 
-      <section aria-labelledby="references-heading">
+
+    <section
+      class="clinical-card"
+      aria-labelledby="references-heading"
+    >
+      <div class="section-heading">
         <h2 id="references-heading">References</h2>
+      </div>
 
-        {
-          references.length > 0 ? (
-            <ul>
-              {references.map((source) => (
-                <li>
-                  <a href={`/sources/${source.data.id}`}>
-                    {source.data.publication.citation}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>No references are currently listed.</p>
-          )
-        }
-      </section>
-    </main>
-  </body>
-</html>
+      {
+        references.length > 0 ? (
+          <ol class="references-list">
+            {references.map((source) => (
+              <li>
+                <a href={`/sources/${source.data.id}`}>
+                  {source.data.publication.citation}
+                </a>
+              </li>
+            ))}
+          </ol>
+        ) : (
+          <p class="empty-state">
+            No references are currently listed.
+          </p>
+        )
+      }
+    </section>
+
+  </article>
+</Layout>
+
+<style>
+  .drug-page {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* Header                                                                 */
+  /* ---------------------------------------------------------------------- */
+
+  .drug-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .drug-header__eyebrow {
+    margin-bottom: 0.35rem;
+
+    color: var(--color-primary);
+
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .drug-header h1 {
+    margin: 0;
+
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+
+  .drug-header__aliases {
+    margin: 0.45rem 0 0;
+
+    color: var(--color-text-muted);
+
+    font-size: 0.95rem;
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* Clinical Cards                                                         */
+  /* ---------------------------------------------------------------------- */
+
+  .clinical-card {
+    margin-bottom: 1.25rem;
+    padding: 1.5rem;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+
+    background: var(--color-surface);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .section-heading {
+    margin-bottom: 1.25rem;
+  }
+
+  .section-heading h2 {
+    margin: 0;
+
+    font-size: 1.25rem;
+    line-height: 1.3;
+  }
+
+  .section-heading p {
+    margin: 0.35rem 0 0;
+
+    color: var(--color-text-muted);
+
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* Classification                                                         */
+  /* ---------------------------------------------------------------------- */
+
+  .classification-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .classification-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+
+    padding: 1rem;
+
+    border-radius: var(--radius-md);
+
+    background: var(--color-background);
+  }
+
+  .classification-item__label {
+    color: var(--color-text-muted);
+
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .targets {
+    margin-top: 1.25rem;
+  }
+
+  .targets h3 {
+    margin: 0 0 0.65rem;
+
+    font-size: 0.95rem;
+  }
+
+  .targets ul {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+
+  .targets li {
+    margin: 0.35rem 0;
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* Drug Links                                                             */
+  /* ---------------------------------------------------------------------- */
+
+  .drug-links-group + .drug-links-group {
+    margin-top: 1.25rem;
+  }
+
+  .drug-links-group h3 {
+    margin: 0 0 0.65rem;
+
+    font-size: 0.95rem;
+  }
+
+  .drug-links-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .drug-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+
+    padding: 0.9rem 1rem;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+
+    background: var(--color-background);
+    color: var(--color-text);
+
+    font-weight: 600;
+  }
+
+  .drug-link:hover {
+    border-color: var(--color-primary);
+    background: var(--color-surface);
+    color: var(--color-text);
+  }
+
+  .drug-link__arrow {
+    color: var(--color-primary);
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* Dosage Forms                                                           */
+  /* ---------------------------------------------------------------------- */
+
+  .dosage-form-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .dosage-form {
+    padding: 1rem;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+
+    background: var(--color-background);
+  }
+
+  .dosage-form h3 {
+    margin: 0;
+    font-size: 0.95rem;
+  }
+
+  .dosage-form ul {
+    margin: 0.65rem 0 0;
+    padding-left: 1.25rem;
+  }
+
+  .dosage-form li {
+    margin: 0.3rem 0;
+
+    color: var(--color-text-muted);
+
+    font-size: 0.875rem;
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* References                                                             */
+  /* ---------------------------------------------------------------------- */
+
+  .references-list {
+    margin: 0;
+    padding-left: 1.5rem;
+  }
+
+  .references-list li {
+    margin: 0.65rem 0;
+    padding-left: 0.25rem;
+  }
+
+  .references-list a {
+    line-height: 1.6;
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* Empty State                                                            */
+  /* ---------------------------------------------------------------------- */
+
+  .empty-state {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* Responsive                                                             */
+  /* ---------------------------------------------------------------------- */
+
+  @media (max-width: 600px) {
+    .clinical-card {
+      padding: 1.15rem;
+      border-radius: var(--radius-md);
+    }
+
+    .classification-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .drug-header h1 {
+      font-size: 1.7rem;
+    }
+  }
+</style>

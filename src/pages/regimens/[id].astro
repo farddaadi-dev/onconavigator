@@ -1,7 +1,16 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import RegimenHeader from "@/components/regimens/RegimenHeader.astro";
+import RegimenIndications from "@/components/regimens/RegimenIndications.astro";
+import RegimenSchedule from "@/components/regimens/RegimenSchedule.astro";
+import RegimenMedicationCard from "@/components/regimens/RegimenMedicationCard.astro";
+import RegimenPreTreatmentAssessment from "@/components/regimens/RegimenPreTreatmentAssessment.astro";
+import RegimenTreatmentPreparation from "@/components/regimens/RegimenTreatmentPreparation.astro";
+import RegimenSupportiveCare from "@/components/regimens/RegimenSupportiveCare.astro";
+import RegimenMonitoring from "@/components/regimens/RegimenMonitoring.astro";
+import RegimenDoseModifications from "@/components/regimens/RegimenDoseModifications.astro";
+import RegimenReferences from "@/components/regimens/RegimenReferences.astro";
 import { getCollection } from 'astro:content';
-import { formatLabel } from '@/utils/formatText';
 import {
   getDrugById,
   getSourceById,
@@ -44,36 +53,48 @@ const components =
     : [];
 
 
-    type ResolvedMedication = {
-  drug: NonNullable<Awaited<ReturnType<typeof getDrugById>>>;
-  medication: Extract<
-    typeof regimen.data,
-    { type: 'standalone' }
-  >['medications'][number];
-};
-
-const medications =
-  regimen.data.type === 'standalone'
-    ? (
-        await Promise.all(
-          regimen.data.medications.map(async (medication) => {
-            const drug = await getDrugById(medication.drug);
-
-            if (!drug) {
-              return undefined;
-            }
-
-            return {
-              drug,
-              medication,
-            };
-          }),
-        )
-      ).filter(
-        (item): item is ResolvedMedication => item !== undefined,
-      )
+    const standaloneMedications =
+  regimen.data.type === "standalone"
+    ? regimen.data.medications
     : [];
 
+const medications = await Promise.all(
+  [
+    ...new Set(
+      standaloneMedications.map(
+        (medication) => medication.drug,
+      ),
+    ),
+  ].map(async (drugId) => {
+    const drug = await getDrugById(drugId);
+
+    if (!drug) {
+      return null;
+    }
+
+    const medication = {
+      rules: standaloneMedications
+        .filter(
+          (item) => item.drug === drugId,
+        )
+        .flatMap(
+          (item) => item.rules,
+        ),
+    };
+
+    return {
+      drug,
+      medication,
+    };
+  }),
+);
+
+const resolvedMedications = medications.filter(
+  (
+    item,
+  ): item is NonNullable<typeof item> =>
+    item !== null,
+);
 const antiemetics = (
   await Promise.all(
     regimen.data.treatmentPreparation.antiemetics.medications.map(
@@ -129,161 +150,113 @@ const references = (
   title={regimen.data.title}
   description={regimen.data.description}
 >
+
   <article class="regimen-page">
+    <RegimenHeader regimen={regimen} />
+    <RegimenIndications diseases={diseases} />
 
-    <!-- Regimen Header -->
+   <!-- Composite Components -->
 
-<header class="regimen-header">
-  <div class="regimen-header__eyebrow">
-    REGIMEN
-  </div>
-
-  <h1>{regimen.data.title}</h1>
-
-  <p class="regimen-header__description">
-    {regimen.data.description}
-  </p>
-
-  <div class="regimen-meta">
-
-    <div class="regimen-meta__item">
-      <span class="regimen-meta__label">
-        Setting
-      </span>
-
-      <span class="regimen-meta__value">
-        {regimen.data.setting
-          .map((setting) => formatLabel(setting))
-          .join(" / ")}
-      </span>
-    </div>
-
-    <div class="regimen-meta__item">
-      <span class="regimen-meta__label">
-        Treatment intent
-      </span>
-
-      <span class="regimen-meta__value">
-        {regimen.data.treatmentIntent
-          .map((intent) => formatLabel(intent))
-          .join(" / ")}
-      </span>
-    </div>
-
-    <div class="regimen-meta__item">
-      <span class="regimen-meta__label">
-        Line of therapy
-      </span>
-
-      <span class="regimen-meta__value">
-        {regimen.data.lineOfTherapy
-          .map((line) => formatLabel(line))
-          .join(" / ")}
-      </span>
-    </div>
-
-  </div>
-</header>
-
-
-
-
-    <!-- Indications -->
+    {
+      regimen.data.type === "composite" && (
+        <section
+          class="clinical-card"
+          aria-labelledby="components-heading"
+        >
+          <div class="section-heading">
+            <h2 id="components-heading">Components</h2>
+            <p>
+              Treatment phases that make up this regimen.
+            </p>
+          </div>
     
-<section
-  class="clinical-card"
-  aria-labelledby="diseases-heading"
->
-  <div class="section-heading">
-    <h2 id="diseases-heading">Indications</h2>
-    <p>
-      Diseases for which this regimen is used.
-    </p>
-  </div>
+          {
+            components.length > 0 ? (
+              <div class="component-list">
+                {components.map(
+                  ({ component, regimen: componentRegimen }, index) => (
+                    <article class="component-card">
+                      <div class="component-card__number">
+                        {index + 1}
+                      </div>
+    
+                      <div class="component-card__main">
+                        <a
+                          class="component-card__title"
+                          href={`/regimens/${componentRegimen.data.id}`}
+                        >
+                          {componentRegimen.data.title}
+                        </a>
+    
+                        {
+                          component.notes && (
+                            <p class="component-card__notes">
+                              {component.notes}
+                            </p>
+                          )
+                        }
+                      </div>
+    
+                      {
+                        component.cycleRange && (
+                          <div class="component-card__cycles">
+                            <span class="component-card__cycles-label">
+                              Cycles
+                            </span>
+                            <strong>
+                              {component.cycleRange.start}–
+                              {component.cycleRange.end}
+                            </strong>
+                          </div>
+                        )
+                      }
+                    </article>
+                  ),
+                )}
+              </div>
+            ) : (
+              <p class="empty-state">
+                No components are currently listed.
+              </p>
+            )
+          }
+        </section>
+      )
+    }
 
-  {
-    diseases.length > 0 ? (
-      <div class="indication-list">
-        {diseases.map((disease) => (
-          <a
-            class="indication-link"
-            href={`/diseases/${disease.data.id}`}
-          >
-            <span>
-              {disease.data.title}
-            </span>
-
-            <span class="indication-link__arrow">
-              →
-            </span>
-          </a>
-        ))}
-      </div>
-    ) : (
-      <p class="empty-state">
-        No indications are currently listed.
-      </p>
-    )
-  }
-</section>
-
-
-
-
-    <!-- Composite Components -->
 
 {
-  regimen.data.type === "composite" && (
+  regimen.data.type === "standalone" && (
+    <RegimenSchedule schedule={regimen.data.schedule} />
+  )
+}
+        
+        
+{
+  regimen.data.type === "standalone" && (
     <section
+      aria-labelledby="medications-heading"
       class="clinical-card"
-      aria-labelledby="components-heading"
     >
       <div class="section-heading">
-        <h2 id="components-heading">Components</h2>
+        <h2 id="medications-heading">Medications</h2>
         <p>
-          Regimens that make up this treatment protocol.
+          Drugs, doses, administration routes, and treatment timing.
         </p>
       </div>
 
       {
-        components.length > 0 ? (
-          <div class="component-list">
-            {components.map(
-              ({ component, regimen: componentRegimen }) => (
-                <article class="component-card">
-                  <div class="component-card__main">
-                    <a
-                      class="component-card__title"
-                      href={`/regimens/${componentRegimen.data.id}`}
-                    >
-                      {componentRegimen.data.title}
-                    </a>
-
-                    {
-                      component.notes && (
-                        <p class="component-card__notes">
-                          {component.notes}
-                        </p>
-                      )
-                    }
-                  </div>
-
-                  {
-                    component.cycleRange && (
-                      <span class="component-card__cycles">
-                        Cycles {component.cycleRange.start}–
-                        {component.cycleRange.end}
-                      </span>
-                    )
-                  }
-                </article>
-              ),
-            )}
+        resolvedMedications.length > 0 ? (
+          <div class="medications-list">
+            {resolvedMedications.map(({ drug, medication }) => (
+              <RegimenMedicationCard
+                drug={drug}
+                medication={medication}
+              />
+            ))}
           </div>
         ) : (
-          <p class="empty-state">
-            No components are currently listed.
-          </p>
+          <p>No medications are currently listed.</p>
         )
       }
     </section>
@@ -292,600 +265,55 @@ const references = (
 
 
 
-
-    <!-- Schedule -->
-    {
-      regimen.data.type === "standalone" && (
-        <section
-          class="clinical-card"
-          aria-labelledby="schedule-heading"
-        >
-          <div class="section-heading">
-            <h2 id="schedule-heading">Schedule</h2>
-            <p>Cycle structure and treatment duration.</p>
-          </div>
-
-          <div class="schedule-grid">
-            {
-              regimen.data.schedule.cycle && (
-                <div class="schedule-item">
-                  <span class="schedule-item__label">
-                    Cycle length
-                  </span>
-
-                  <strong class="schedule-item__value">
-                    {regimen.data.schedule.cycle.length.value}{" "}
-                    {regimen.data.schedule.cycle.length.unit}
-                  </strong>
-                </div>
-              )
-            }
-
-            {
-              regimen.data.schedule.stopCondition.plannedCycles && (
-                <div class="schedule-item">
-                  <span class="schedule-item__label">
-                    Planned cycles
-                  </span>
-
-                  <strong class="schedule-item__value">
-                    {regimen.data.schedule.stopCondition.plannedCycles}
-                  </strong>
-                </div>
-              )
-            }
-          </div>
-        </section>
-        
-<section
-  class="clinical-card medications-card"
-  aria-labelledby="medications-heading"
->
-  <div class="section-heading">
-    <h2 id="medications-heading">Medications</h2>
-    <p>
-      Medications, doses, administration routes, and treatment days.
-    </p>
-  </div>
-
-  {
-    medications.length > 0 ? (
-      <div class="medication-list">
-        {medications.map(({ drug, medication }) => (
-          <article class="medication-item">
-
-            <div class="medication-item__header">
-              <h3 class="medication-item__title">
-                <a href={`/drugs/${drug.data.id}`}>
-                  {drug.data.title}
-                </a>
-              </h3>
-            </div>
-
-            <div class="medication-rules">
-              {medication.rules.map((rule) => {
-                const administration = rule.administration;
-                const days = administration.administrationDays;
-                const cycleRange = rule.condition?.cycleRange;
-
-                const hasAdministrationDetails = Boolean(
-                  administration.notes ||
-                  medication.preparationNotes ||
-                  medication.infusionNotes ||
-                  medication.comments ||
-                  rule.notes
-                );
-
-                return (
-                  <div class="medication-rule">
-
-                    <div class="medication-rule__summary">
-
-                      <div class="medication-rule__dose">
-                        <strong>
-                          {rule.dose.value} {rule.dose.unit}
-                        </strong>
-                      </div>
-
-                      <div class="medication-rule__details">
-
-                        <span>
-                          {administration.route}
-                        </span>
-
-                        {administration.volume && (
-                          <span>
-                            {administration.volume.value}{" "}
-                            {administration.volume.unit}
-                          </span>
-                        )}
-
-                        {administration.diluent && (
-                          <span>
-                            {administration.diluent}
-                          </span>
-                        )}
-
-                        {administration.infusionDuration && (
-                          <span>
-                            Over {administration.infusionDuration}
-                          </span>
-                        )}
-
-                        <span>
-                          Day{days.length > 1 ? "s" : ""}{" "}
-                          {days.join(", ")}
-                        </span>
-
-                        {cycleRange && (
-                          <span>
-                            Cycles {cycleRange.start}–
-                            {cycleRange.end}
-                          </span>
-                        )}
-
-                      </div>
-                    </div>
-
-                    {
-                      hasAdministrationDetails && (
-                        <details class="administration-details">
-                          <summary>
-                            Administration details
-                          </summary>
-
-                          <div class="administration-details__content">
-
-                            {administration.notes && (
-                              <div>
-                                <strong>Administration</strong>
-                                <p>{administration.notes}</p>
-                              </div>
-                            )}
-
-                            {medication.preparationNotes && (
-                              <div>
-                                <strong>Preparation</strong>
-                                <p>
-                                  {medication.preparationNotes}
-                                </p>
-                              </div>
-                            )}
-
-                            {medication.infusionNotes && (
-                              <div>
-                                <strong>Infusion</strong>
-                                <p>
-                                  {medication.infusionNotes}
-                                </p>
-                              </div>
-                            )}
-
-                            {medication.comments && (
-                              <div>
-                                <strong>Notes</strong>
-                                <p>
-                                  {medication.comments}
-                                </p>
-                              </div>
-                            )}
-
-                            {rule.notes && (
-                              <div>
-                                <strong>Rule-specific notes</strong>
-                                <p>{rule.notes}</p>
-                              </div>
-                            )}
-
-                          </div>
-                        </details>
-                      )
-                    }
-
-                  </div>
-                );
-              })}
-            </div>
-
-          </article>
-        ))}
-      </div>
-    ) : (
-      <p class="empty-state">
-        No medications are currently listed.
-      </p>
-    )
-  }
-</section>
-
-<section
-  class="clinical-card"
-  aria-labelledby="assessment-heading"
->
-  <div class="section-heading">
-    <h2 id="assessment-heading">Pre-treatment Assessment</h2>
-    <p>
-      Clinical and diagnostic assessments required before treatment.
-    </p>
-  </div>
-
-  <div class="assessment-grid">
-
-    {
-      regimen.data.preTreatmentAssessment.diagnosis.length > 0 && (
-        <div class="assessment-group">
-          <h3>Diagnosis</h3>
-
-          <ul>
-            {regimen.data.preTreatmentAssessment.diagnosis.map((item) => (
-              <li>{item}</li>
-            ))}
-          </ul>
-        </div>
-      )
-    }
-
-    {
-      regimen.data.preTreatmentAssessment.clinical.length > 0 && (
-        <div class="assessment-group">
-          <h3>Clinical</h3>
-
-          <ul>
-            {regimen.data.preTreatmentAssessment.clinical.map((item) => (
-              <li>{item}</li>
-            ))}
-          </ul>
-        </div>
-      )
-    }
-
-    {
-      regimen.data.preTreatmentAssessment.laboratory.length > 0 && (
-        <div class="assessment-group">
-          <h3>Laboratory</h3>
-
-          <ul>
-            {regimen.data.preTreatmentAssessment.laboratory.map((item) => (
-              <li>{item}</li>
-            ))}
-          </ul>
-        </div>
-      )
-    }
-
-    {
-      regimen.data.preTreatmentAssessment.infectionScreening.length > 0 && (
-        <div class="assessment-group">
-          <h3>Infection Screening</h3>
-
-          <ul>
-            {regimen.data.preTreatmentAssessment.infectionScreening.map(
-              (item) => (
-                <li>{item}</li>
-              ),
-            )}
-          </ul>
-        </div>
-      )
-    }
-
-    {
-      regimen.data.preTreatmentAssessment.imaging.length > 0 && (
-        <div class="assessment-group">
-          <h3>Imaging</h3>
-
-          <ul>
-            {regimen.data.preTreatmentAssessment.imaging.map((item) => (
-              <li>{item}</li>
-            ))}
-          </ul>
-        </div>
-      )
-    }
-
-    {
-      regimen.data.preTreatmentAssessment.calculations.length > 0 && (
-        <div class="assessment-group">
-          <h3>Calculations</h3>
-
-          <ul>
-            {regimen.data.preTreatmentAssessment.calculations.map((item) => (
-              <li>{item}</li>
-            ))}
-          </ul>
-        </div>
-      )
-    }
-
-    {
-      regimen.data.preTreatmentAssessment.counselling.length > 0 && (
-        <div class="assessment-group">
-          <h3>Counselling</h3>
-
-          <ul>
-            {regimen.data.preTreatmentAssessment.counselling.map((item) => (
-              <li>{item}</li>
-            ))}
-          </ul>
-        </div>
-      )
-    }
-
-  </div>
-</section>
-
-
-<section
-  class="clinical-card"
-  aria-labelledby="preparation-heading"
->
-  <div class="section-heading">
-    <h2 id="preparation-heading">Treatment Preparation</h2>
-    <p>
-      Medications and interventions performed before or around treatment
-      administration.
-    </p>
-  </div>
-
-  <div class="preparation-grid">
-
-    {
-      regimen.data.treatmentPreparation.premedications.length > 0 && (
-        <div class="preparation-group">
-          <h3>Premedications</h3>
-
-          <ul>
-            {regimen.data.treatmentPreparation.premedications.map(
-              (item) => (
-                <li>{item}</li>
-              ),
-            )}
-          </ul>
-        </div>
-      )
-    }
-
-    {
-      antiemetics.length > 0 && (
-        <div class="preparation-group preparation-group--antiemetic">
-
-          <div class="preparation-group__header">
-            <h3>Antiemetics</h3>
-
-            <span class="clinical-badge">
-              {formatLabel(
-                regimen.data.treatmentPreparation.antiemetics.risk,
-              )}
-            </span>
-          </div>
-
-          <ul>
-            {antiemetics.map(({ drug, antiemetic }) => (
-              <li>
-                <div class="antiemetic-item">
-
-                  <strong>
-                    <a href={`/drugs/${drug.data.id}`}>
-                      {drug.data.title}
-                    </a>
-                  </strong>
-
-                  <span>
-                    {antiemetic.dose.value}{" "}
-                    {antiemetic.dose.unit}
-                  </span>
-
-                  <span>
-                    {formatLabel(
-                      antiemetic.administration.route,
-                    )}
-                  </span>
-
-                  {
-                    antiemetic.administration.timing && (
-                      <span>
-                        {antiemetic.administration.timing}
-                      </span>
-                    )
-                  }
-
-                  {
-                    antiemetic.administration.notes && (
-                      <p>
-                        {antiemetic.administration.notes}
-                      </p>
-                    )
-                  }
-
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )
-    }
-
-    {
-      regimen.data.treatmentPreparation.hydration.length > 0 && (
-        <div class="preparation-group">
-          <h3>Hydration</h3>
-
-          <ul>
-            {regimen.data.treatmentPreparation.hydration.map(
-              (item) => (
-                <li>{item}</li>
-              ),
-            )}
-          </ul>
-        </div>
-      )
-    }
-
-    {
-      regimen.data.treatmentPreparation.prophylaxis.length > 0 && (
-        <div class="preparation-group">
-          <h3>Prophylaxis</h3>
-
-          <ul>
-            {regimen.data.treatmentPreparation.prophylaxis.map(
-              (item) => (
-                <li>{item}</li>
-              ),
-            )}
-          </ul>
-        </div>
-      )
-    }
-
-  </div>
-</section>
-
-
-<section
-  class="clinical-card"
-  aria-labelledby="supportive-care-heading"
->
-  <div class="section-heading">
-    <h2 id="supportive-care-heading">Supportive Care</h2>
-    <p>
-      Supportive-care measures relevant to this treatment regimen.
-    </p>
-  </div>
-
-  {
-    supportiveCareItems.length > 0 ? (
-      <div class="supportive-care-list">
-        {supportiveCareItems.map((item) => (
-          <a
-            class="supportive-care-link"
-            href={`/supportive-care/${item.data.id}`}
-          >
-            <span class="supportive-care-link__title">
-              {item.data.title}
-            </span>
-
-            <span class="supportive-care-link__arrow">
-              →
-            </span>
-          </a>
-        ))}
-      </div>
-    ) : (
-      <p class="empty-state">
-        No supportive care information is currently listed.
-      </p>
-    )
-  }
-</section>
-
-
-<section
-  class="clinical-card"
-  aria-labelledby="monitoring-heading"
->
-  <div class="section-heading">
-    <h2 id="monitoring-heading">Monitoring</h2>
-    <p>
-      Parameters assessed before and during treatment.
-    </p>
-  </div>
-
-  <div class="monitoring-grid">
-
-    {
-      regimen.data.monitoring.beforeEachCycle.length > 0 && (
-        <div class="monitoring-group">
-          <h3>Before Each Cycle</h3>
-
-          <ul>
-            {regimen.data.monitoring.beforeEachCycle.map((item) => (
-              <li>{item}</li>
-            ))}
-          </ul>
-        </div>
-      )
-    }
-
-    {
-      regimen.data.monitoring.duringTreatment.length > 0 && (
-        <div class="monitoring-group">
-          <h3>During Treatment</h3>
-
-          <ul>
-            {regimen.data.monitoring.duringTreatment.map((item) => (
-              <li>{item}</li>
-            ))}
-          </ul>
-        </div>
-      )
-    }
-
-  </div>
-</section>
-
-
-<section
-  class="clinical-card"
-  aria-labelledby="dose-modifications-heading"
->
-  <div class="section-heading">
-    <h2 id="dose-modifications-heading">Dose Modifications</h2>
-    <p>
-      Protocol-specific dose adjustment information.
-    </p>
-  </div>
-
-  {
-    regimen.data.doseModifications.length > 0 ? (
-      <ul class="dose-modification-list">
-        {regimen.data.doseModifications.map((item) => (
-          <li>{item}</li>
-        ))}
-      </ul>
-    ) : (
-      <p class="empty-state">
-        No dose modification information is currently listed.
-      </p>
-    )
-  }
-</section>
-
-
-<section
-  class="references-section"
-  aria-labelledby="references-heading"
->
-  <div class="section-heading">
-    <h2 id="references-heading">References</h2>
-    <p>
-      Sources supporting the clinical information on this page.
-    </p>
-  </div>
-
-  {
-    references.length > 0 ? (
-      <ol class="references-list">
-        {references.map((source) => (
-          <li>
-            <a href={`/sources/${source.data.id}`}>
-              {source.data.publication.citation}
-            </a>
-          </li>
-        ))}
-      </ol>
-    ) : (
-      <p class="empty-state">
-        No references are currently listed.
-      </p>
-    )
-  }
-</section>
-
-
-
-      )
-    }
-
+{
+  regimen.data.type === "standalone" && (
+    <RegimenPreTreatmentAssessment
+      assessment={regimen.data.preTreatmentAssessment}
+    />
+  )
+}
+
+
+{
+  regimen.data.type === "standalone" && (
+    <RegimenTreatmentPreparation
+      preparation={regimen.data.treatmentPreparation}
+      antiemetics={antiemetics}
+    />
+  )
+}
+
+
+{
+  regimen.data.type === "standalone" && (
+    <RegimenSupportiveCare
+      items={supportiveCareItems}
+    />
+  )
+}
+
+
+{
+  regimen.data.type === "standalone" && (
+    <RegimenMonitoring
+      monitoring={regimen.data.monitoring}
+    />
+  )
+}
+
+
+{
+  regimen.data.type === "standalone" && (
+    <RegimenDoseModifications
+      doseModifications={regimen.data.doseModifications}
+    />
+  )
+}
+
+
+<RegimenReferences
+  references={references}
+/>
   </article>
 </Layout>
 
@@ -895,84 +323,110 @@ const references = (
     margin: 0 auto;
   }
 
- 
+  /* ------------------------------------------------------------------------ */
+/* Composite Components                                                     */
 /* ------------------------------------------------------------------------ */
-/* Regimen Header                                                           */
-/* ------------------------------------------------------------------------ */
 
-.regimen-header {
-  margin-bottom: 2.5rem;
-  padding: 2rem;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  background: var(--color-surface);
-  box-shadow: var(--shadow-sm);
-}
-
-.regimen-header__eyebrow {
-  margin-bottom: 0.5rem;
-  color: var(--color-primary);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-}
-
-.regimen-header h1 {
-  margin: 0;
-  font-size: clamp(2rem, 4vw, 2.75rem);
-  line-height: 1.15;
-}
-
-.regimen-header__description {
-  max-width: 800px;
-  margin: 0.9rem 0 0;
-  color: var(--color-text-muted);
-  font-size: 1.05rem;
-  line-height: 1.7;
-}
-
-.regimen-meta {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
-  margin-top: 1.5rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--color-border);
-}
-
-.regimen-meta__item {
+.component-list {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.75rem;
 }
 
-.regimen-meta__label {
+.component-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 1rem;
+
+  padding: 1rem;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  background: var(--color-background);
+}
+
+.component-card__number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 1.75rem;
+  height: 1.75rem;
+
+  border-radius: 50%;
+
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+
   color: var(--color-text-muted);
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  font-size: 0.8rem;
+  font-weight: 700;
 }
 
-.regimen-meta__value {
-  font-size: 0.95rem;
-  font-weight: 600;
+.component-card__main {
+  min-width: 0;
+}
+
+.component-card__title {
+  display: inline-block;
+
+  color: var(--color-text);
+
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.component-card__title:hover {
+  color: var(--color-primary);
 }
 
 
+.component-card__notes {
+  margin: 0.4rem 0 0;
 
+  color: var(--color-text-muted);
 
+  font-size: 0.85rem;
+}
 
+.component-card__cycles {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 
+  padding: 0.35rem 0.65rem;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  background: var(--color-surface);
+
+  white-space: nowrap;
+}
+
+.component-card__cycles-label {
+  color: var(--color-text-muted);
+
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.component-card__cycles strong {
+  font-size: 0.9rem;
+}
   /* ------------------------------------------------------------------------ */
-  /* Clinical Cards                                                           */
+  /* Regimen Page — UI Foundation                                             */
   /* ------------------------------------------------------------------------ */
 
   .clinical-card {
-    margin-bottom: 1.5rem;
+    margin-top: 1.25rem;
     padding: 1.5rem;
+
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
+
     background: var(--color-surface);
     box-shadow: var(--shadow-sm);
   }
@@ -984,553 +438,37 @@ const references = (
   .section-heading h2 {
     margin: 0;
     font-size: 1.25rem;
+    line-height: 1.3;
   }
 
   .section-heading p {
     margin: 0.35rem 0 0;
     color: var(--color-text-muted);
-    font-size: 0.9rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
   }
-
-
-
-/* ------------------------------------------------------------------------ */
-/* Indications                                                              */
-/* ------------------------------------------------------------------------ */
-
-.indication-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.indication-link {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  padding: 0.9rem 1rem;
-
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-
-  background: var(--color-background);
-  color: var(--color-text);
-
-  font-weight: 600;
-}
-
-.indication-link:hover {
-  border-color: var(--color-primary);
-  background: var(--color-surface);
-  color: var(--color-text);
-}
-
-.indication-link__arrow {
-  color: var(--color-primary);
-}
-
-
-
-
-
-/* ------------------------------------------------------------------------ */
-/* Composite Components                                                     */
-/* ------------------------------------------------------------------------ */
-
-.component-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.component-card {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1rem;
-
-  padding: 1rem;
-
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-
-  background: var(--color-background);
-}
-
-.component-card__main {
-  min-width: 0;
-}
-
-.component-card__title {
-  display: inline-block;
-  font-weight: 700;
-  color: var(--color-text);
-}
-
-.component-card__title:hover {
-  color: var(--color-primary);
-}
-
-.component-card__notes {
-  margin: 0.4rem 0 0;
-  color: var(--color-text-muted);
-  font-size: 0.9rem;
-}
-
-.component-card__cycles {
-  flex-shrink: 0;
-
-  padding: 0.25rem 0.6rem;
-
-  border: 1px solid var(--color-border);
-  border-radius: 999px;
-
-  background: var(--color-surface);
-  color: var(--color-text-muted);
-
-  font-size: 0.75rem;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-
-
-
 
   /* ------------------------------------------------------------------------ */
-  /* Schedule                                                                 */
+  /* Page spacing                                                             */
   /* ------------------------------------------------------------------------ */
 
-  .schedule-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
+  .regimen-header + .clinical-card {
+    margin-top: 0;
   }
-
-  .schedule-item {
-    padding: 1rem;
-    border-radius: var(--radius-md);
-    background: var(--color-background);
-  }
-
-  .schedule-item__label {
-    display: block;
-    margin-bottom: 0.25rem;
-    color: var(--color-text-muted);
-    font-size: 0.8rem;
-    font-weight: 600;
-  }
-
-  .schedule-item__value {
-    font-size: 1.05rem;
-  }
-
-
-  /* ------------------------------------------------------------------------ */
-  /* Empty State                                                              */
-  /* ------------------------------------------------------------------------ */
-
-  .empty-state {
-    margin: 0;
-    color: var(--color-text-muted);
-  }
-
-  
-/* ------------------------------------------------------------------------ */
-/* Medications                                                              */
-/* ------------------------------------------------------------------------ */
-
-.medication-list {
-  display: flex;
-  flex-direction: column;
-}
-
-.medication-item {
-  padding: 1.25rem 0;
-}
-
-.medication-item:first-child {
-  padding-top: 0;
-}
-
-.medication-item:last-child {
-  padding-bottom: 0;
-}
-
-.medication-item + .medication-item {
-  border-top: 1px solid var(--color-border);
-}
-
-.medication-item__title {
-  margin: 0;
-  font-size: 1.05rem;
-}
-
-.medication-item__title a {
-  color: var(--color-text);
-}
-
-.medication-item__title a:hover {
-  color: var(--color-primary);
-}
-
-.medication-rules {
-  margin-top: 0.75rem;
-}
-
-.medication-rule {
-  border-radius: var(--radius-md);
-  background: var(--color-background);
-}
-
-.medication-rule + .medication-rule {
-  margin-top: 0.5rem;
-}
-
-.medication-rule__summary {
-  display: flex;
-  align-items: baseline;
-  gap: 1rem;
-  padding: 0.85rem 1rem;
-}
-
-.medication-rule__dose {
-  flex-shrink: 0;
-  min-width: 110px;
-}
-
-.medication-rule__details {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem 0.75rem;
-  color: var(--color-text-muted);
-  font-size: 0.875rem;
-}
-
-.medication-rule__details span + span::before {
-  content: "·";
-  margin-right: 0.75rem;
-  color: var(--color-border);
-}
-
-.administration-details {
-  border-top: 1px solid var(--color-border);
-}
-
-.administration-details summary {
-  padding: 0.7rem 1rem;
-  color: var(--color-primary);
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.administration-details summary:hover {
-  color: var(--color-primary-dark);
-}
-
-.administration-details__content {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  padding: 0 1rem 1rem;
-}
-
-.administration-details__content strong {
-  display: block;
-  margin-bottom: 0.15rem;
-  font-size: 0.8rem;
-}
-
-.administration-details__content p {
-  margin: 0;
-  color: var(--color-text-muted);
-  font-size: 0.875rem;
-  line-height: 1.6;
-}
-
-
-/* ------------------------------------------------------------------------ */
-/* Treatment Preparation                                                    */
-/* ------------------------------------------------------------------------ */
-
-.preparation-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-}
-
-.preparation-group {
-  padding: 1rem;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  background: var(--color-background);
-}
-
-.preparation-group h3 {
-  margin: 0 0 0.65rem;
-  font-size: 0.95rem;
-}
-
-.preparation-group ul {
-  margin: 0;
-  padding-left: 1.2rem;
-}
-
-.preparation-group li {
-  margin: 0.35rem 0;
-  color: var(--color-text-muted);
-  font-size: 0.9rem;
-  line-height: 1.55;
-}
-
-.preparation-group__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 0.65rem;
-}
-
-.preparation-group__header h3 {
-  margin: 0;
-}
-
-.clinical-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.2rem 0.55rem;
-  border-radius: 999px;
-  background: var(--color-surface);
-  color: var(--color-text-muted);
-  border: 1px solid var(--color-border);
-  font-size: 0.7rem;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.antiemetic-item {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.35rem 0.65rem;
-}
-
-.antiemetic-item strong {
-  width: 100%;
-}
-
-.antiemetic-item strong a {
-  color: var(--color-text);
-}
-
-.antiemetic-item strong a:hover {
-  color: var(--color-primary);
-}
-
-.antiemetic-item span {
-  color: var(--color-text-muted);
-  font-size: 0.85rem;
-}
-
-.antiemetic-item p {
-  width: 100%;
-  margin: 0.25rem 0 0;
-  color: var(--color-text-muted);
-  font-size: 0.85rem;
-}
-
-
-/* ------------------------------------------------------------------------ */
-/* Supportive Care                                                          */
-/* ------------------------------------------------------------------------ */
-
-.supportive-care-list {
-  display: flex;
-  flex-direction: column;
-}
-
-.supportive-care-link {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-
-  padding: 0.9rem 1rem;
-
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-
-  background: var(--color-background);
-  color: var(--color-text);
-
-  transition:
-    border-color 0.15s ease,
-    background 0.15s ease;
-}
-
-.supportive-care-link + .supportive-care-link {
-  margin-top: 0.5rem;
-}
-
-.supportive-care-link:hover {
-  border-color: var(--color-primary);
-  background: var(--color-surface);
-  color: var(--color-text);
-}
-
-.supportive-care-link__title {
-  font-weight: 600;
-}
-
-.supportive-care-link__arrow {
-  color: var(--color-primary);
-  font-size: 1.1rem;
-}
-
-
-/* ------------------------------------------------------------------------ */
-/* Monitoring                                                               */
-/* ------------------------------------------------------------------------ */
-
-.monitoring-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-}
-
-.monitoring-group {
-  padding: 1rem;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  background: var(--color-background);
-}
-
-.monitoring-group h3 {
-  margin: 0 0 0.65rem;
-  font-size: 0.95rem;
-}
-
-.monitoring-group ul {
-  margin: 0;
-  padding-left: 1.2rem;
-}
-
-.monitoring-group li {
-  margin: 0.35rem 0;
-  color: var(--color-text-muted);
-  font-size: 0.9rem;
-  line-height: 1.55;
-}
-
-
-/* ------------------------------------------------------------------------ */
-/* Dose Modifications                                                       */
-/* ------------------------------------------------------------------------ */
-
-.dose-modification-list {
-  margin: 0;
-  padding-left: 1.25rem;
-}
-
-.dose-modification-list li {
-  margin: 0.5rem 0;
-  line-height: 1.6;
-}
-
-
-/* ------------------------------------------------------------------------ */
-/* References                                                               */
-/* ------------------------------------------------------------------------ */
-
-.references-section {
-  margin-top: 2rem;
-  padding-top: 2rem;
-  border-top: 1px solid var(--color-border);
-}
-
-.references-list {
-  margin: 0;
-  padding-left: 1.5rem;
-}
-
-.references-list li {
-  margin: 0.65rem 0;
-  padding-left: 0.25rem;
-}
-
-.references-list a {
-  line-height: 1.6;
-}
-
-.empty-state {
-  margin: 0;
-  color: var(--color-text-muted);
-}
-
-
 
   /* ------------------------------------------------------------------------ */
   /* Responsive                                                               */
   /* ------------------------------------------------------------------------ */
-  
-  @media (max-width: 700px) {
-    .regimen-meta {
-      grid-template-columns: 1fr;
-    }
-
-    .regimen-header {
-    padding: 1.5rem;
-  }
-
-    .schedule-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .component-item__main {
-      align-items: flex-start;
-      flex-direction: column;
-      gap: 0.25rem;
-    }
-  }
 
   @media (max-width: 600px) {
-  
-    .component-card {
-    flex-direction: column;
+  .component-card {
+    grid-template-columns: auto minmax(0, 1fr);
   }
 
   .component-card__cycles {
-    align-self: flex-start;
-  }
-  
-    .medication-rule__summary {
+    grid-column: 2;
     align-items: flex-start;
-    flex-direction: column;
-    gap: 0.35rem;
-  }
-
-  .medication-rule__details {
-    gap: 0.25rem 0.5rem;
-  }
-
-  .medication-rule__details span + span::before {
-    margin-right: 0.5rem;
-  }
-
-  .preparation-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .preparation-group__header {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 0.4rem;
-  }
-
-  .monitoring-grid {
-    grid-template-columns: 1fr;
+    justify-self: start;
   }
 }
 </style>
