@@ -1,7 +1,7 @@
-id: ac
-title: AC
+id: ac-dose-dense
+title: Dose Dense AC
 type: standalone
-description: Doxorubicin plus Cyclophosphamide
+description: Doxorubicin plus Cyclophosphamide biweekly
 aliases: []
 
 diseases:
@@ -23,7 +23,7 @@ eligibility: []
 schedule:
   cycle:
     length:
-      value: 21
+      value: 14
       unit: days
   stopCondition:
     plannedCycles: 4
@@ -41,33 +41,34 @@ preTreatmentAssessment:
   laboratory:
     - Complete blood count (CBC).
     - Comprehensive metabolic panel (CMP).
-    - Assess hepatic function before treatment.
+    - HbsAg, HBc Ab, HBs Ab
 
   infectionScreening: []
 
   imaging:
-    - Assess baseline left ventricular function before anthracycline therapy according to clinical circumstances and protocol.
+    - EKG
+    - Echocardiogram
 
   calculations:
     - Calculate body surface area (BSA).
 
   counselling:
     - Discuss treatment goals and potential adverse effects.
+    - Discuss fertility preservation options if relevant.
+    - Discuss the need for contraception during treatment and for a period after treatment completion.
     - Obtain informed consent.
 
   other: []
 
 treatmentPreparation:
-  premedications:
-    - Administer dexamethasone as part of the AC antiemetic regimen before chemotherapy.
+  premedications: []
 
   antiemeticRisk: high
     
 
   hydration: []
 
-  prophylaxis:
-    - Consider primary G-CSF prophylaxis according to regimen and patient-specific risk factors.
+  prophylaxis: []
 
   other: []
 
@@ -109,12 +110,25 @@ medications:
             start: 1
             end: 4
 
+  - drug: pegfilgrastim
+    rules:
+      - dose:
+          value: 6
+          unit: mg
+          type: flat
+        administration:
+          route: SC
+          administrationDays:
+            - 2
+        condition:
+          cycleRange:
+            start: 1
+            end: 4
+
 monitoring:
   beforeEachCycle:
     - Complete blood count (CBC).
-    - Assess treatment-related toxicities.
-    - Assess hepatic function as clinically indicated.
-    - Assess cardiac function according to anthracycline exposure and clinical circumstances.
+    - Comprehensive metabolic panel (CMP).
 
   duringTreatment:
     - Monitor cumulative anthracycline exposure and cardiac toxicity.

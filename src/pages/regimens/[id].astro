@@ -1,5 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import { antiemeticProtocols } from "@/data/antiemetics";
 import RegimenHeader from "@/components/regimens/RegimenHeader.astro";
 import RegimenIndications from "@/components/regimens/RegimenIndications.astro";
 import RegimenSchedule from "@/components/regimens/RegimenSchedule.astro";
@@ -33,6 +34,34 @@ export async function getStaticPaths() {
 }
 
 const { regimen, regimens } = Astro.props;
+const antiemeticProtocol =
+  antiemeticProtocols[
+    regimen.data.treatmentPreparation.antiemeticRisk
+  ];
+
+  const antiemeticRecommendations = (
+  await Promise.all(
+    antiemeticProtocol.recommendations.map(async (recommendation) => {
+      const drug = await getDrugById(recommendation.drug);
+
+      if (!drug) {
+        return undefined;
+      }
+
+      return {
+        drug,
+        recommendation,
+      };
+    }),
+  )
+).filter(
+  (
+    item,
+  ): item is {
+    drug: NonNullable<Awaited<ReturnType<typeof getDrugById>>>;
+    recommendation: (typeof antiemeticProtocol.recommendations)[number];
+  } => item !== undefined,
+);
 const components =
   regimen.data.type === 'composite'
     ? regimen.data.components
@@ -95,31 +124,7 @@ const resolvedMedications = medications.filter(
   ): item is NonNullable<typeof item> =>
     item !== null,
 );
-const antiemetics = (
-  await Promise.all(
-    regimen.data.treatmentPreparation.antiemetics.medications.map(
-      async (antiemetic) => {
-        const drug = await getDrugById(antiemetic.drug);
 
-        if (!drug) {
-          return undefined;
-        }
-
-        return {
-          drug,
-          antiemetic,
-        };
-      },
-    ),
-  )
-).filter(
-  (
-    item,
-  ): item is {
-    drug: NonNullable<Awaited<ReturnType<typeof getDrugById>>>;
-    antiemetic: (typeof regimen.data.treatmentPreparation.antiemetics.medications)[number];
-  } => item !== undefined,
-);
 
 const supportiveCareItems = (
   await Promise.all(
@@ -275,10 +280,11 @@ const references = (
 
 
 {
-  regimen.data.type === "standalone" && (
+  regimen.data.type === 'standalone' && (
     <RegimenTreatmentPreparation
       preparation={regimen.data.treatmentPreparation}
-      antiemetics={antiemetics}
+      antiemeticProtocol={antiemeticProtocol}
+      antiemeticRecommendations={antiemeticRecommendations}
     />
   )
 }

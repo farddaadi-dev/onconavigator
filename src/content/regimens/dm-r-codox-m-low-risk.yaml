@@ -117,9 +117,7 @@ treatmentPreparation:
     - Paracetamol 1000 mg PO 60 minutes before rituximab.
     - Loratadine 10 mg PO 60 minutes before rituximab.
     - Hydrocortisone 100 mg IV 30 minutes before rituximab.
-  antiemetics:
-    risk: high
-    medications: []
+  antiemeticRisk: high
 
   hydration: []
 

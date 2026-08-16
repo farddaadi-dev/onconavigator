@@ -1,47 +1,55 @@
 ---
-import { formatLabel } from "@/utils/formatText";
+import { formatLabel } from '@/utils/formatText';
 
 interface Props {
   preparation: {
     premedications: string[];
-    antiemetics: {
-      risk: string;
-    };
+    antiemeticRisk: 'minimal' | 'low' | 'moderate' | 'high';
     hydration: string[];
     prophylaxis: string[];
+    other: string[];
   };
 
-  antiemetics: Array<{
+  antiemeticProtocol: {
+    risk: 'minimal' | 'low' | 'moderate' | 'high';
+    description: string;
+    recommendations: Array<{
+      drug: string;
+      dose: string;
+      route: string;
+      timing?: string;
+      duration?: string;
+      notes?: string;
+    }>;
+  };
+
+  antiemeticRecommendations: Array<{
     drug: {
       data: {
         id: string;
         title: string;
       };
     };
-    antiemetic: {
-      dose: {
-        value: number | string;
-        unit: string;
-      };
-      administration: {
-        route: string;
-        timing?: string;
-        notes?: string;
-      };
+    recommendation: {
+      drug: string;
+      dose: string;
+      route: string;
+      timing?: string;
+      duration?: string;
+      notes?: string;
     };
   }>;
 }
 
-const { preparation, antiemetics } = Astro.props;
+const {
+  preparation,
+  antiemeticProtocol,
+  antiemeticRecommendations,
+} = Astro.props;
 ---
 
-<section
-  class="regimen-section"
-  aria-labelledby="preparation-heading"
->
-  <h2 id="preparation-heading">
-    Treatment Preparation
-  </h2>
+<section class="regimen-section" aria-labelledby="preparation-heading">
+  <h2 id="preparation-heading">Treatment Preparation</h2>
 
   {
     preparation.premedications.length > 0 && (
@@ -57,55 +65,65 @@ const { preparation, antiemetics } = Astro.props;
     )
   }
 
-  {
-    antiemetics.length > 0 && (
-      <div class="preparation-group">
-        <h3>Antiemetics</h3>
+  <div class="preparation-group">
+    <h3>Antiemetics</h3>
 
-        <p>
-          <strong>Emetogenic risk:</strong>{" "}
-          {formatLabel(preparation.antiemetics.risk)}
-        </p>
+    <p>
+      <strong>Emetogenic risk:</strong>{' '}
+      {formatLabel(antiemeticProtocol.risk)}
+    </p>
 
-        <ul>
-          {antiemetics.map(({ drug, antiemetic }) => (
-            <li>
-              <strong>
-                <a href={`/drugs/${drug.data.id}`}>
-                  {drug.data.title}
-                </a>
-              </strong>
+    <p>{antiemeticProtocol.description}</p>
 
-              {" — "}
+    {
+  antiemeticRecommendations.length > 0 && (
+    <ul>
+      {antiemeticRecommendations.map(
+        ({ drug, recommendation }) => (
+          <li>
+            <strong>
+              <a href={`/drugs/${drug.data.id}`}>
+                {drug.data.title}
+              </a>
+            </strong>
 
-              {antiemetic.dose.value}{" "}
-              {antiemetic.dose.unit}{" "}
-              {formatLabel(
-                antiemetic.administration.route,
-              )}
+            {' — '}
+            {recommendation.dose}
+            {' '}
+            {formatLabel(recommendation.route)}
 
-              {
-                antiemetic.administration.timing && (
-                  <>
-                    {" — "}
-                    {antiemetic.administration.timing}
-                  </>
-                )
-              }
+            {
+              recommendation.timing && (
+                <>
+                  {' — '}
+                  {recommendation.timing}
+                </>
+              )
+            }
 
-              {
-                antiemetic.administration.notes && (
-                  <div>
-                    {antiemetic.administration.notes}
-                  </div>
-                )
-              }
-            </li>
-          ))}
-        </ul>
-      </div>
-    )
-  }
+            {
+              recommendation.duration && (
+                <>
+                  {' — '}
+                  {recommendation.duration}
+                </>
+              )
+            }
+
+            {
+              recommendation.notes && (
+                <div>
+                  {recommendation.notes}
+                </div>
+              )
+            }
+          </li>
+        ),
+      )}
+    </ul>
+  )
+}
+  </div>
 
   {
     preparation.hydration.length > 0 && (
@@ -128,6 +146,19 @@ const { preparation, antiemetics } = Astro.props;
 
         <ul>
           {preparation.prophylaxis.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+  {
+    preparation.other.length > 0 && (
+      <div class="preparation-group">
+        <h3>Other</h3>
+
+        <ul>
+          {preparation.other.map((item) => (
             <li>{item}</li>
           ))}
         </ul>

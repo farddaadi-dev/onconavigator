@@ -108,17 +108,7 @@ treatmentPreparation:
     - H1 antihistamine before rituximab.
     - Give Day 1 prednisone as part of premedication before rituximab.
 
-  antiemetics:
-    risk: moderate
-    medications:
-      - drug: palonosetron
-        dose:
-          value: 0.25
-          unit: mg
-          type: flat
-        administration:
-          route: IV
-          timing: 30 minutes before treatment
+  antiemeticRisk: high
 
   hydration:
     - Assess hydration and tumor lysis syndrome risk before treatment.

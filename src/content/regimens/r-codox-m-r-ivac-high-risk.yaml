@@ -128,9 +128,7 @@ treatmentPreparation:
 
   premedications: []
 
-  antiemetics:
-    risk: high
-    medications: []
+  antiemeticRisk: high
 
   hydration: []
 

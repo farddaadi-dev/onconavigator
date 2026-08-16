@@ -99,9 +99,7 @@ treatmentPreparation:
   premedications:
     - Follow the protocol-specific paclitaxel premedication strategy and institutional protocol.
 
-  antiemetics:
-    risk: low
-    medications: []
+  antiemeticRisk: low
 
   hydration: []
 
