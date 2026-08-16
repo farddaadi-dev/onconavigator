@@ -1,0 +1,62 @@
+# ----------------------------------------------------------------------------
+# Identity
+# ----------------------------------------------------------------------------
+
+id: r-chop-cyclophosphamide-anemia
+
+title: R-CHOP Cyclophosphamide Dose Modifications for Anemia
+
+
+# ----------------------------------------------------------------------------
+# Regimen and Medication
+# ----------------------------------------------------------------------------
+
+regimen: r-chop
+
+medication: cyclophosphamide
+
+
+# ----------------------------------------------------------------------------
+# Toxicity Actions
+# ----------------------------------------------------------------------------
+
+toxicity:
+
+  - toxicity: anemia
+
+    grades:
+
+      - grade: Grade 3
+
+        actions:
+
+          - action: Assess clinical status and hemoglobin recovery before next cycle.
+
+          - action: Consider treatment delay or dose adjustment according to protocol and clinical circumstances.
+
+
+      - grade: Grade 4
+
+        actions:
+
+          - action: Hold treatment until recovery according to clinical circumstances.
+
+          - action: Consider dose reduction or protocol modification if recurrent.
+
+
+# ----------------------------------------------------------------------------
+# References
+# ----------------------------------------------------------------------------
+
+references: []
+
+
+# ----------------------------------------------------------------------------
+# Review
+# ----------------------------------------------------------------------------
+
+review:
+
+  lastReviewed: 2026-08-16
+
+  reviewedBy: farshid-fardad

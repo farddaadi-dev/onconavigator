@@ -1,0 +1,170 @@
+---
+import { getCollection } from 'astro:content';
+import { getCTCAEById } from '@/utils/content';
+import Layout from '@/layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const toxicities = await getCollection('toxicities');
+
+  return toxicities.map((toxicity) => ({
+    params: {
+      id: toxicity.data.id,
+    },
+    props: {
+      toxicity,
+    },
+  }));
+}
+
+const { toxicity } = Astro.props;
+
+const { data } = toxicity;
+
+const ctcae = await getCTCAEById(data.ctcae.id);
+---
+
+<Layout title={data.title} description={`${data.title} toxicity information`}>
+  <article>
+    <header class="page-header">
+      <p class="page-eyebrow">TOXICITY</p>
+
+      <h1>{data.title}</h1>
+
+      {
+        ctcae && (
+          <p>
+            CTCAE {ctcae.data.version} · {ctcae.data.term}
+          </p>
+        )
+      }
+    </header>
+
+    <section class="section">
+      <h2>CTCAE Grading</h2>
+
+      {
+        ctcae ? (
+          <table class="grade-table">
+            <thead>
+              <tr>
+                <th>Grade</th>
+                <th>Definition</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {ctcae.data.grades.map((item) => (
+                <tr>
+                  <td>{item.grade}</td>
+                  <td>{item.definition || 'Not entered'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p>CTCAE grading information is not available.</p>
+        )
+      }
+    </section>
+
+    
+
+    <section class="section">
+      <h2>References</h2>
+
+      {
+        data.references.length > 0 ? (
+          <ul>
+            {data.references.map((reference) => (
+              <li>{reference}</li>
+            ))}
+          </ul>
+        ) : (
+          <p>No references are currently listed.</p>
+        )
+      }
+    </section>
+  </article>
+</Layout>
+
+<style>
+  .page-header {
+    max-width: 760px;
+    margin-bottom: 2.5rem;
+  }
+
+  .page-eyebrow {
+    margin: 0 0 0.5rem;
+    color: var(--color-primary);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .page-header h1 {
+    margin: 0 0 0.75rem;
+  }
+
+  .page-header p:last-child {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+
+  .section {
+    margin-top: 2.5rem;
+  }
+
+  .section h2 {
+    margin-bottom: 1rem;
+  }
+
+  .metadata {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .metadata div {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+
+    padding: 0.75rem;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+  }
+
+  dt {
+    font-weight: 700;
+  }
+
+  dd {
+    margin: 0;
+  }
+
+  .grade-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .grade-table th,
+  .grade-table td {
+    padding: 0.75rem;
+
+    border: 1px solid var(--color-border);
+
+    text-align: left;
+
+    vertical-align: top;
+  }
+
+  .grade-table th {
+    font-weight: 700;
+  }
+
+  @media (max-width: 600px) {
+    .metadata div {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
+    }
+  }
+</style>

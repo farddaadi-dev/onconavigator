@@ -1,0 +1,14 @@
+id: anemia
+
+title: Hemoglobin Decreased
+
+category: hematologic
+
+ctcae:
+
+  id: hemoglobin-decreased
+references: []
+
+review:
+  lastReviewed: 2026-08-16
+  reviewedBy: farshid-fardad

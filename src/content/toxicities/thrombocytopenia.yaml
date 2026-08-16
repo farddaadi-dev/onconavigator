@@ -1,0 +1,17 @@
+id: thrombocytopenia
+
+title: Platelet Count Decreased
+
+category: hematologic
+
+ctcae:
+
+  id: platelet-count-decreased
+
+
+
+references: []
+
+review:
+  lastReviewed: 2026-08-16
+  reviewedBy: farshid-fardad

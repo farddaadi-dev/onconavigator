@@ -1,6 +1,14 @@
 import { getCollection, type CollectionEntry } from "astro:content";
 
-type ContentCollection = "diseases" | "drugs" | "regimens" | "sources" | "supportiveCare";
+type ContentCollection =
+  | "diseases"
+  | "drugs"
+  | "regimens"
+  | "sources"
+  | "supportiveCare"
+  | "ctcae"
+  | "toxicities"
+  | "doseModifications";
 
 async function getEntryById<TCollection extends ContentCollection>(
   collection: TCollection,
@@ -34,4 +42,26 @@ export function getSupportiveCareById(id: string) {
 /** Returns a source entry by its stable clinical identifier. */
 export function getSourceById(id: string) {
   return getEntryById("sources", id);
+}
+
+/** Returns a CTCAE grading entry by its stable clinical identifier. */
+export function getCTCAEById(id: string) {
+  return getEntryById("ctcae", id);
+}
+
+/** Returns a toxicity entry by its stable clinical identifier. */
+export function getToxicityById(id: string) {
+  return getEntryById("toxicities", id);
+}
+
+export function getDoseModificationsByRegimen(
+  regimenId: string,
+) {
+  return getCollection("doseModifications").then(
+    (entries) =>
+      entries.filter(
+        (entry) =>
+          entry.data.regimen === regimenId,
+      ),
+  );
 }

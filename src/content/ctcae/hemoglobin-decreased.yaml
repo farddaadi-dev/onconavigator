@@ -1,0 +1,34 @@
+id: hemoglobin-decreased
+
+title: Hemoglobin Decreased
+
+version: "6.0"
+
+term: Hemoglobin Decreased
+
+category: hematologic
+
+grades:
+
+  - grade: Grade 1
+    definition: "Hemoglobin (Hgb) <LLN - 10.0 g/dL; <LLN - 6.2 mmol/L; <LLN - 100 g/L"
+
+  - grade: Grade 2
+    definition: "Hemoglobin (Hgb) <10.0 - 8.0 g/dL; <6.2 - 4.9 mmol/L; <100 - 80 g/L"
+
+  - grade: Grade 3
+    definition: "Hemoglobin (Hgb) <8.0 g/dL; <4.9 mmol/L; <80 g/L; transfusion indicated"
+
+  - grade: Grade 4
+    definition: "Life-threatening consequences; urgent intervention indicated"
+
+  - grade: Grade 5
+    definition: "Death"
+
+references: []
+
+review:
+
+  lastReviewed: 2026-08-16
+
+  reviewedBy: farshid-fardad

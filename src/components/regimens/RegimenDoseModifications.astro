@@ -1,31 +1,136 @@
 ---
+import { getDrugById, getToxicityById } from '@/utils/content';
+
 interface Props {
-  doseModifications: string[];
+  doseModifications: Array<{
+    data: {
+      title: string;
+      medication: string;
+      toxicity: Array<{
+        toxicity: string;
+        grades: Array<{
+          grade: string;
+          actions: Array<{
+            action: string;
+            notes?: string;
+          }>;
+        }>;
+      }>;
+    };
+  }>;
 }
 
 const { doseModifications } = Astro.props;
+
+const resolvedDoseModifications = await Promise.all(
+  doseModifications.map(async (item) => {
+    const medication = await getDrugById(item.data.medication);
+
+    const toxicities = await Promise.all(
+      item.data.toxicity.map(async (toxicity) => ({
+        toxicity: await getToxicityById(toxicity.toxicity),
+        grades: toxicity.grades,
+      })),
+    );
+
+    return {
+      medication,
+      toxicities,
+    };
+  }),
+);
+
+const groupedByMedication = resolvedDoseModifications.reduce(
+  (groups, item) => {
+    const key = item.medication?.data.id ?? 'unknown';
+
+    if (!groups[key]) {
+      groups[key] = {
+        medication: item.medication,
+        toxicities: [],
+      };
+    }
+
+    groups[key].toxicities.push(...item.toxicities);
+
+    return groups;
+  },
+  {} as Record<
+    string,
+    {
+      medication: (typeof resolvedDoseModifications)[number]['medication'];
+      toxicities: (typeof resolvedDoseModifications)[number]['toxicities'];
+    }
+  >,
+);
 ---
 
-<section
-  class="regimen-section"
-  aria-labelledby="dose-modifications-heading"
->
-  <h2 id="dose-modifications-heading">
-    Dose Modifications
-  </h2>
+<section id="dose-modifications" class="regimen-section">
+  <h2>Dose Modifications</h2>
 
   {
-    doseModifications.length > 0 ? (
-      <ul>
-        {doseModifications.map((item) => (
-          <li>{item}</li>
+    Object.values(groupedByMedication).map((item) => (
+      <details class="dose-modification-card" open>
+        <summary>
+          <h3>
+            {item.medication ? (
+              <a href={`/drugs/${item.medication.data.id}`}>
+                {item.medication.data.title}
+              </a>
+            ) : (
+              'Unknown medication'
+            )}
+          </h3>
+        </summary>
+
+        {item.toxicities.map((toxicity) => (
+          <details class="toxicity-block">
+            <summary>
+              <h4>
+                {toxicity.toxicity ? (
+                  <a href={`/toxicities/${toxicity.toxicity.data.id}`}>
+                    {toxicity.toxicity.data.title}
+                  </a>
+                ) : (
+                  'Unknown toxicity'
+                )}
+              </h4>
+            </summary>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Grade</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {toxicity.grades.map((grade) => (
+                  <tr>
+                    <td>{grade.grade}</td>
+
+                    <td>
+                      <ul>
+                        {grade.actions.map((action) => (
+                          <li>
+                            {action.action}
+
+                            {action.notes && (
+                              <div class="notes">{action.notes}</div>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </details>
         ))}
-      </ul>
-    ) : (
-      <p>
-        No dose modification information is currently listed.
-      </p>
-    )
+      </details>
+    ))
   }
 </section>
 
@@ -45,5 +150,122 @@ const { doseModifications } = Astro.props;
 
   .regimen-section li {
     margin-bottom: 0.5rem;
+  }
+
+  .dose-modification-card {
+    margin-top: 1.5rem;
+  }
+
+  .dose-modification-card h3 {
+    margin-bottom: 1rem;
+  }
+
+  .toxicity-block {
+    margin-top: 1.5rem;
+  }
+
+  .toxicity-block h4 {
+    margin-bottom: 0.75rem;
+  }
+
+  th {
+    text-align: left;
+  }
+
+  .notes {
+    margin-top: 0.25rem;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+  }
+
+  .section-label {
+    margin: 0;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+  }
+
+  .medication-block h3 {
+    margin-top: 0.25rem;
+  }
+
+  .toxicity-block h4 {
+    margin-top: 0.25rem;
+  }
+
+  table {
+    margin-top: 1rem;
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th,
+  td {
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: top;
+  }
+
+  th:first-child,
+  td:first-child {
+    width: 120px;
+    white-space: nowrap;
+  }
+
+  td ul {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+
+  td li {
+    margin-bottom: 0.4rem;
+  }
+
+  summary {
+    cursor: pointer;
+  }
+
+  summary h3 {
+    display: inline;
+    margin: 0;
+  }
+  .dose-modification-card summary {
+    margin-bottom: 1rem;
+  }
+
+  .toxicity-block summary {
+    cursor: pointer;
+  }
+
+  .toxicity-block summary h4 {
+    display: inline;
+  }
+
+  .dose-modification-card {
+    margin-top: 1.5rem;
+    padding: 1rem 0;
+  }
+
+  .dose-modification-card > summary {
+    cursor: pointer;
+  }
+
+  .dose-modification-card > summary h3 {
+    display: inline;
+  }
+
+  .toxicity-block {
+    margin-top: 1rem;
+    margin-left: 1rem;
+    padding-left: 1rem;
+  }
+
+  .toxicity-block summary {
+    cursor: pointer;
+  }
+
+  .toxicity-block summary h4 {
+    display: inline;
   }
 </style>

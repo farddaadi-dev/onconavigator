@@ -1,0 +1,165 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+
+const toxicities = await getCollection("toxicities");
+---
+
+<Layout
+  title="Toxicities"
+  description="Browse treatment-related toxicities and adverse event information."
+>
+  <header class="page-header">
+    <p class="page-eyebrow">CLINICAL KNOWLEDGE</p>
+
+    <h1>Toxicities</h1>
+
+    <p>
+      Browse treatment-related toxicities, CTCAE grading information,
+      and regimen-specific dose modification guidance.
+    </p>
+  </header>
+
+  <section aria-labelledby="toxicity-heading">
+    <h2 id="toxicity-heading">All Toxicities</h2>
+
+    {
+      toxicities.length > 0 ? (
+        <div class="toxicity-list">
+          {toxicities.map((item) => (
+            <a
+              class="toxicity-card"
+              href={`/toxicities/${item.data.id}`}
+            >
+              <div class="toxicity-card__content">
+                <h3>{item.data.title}</h3>
+
+                <p>
+                  {item.data.ctcae.term}
+                </p>
+
+                <div class="toxicity-meta">
+                  <span>{item.data.category}</span>
+                </div>
+              </div>
+
+              <span
+                class="toxicity-card__arrow"
+                aria-hidden="true"
+              >
+                →
+              </span>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p>No toxicities are currently listed.</p>
+      )
+    }
+  </section>
+</Layout>
+
+<style>
+  .page-header {
+    max-width: 760px;
+    margin-bottom: 2.5rem;
+  }
+
+  .page-eyebrow {
+    margin: 0 0 0.5rem;
+    color: var(--color-primary);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .page-header h1 {
+    margin: 0 0 0.75rem;
+  }
+
+  .page-header > p:last-child {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+
+  .toxicity-list {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .toxicity-card {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+
+    padding: 1.25rem 1.5rem;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+
+    background: var(--color-surface);
+    color: var(--color-text);
+
+    box-shadow: var(--shadow-sm);
+
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  .toxicity-card:hover {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-md);
+    color: var(--color-text);
+    transform: translateY(-1px);
+  }
+
+  .toxicity-card__content {
+    min-width: 0;
+  }
+
+  .toxicity-card h3 {
+    margin: 0;
+    font-size: 1.05rem;
+  }
+
+  .toxicity-card p {
+    margin: 0.4rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+  }
+
+  .toxicity-card__arrow {
+    flex-shrink: 0;
+    color: var(--color-primary);
+    font-size: 1.25rem;
+  }
+
+  .toxicity-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.9rem;
+  }
+
+  .toxicity-meta span {
+    padding: 0.25rem 0.55rem;
+    border-radius: var(--radius-sm);
+    background: var(--color-background);
+    color: var(--color-text-muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  @media (max-width: 600px) {
+    .toxicity-card {
+      padding: 1rem;
+    }
+
+    .toxicity-card__arrow {
+      display: none;
+    }
+  }
+</style>

@@ -17,7 +17,8 @@ import {
   getSourceById,
   getSupportiveCareById,
   getDiseaseById,
-} from '@/utils/content';
+  getDoseModificationsByRegimen,
+} from "@/utils/content";
 
 export async function getStaticPaths() {
   const regimens = await getCollection('regimens');
@@ -148,6 +149,11 @@ const references = (
   (source): source is NonNullable<typeof source> =>
     source !== undefined,
 );
+
+const doseModifications =
+  await getDoseModificationsByRegimen(
+    regimen.data.id,
+  );
 ---
 
 
@@ -309,9 +315,10 @@ const references = (
 
 
 {
-  regimen.data.type === "standalone" && (
+  regimen.data.type === "standalone" &&
+  doseModifications.length > 0 && (
     <RegimenDoseModifications
-      doseModifications={regimen.data.doseModifications}
+      doseModifications={doseModifications}
     />
   )
 }
